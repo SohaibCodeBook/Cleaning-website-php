@@ -30,46 +30,85 @@ function hausmeister_get_defaults() {
 		'social_linkedin'    => '',
 
 		// Homepage — Hero.
-		'hero_title'              => 'Professioneller Hausmeister- & Facility-Service',
-		'hero_subtitle'           => 'Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst — alles aus einer Hand für Ihre Immobilie.',
-		'hero_btn_primary_text'   => 'Jetzt anfragen',
+		'hero_badge'              => 'Immobilienbetreuung',
+		'hero_line_1'             => 'Gepflegte Immobilien',
+		'hero_line_2'             => 'Zuverlässiger Service',
+		'hero_line_3'             => 'Starke Leistung',
+		'hero_subtitle'           => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst — alles aus einer Hand für Gewerbe- und Wohnimmobilien.',
+		'hero_btn_primary_text'   => 'Kostenlos beraten lassen',
 		'hero_btn_primary_url'    => '/kontakt/',
-		'hero_btn_secondary_text' => 'Unsere Leistungen',
+		'hero_btn_secondary_text' => 'Leistungen entdecken',
 		'hero_btn_secondary_url'  => '/leistungen/',
+		'hero_trust_1'            => 'Gewerbe & Wohnen',
+		'hero_trust_2'            => 'Termingerecht',
+		'hero_trust_3'            => '24/7 Notdienst',
+		'hero_image'              => 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80',
+
+		// Homepage — Stats.
+		'stat_1_target'   => '50',
+		'stat_1_suffix'   => '+',
+		'stat_1_prefix'   => '',
+		'stat_1_display'  => '',
+		'stat_1_animate'  => '1',
+		'stat_1_label'    => 'Betreute Objekte',
+		'stat_2_target'   => '100',
+		'stat_2_suffix'   => '%',
+		'stat_2_prefix'   => '',
+		'stat_2_display'  => '',
+		'stat_2_animate'  => '1',
+		'stat_2_label'    => 'Kundenzufriedenheit',
+		'stat_3_target'   => '',
+		'stat_3_suffix'   => '',
+		'stat_3_prefix'   => '',
+		'stat_3_display'  => '24/7',
+		'stat_3_animate'  => '0',
+		'stat_3_label'    => 'Verfügbarkeit',
+		'stat_4_target'   => '5',
+		'stat_4_suffix'   => '+',
+		'stat_4_prefix'   => '',
+		'stat_4_display'  => '',
+		'stat_4_animate'  => '1',
+		'stat_4_label'    => 'Leistungsbereiche',
 
 		// Homepage — Services section.
-		'services_heading'    => 'Unsere Leistungen',
-		'services_subheading' => 'Umfassende Betreuung Ihrer Immobilie — von der regelmäßigen Reinigung bis zum Winterdienst.',
-		'service_link_text'   => 'Mehr erfahren',
+		'services_section_label' => 'Unsere Leistungen',
+		'services_heading'       => 'Ganzheitliche Immobilienbetreuung für Ihre Liegenschaft',
+		'services_subheading'    => 'Umfassende Dienstleistungen, individuell auf Ihre Anforderungen zugeschnitten — von der Hausmeisterbetreuung bis zum Winterdienst.',
+		'service_link_text'      => 'Mehr erfahren',
 
 		// Service 1: Hausmeistertätigkeiten.
 		'service_1_icon'        => 'fa-solid fa-building-user',
 		'service_1_title'       => 'Hausmeistertätigkeiten',
-		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: Kontrollgänge, Kleinreparaturen, Müllentsorgung, Beleuchtungskontrolle und Koordination externer Dienstleister.',
+		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: Kontrollgänge, Kleinreparaturen, Müllentsorgung und Ansprechpartner für Mieter und Eigentümer.',
+		'service_1_tags'        => 'Kontrollgänge, Kleinreparaturen, Müllentsorgung',
 		'service_1_url'         => '/leistungen/',
 
 		// Service 2: Reinigung & Instandhaltung.
 		'service_2_icon'        => 'fa-solid fa-broom',
 		'service_2_title'       => 'Reinigung & Instandhaltung',
-		'service_2_description' => 'Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassadenreinigung und Parkplätze — gründliche Reinigung und regelmäßige Wartung für ein gepflegtes Erscheinungsbild.',
+		'service_2_description' => 'Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassadenreinigung und Parkplätze — hygienisch einwandfrei und termingerecht.',
+		'service_2_tags'        => 'Treppenhäuser, Fensterreinigung, Fassadenreinigung',
 		'service_2_url'         => '/leistungen/',
 
 		// Service 3: Grünanlagenpflege.
 		'service_3_icon'        => 'fa-solid fa-leaf',
 		'service_3_title'       => 'Grünanlagenpflege',
-		'service_3_description' => 'Professionelle Pflege von Grünflächen und Gartenanlagen: Rasenmähen, Heckenschnitt, Unkrautentfernung und saisonale Bepflanzung.',
+		'service_3_description' => 'Fachgerechte Pflege von Außenanlagen, Rasenflächen, Hecken und Beeten — für einen gepflegten ersten Eindruck zu jeder Jahreszeit.',
+		'service_3_tags'        => 'Rasenmähen, Heckenschnitt, Unkrautbeseitigung',
 		'service_3_url'         => '/leistungen/',
 
 		// Service 4: Entrümpelungen.
 		'service_4_icon'        => 'fa-solid fa-boxes-stacked',
 		'service_4_title'       => 'Entrümpelungen',
 		'service_4_description' => 'Schnelle und diskrete Entrümpelung von Wohnungen, Kellern, Dachböden und Gewerbeflächen — inklusive fachgerechter Entsorgung.',
+		'service_4_tags'        => 'Wohnungen, Keller & Dachboden, Entsorgung',
 		'service_4_url'         => '/leistungen/',
 
 		// Service 5: Winterdienst.
 		'service_5_icon'        => 'fa-solid fa-snowflake',
 		'service_5_title'       => 'Winterdienst',
-		'service_5_description' => 'Zuverlässiger Räum- und Streudienst für Gehwege, Zufahrten und Parkflächen — rechtssicher und wetterabhängig einsatzbereit.',
+		'service_5_description' => 'Zuverlässiger Räum- und Streudienst für Geh- und Fahrwege — rund um die Uhr, damit Ihre Verkehrssicherungspflicht erfüllt bleibt.',
+		'service_5_tags'        => 'Schneeräumung, Streuarbeiten, Glättebeseitigung',
 		'service_5_url'         => '/leistungen/',
 
 		// Homepage — Features / Why us.
@@ -224,6 +263,20 @@ function page_contact( $key, $default = '' ) {
 }
 
 /**
+ * Parse comma-separated tags into an array.
+ *
+ * @param string $raw Comma-separated tag string.
+ * @return string[]
+ */
+function hausmeister_parse_tags( $raw ) {
+	if ( ! is_string( $raw ) || $raw === '' ) {
+		return array();
+	}
+	$parts = array_map( 'trim', explode( ',', $raw ) );
+	return array_values( array_filter( $parts ) );
+}
+
+/**
  * Register Customizer settings.
  *
  * @param WP_Customize_Manager $wp_customize Customizer instance.
@@ -293,24 +346,67 @@ function hausmeister_customize_register( $wp_customize ) {
 	) );
 
 	$hero_fields = array(
-		'hero_title'              => __( 'Überschrift', 'hausmeister-theme' ),
+		'hero_badge'              => __( 'Badge-Text', 'hausmeister-theme' ),
+		'hero_line_1'             => __( 'Headline Zeile 1', 'hausmeister-theme' ),
+		'hero_line_2'             => __( 'Headline Zeile 2', 'hausmeister-theme' ),
+		'hero_line_3'             => __( 'Headline Zeile 3', 'hausmeister-theme' ),
 		'hero_subtitle'           => __( 'Untertitel', 'hausmeister-theme' ),
 		'hero_btn_primary_text'   => __( 'Primär-Button Text', 'hausmeister-theme' ),
 		'hero_btn_primary_url'    => __( 'Primär-Button URL', 'hausmeister-theme' ),
 		'hero_btn_secondary_text' => __( 'Sekundär-Button Text', 'hausmeister-theme' ),
 		'hero_btn_secondary_url'  => __( 'Sekundär-Button URL', 'hausmeister-theme' ),
+		'hero_trust_1'            => __( 'Vertrauens-Badge 1', 'hausmeister-theme' ),
+		'hero_trust_2'            => __( 'Vertrauens-Badge 2', 'hausmeister-theme' ),
+		'hero_trust_3'            => __( 'Vertrauens-Badge 3', 'hausmeister-theme' ),
 	);
 
 	foreach ( $hero_fields as $key => $label ) {
 		$wp_customize->add_setting( 'hausmeister_' . $key, array(
-			'default'           => $defaults[ $key ],
-			'sanitize_callback' => strpos( $key, '_url' ) !== false ? 'esc_url_raw' : 'sanitize_text_field',
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+			'sanitize_callback' => strpos( $key, '_url' ) !== false ? 'esc_url_raw' : ( $key === 'hero_subtitle' ? 'sanitize_textarea_field' : 'sanitize_text_field' ),
 		) );
 		$wp_customize->add_control( 'hausmeister_' . $key, array(
 			'label'   => $label,
 			'section' => 'hausmeister_home_hero',
-			'type'    => strpos( $key, 'subtitle' ) !== false ? 'textarea' : 'text',
+			'type'    => $key === 'hero_subtitle' ? 'textarea' : 'text',
 		) );
+	}
+
+	$wp_customize->add_setting( 'hausmeister_hero_image', array(
+		'default'           => $defaults['hero_image'],
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_hero_image', array(
+		'label'   => __( 'Hero-Bild', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_hero',
+	) ) );
+
+	// --- Homepage Stats ---
+	$wp_customize->add_section( 'hausmeister_home_stats', array(
+		'title' => __( 'Startseite — Statistiken', 'hausmeister-theme' ),
+		'panel' => 'hausmeister_panel',
+	) );
+
+	for ( $s = 1; $s <= 4; $s++ ) {
+		foreach ( array(
+			"stat_{$s}_target"  => __( 'Zielwert (Zahl)', 'hausmeister-theme' ),
+			"stat_{$s}_suffix"  => __( 'Suffix (z.B. + oder %)', 'hausmeister-theme' ),
+			"stat_{$s}_prefix"  => __( 'Präfix', 'hausmeister-theme' ),
+			"stat_{$s}_display" => __( 'Statischer Text (z.B. 24/7)', 'hausmeister-theme' ),
+			"stat_{$s}_animate" => __( 'Animieren (1=ja, 0=nein)', 'hausmeister-theme' ),
+			"stat_{$s}_label"   => __( 'Beschriftung', 'hausmeister-theme' ),
+		) as $key => $label ) {
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => 'sanitize_text_field',
+			) );
+			$wp_customize->add_control( 'hausmeister_' . $key, array(
+				/* translators: %d: stat number */
+				'label'   => sprintf( __( 'Stat %d — %s', 'hausmeister-theme' ), $s, $label ),
+				'section' => 'hausmeister_home_stats',
+				'type'    => 'text',
+			) );
+		}
 	}
 
 	// --- Homepage Services ---
@@ -319,7 +415,7 @@ function hausmeister_customize_register( $wp_customize ) {
 		'panel' => 'hausmeister_panel',
 	) );
 
-	foreach ( array( 'services_heading', 'services_subheading', 'service_link_text' ) as $key ) {
+	foreach ( array( 'services_section_label', 'services_heading', 'services_subheading', 'service_link_text' ) as $key ) {
 		$wp_customize->add_setting( 'hausmeister_' . $key, array(
 			'default'           => $defaults[ $key ],
 			'sanitize_callback' => 'sanitize_text_field',
@@ -374,6 +470,18 @@ function hausmeister_customize_register( $wp_customize ) {
 			'label'   => sprintf( __( 'Leistung %d — Link URL', 'hausmeister-theme' ), $i ),
 			'section' => 'hausmeister_home_services',
 			'type'    => 'url',
+		) );
+
+		$wp_customize->add_setting( 'hausmeister_service_' . $i . '_tags', array(
+			'default'           => isset( $defaults[ 'service_' . $i . '_tags' ] ) ? $defaults[ 'service_' . $i . '_tags' ] : '',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_service_' . $i . '_tags', array(
+			/* translators: %d: service number */
+			'label'       => sprintf( __( 'Leistung %d — Tags (kommagetrennt)', 'hausmeister-theme' ), $i ),
+			'section'     => 'hausmeister_home_services',
+			'type'        => 'text',
+			'description' => __( 'z.B. Rasenmähen, Heckenschnitt, Unkrautbeseitigung', 'hausmeister-theme' ),
 		) );
 	}
 

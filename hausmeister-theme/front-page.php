@@ -1,6 +1,6 @@
 <?php
 /**
- * Front page template.
+ * Front page template — Hero, Stats, Services.
  *
  * @package Hausmeister_Theme
  */
@@ -8,71 +8,137 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header();
+
+$hero_image = page_home( 'hero_image' );
+if ( is_numeric( $hero_image ) ) {
+	$hero_image = wp_get_attachment_image_url( (int) $hero_image, 'full' );
+}
+if ( ! $hero_image ) {
+	$hero_image = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80';
+}
 ?>
 
-<section class="hero-section">
-	<div class="container-theme">
-		<h1><?php echo esc_html( page_home( 'hero_title' ) ); ?></h1>
-		<p><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
-		<div class="hero-buttons">
-			<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_primary_url' ) ) ); ?>" class="btn-primary">
-				<?php echo esc_html( page_home( 'hero_btn_primary_text' ) ); ?>
-			</a>
-			<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_secondary_url' ) ) ); ?>" class="btn-outline">
-				<?php echo esc_html( page_home( 'hero_btn_secondary_text' ) ); ?>
-			</a>
-		</div>
-	</div>
-</section>
+<section class="hero" aria-label="<?php esc_attr_e( 'Hero', 'hausmeister-theme' ); ?>">
+	<div class="container-theme hero__container">
+		<div class="hero__grid">
+			<div class="hero__content">
+				<div class="hero-badge">
+					<span class="badge">
+						<span class="badge__text"><?php echo esc_html( page_home( 'hero_badge' ) ); ?></span>
+					</span>
+				</div>
 
-<section class="section">
-	<div class="container-theme">
-		<h2 class="section-title"><?php echo esc_html( page_home( 'services_heading' ) ); ?></h2>
-		<p class="section-subtitle"><?php echo esc_html( page_home( 'services_subheading' ) ); ?></p>
+				<h1 class="hero__headline">
+					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
+				</h1>
 
-		<div class="services-grid">
-			<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-				<article class="service-card">
-					<div class="service-icon">
-						<i class="<?php echo esc_attr( page_home( "service_{$i}_icon" ) ); ?>" aria-hidden="true"></i>
-					</div>
-					<h3><?php echo esc_html( page_home( "service_{$i}_title" ) ); ?></h3>
-					<p><?php echo esc_html( page_home( "service_{$i}_description" ) ); ?></p>
-					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( "service_{$i}_url" ) ) ); ?>" class="service-link">
-						<?php echo esc_html( page_home( 'service_link_text' ) ); ?> &rarr;
+				<p class="hero__subtitle"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
+
+				<div class="hero__ctas">
+					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_primary_url' ) ) ); ?>" class="btn btn--primary btn--lg btn--has-arrow">
+						<span class="btn__text"><?php echo esc_html( page_home( 'hero_btn_primary_text' ) ); ?></span>
+						<svg class="btn__arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
 					</a>
-				</article>
-			<?php endfor; ?>
+					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_secondary_url' ) ) ); ?>" class="btn btn--secondary btn--lg">
+						<span class="btn__text"><?php echo esc_html( page_home( 'hero_btn_secondary_text' ) ); ?></span>
+					</a>
+				</div>
+
+				<div class="hero__trust">
+					<?php for ( $t = 1; $t <= 3; $t++ ) : ?>
+						<?php if ( $t > 1 ) : ?>
+							<span class="hero__trust-sep" aria-hidden="true">&middot;</span>
+						<?php endif; ?>
+						<div class="hero__trust-item">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+							<span><?php echo esc_html( page_home( "hero_trust_{$t}" ) ); ?></span>
+						</div>
+					<?php endfor; ?>
+				</div>
+			</div>
+
+			<div class="hero__visual">
+				<div class="hero__blob" aria-hidden="true"></div>
+				<div class="hero__image-wrap">
+					<img
+						src="<?php echo esc_url( $hero_image ); ?>"
+						alt="<?php echo esc_attr( site_data( 'company_name' ) ); ?>"
+						class="hero__image"
+						loading="eager"
+						fetchpriority="high"
+						width="1280"
+						height="960"
+					>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<section class="section section-alt">
+<section class="stats-bar" aria-label="<?php esc_attr_e( 'Statistiken', 'hausmeister-theme' ); ?>">
 	<div class="container-theme">
-		<h2 class="section-title"><?php echo esc_html( page_home( 'features_heading' ) ); ?></h2>
-		<p class="section-subtitle"><?php echo esc_html( page_home( 'features_subheading' ) ); ?></p>
-
-		<div class="features-grid">
-			<?php for ( $i = 1; $i <= 4; $i++ ) : ?>
-				<div class="feature-item">
-					<div class="feature-icon">
-						<i class="<?php echo esc_attr( page_home( "feature_{$i}_icon" ) ); ?>" aria-hidden="true"></i>
+		<div class="stats-bar__grid">
+			<?php for ( $s = 1; $s <= 4; $s++ ) : ?>
+				<div class="stats-bar__item<?php echo $s > 1 ? ' stats-bar__item--border' : ''; ?>">
+					<div class="stat-card">
+						<?php if ( page_home( "stat_{$s}_animate" ) === '0' ) : ?>
+							<span class="stat-card__value"><?php echo esc_html( page_home( "stat_{$s}_display" ) ); ?></span>
+						<?php else : ?>
+							<span
+								class="stat-card__value"
+								data-counter
+								data-target="<?php echo esc_attr( page_home( "stat_{$s}_target" ) ); ?>"
+								data-suffix="<?php echo esc_attr( page_home( "stat_{$s}_suffix" ) ); ?>"
+								data-prefix="<?php echo esc_attr( page_home( "stat_{$s}_prefix" ) ); ?>"
+							>0<?php echo esc_html( page_home( "stat_{$s}_suffix" ) ); ?></span>
+						<?php endif; ?>
+						<span class="stat-card__label"><?php echo esc_html( page_home( "stat_{$s}_label" ) ); ?></span>
 					</div>
-					<h3><?php echo esc_html( page_home( "feature_{$i}_title" ) ); ?></h3>
-					<p><?php echo esc_html( page_home( "feature_{$i}_description" ) ); ?></p>
 				</div>
 			<?php endfor; ?>
 		</div>
 	</div>
 </section>
 
-<section class="cta-banner">
+<section class="services-section" aria-label="<?php esc_attr_e( 'Leistungen', 'hausmeister-theme' ); ?>">
 	<div class="container-theme">
-		<h2><?php echo esc_html( page_home( 'cta_heading' ) ); ?></h2>
-		<p><?php echo esc_html( page_home( 'cta_text' ) ); ?></p>
-		<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'cta_btn_url' ) ) ); ?>" class="btn-primary">
-			<?php echo esc_html( page_home( 'cta_btn_text' ) ); ?>
-		</a>
+		<div class="section-header section-header--center services-section__header">
+			<span class="section-label"><?php echo esc_html( page_home( 'services_section_label' ) ); ?></span>
+			<h2 class="section-header__title">
+				<?php echo esc_html( page_home( 'services_heading' ) ); ?><span class="teal-period">.</span>
+			</h2>
+			<p class="section-header__subtitle"><?php echo esc_html( page_home( 'services_subheading' ) ); ?></p>
+		</div>
+
+		<div class="services-section__grid">
+			<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+				<div class="services-section__cell">
+					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( "service_{$i}_url" ) ) ); ?>" class="service-card">
+						<div class="service-card__icon">
+							<i class="<?php echo esc_attr( page_home( "service_{$i}_icon" ) ); ?>" aria-hidden="true"></i>
+						</div>
+						<h3 class="service-card__title"><?php echo esc_html( page_home( "service_{$i}_title" ) ); ?></h3>
+						<p class="service-card__desc"><?php echo esc_html( page_home( "service_{$i}_description" ) ); ?></p>
+						<?php
+						$tags = hausmeister_parse_tags( page_home( "service_{$i}_tags" ) );
+						if ( ! empty( $tags ) ) :
+							?>
+							<div class="service-card__features">
+								<?php foreach ( $tags as $tag ) : ?>
+									<span class="service-card__feature">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+										<?php echo esc_html( $tag ); ?>
+									</span>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
+						<span class="service-card__link"><?php echo esc_html( page_home( 'service_link_text' ) ); ?> &rarr;</span>
+					</a>
+				</div>
+			<?php endfor; ?>
+		</div>
 	</div>
 </section>
 

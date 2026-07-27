@@ -34,6 +34,52 @@
 		if (e.key === 'Escape') closeNav();
 	});
 
+	/* Animated stats counter */
+	function animateCounter(el) {
+		var target = parseInt(el.getAttribute('data-target'), 10);
+		var suffix = el.getAttribute('data-suffix') || '';
+		var prefix = el.getAttribute('data-prefix') || '';
+		if (isNaN(target)) return;
+
+		var duration = 1800;
+		var start = null;
+
+		function step(timestamp) {
+			if (!start) start = timestamp;
+			var progress = Math.min((timestamp - start) / duration, 1);
+			var eased = 1 - Math.pow(1 - progress, 3);
+			var current = Math.floor(eased * target);
+			el.textContent = prefix + current + suffix;
+			if (progress < 1) {
+				window.requestAnimationFrame(step);
+			} else {
+				el.textContent = prefix + target + suffix;
+			}
+		}
+
+		window.requestAnimationFrame(step);
+	}
+
+	var counters = document.querySelectorAll('[data-counter]');
+	if (counters.length && 'IntersectionObserver' in window) {
+		var observed = new WeakSet();
+		var observer = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting && !observed.has(entry.target)) {
+					observed.add(entry.target);
+					animateCounter(entry.target);
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.4 });
+
+		counters.forEach(function (el) {
+			observer.observe(el);
+		});
+	} else {
+		counters.forEach(animateCounter);
+	}
+
 	/* AJAX contact form */
 	var contactForm = document.getElementById('hausmeister-contact-form');
 	if (contactForm && typeof hausmeisterAjax !== 'undefined') {

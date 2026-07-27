@@ -45,7 +45,7 @@ add_action( 'after_setup_theme', 'hausmeister_theme_setup' );
 function hausmeister_theme_enqueue_assets() {
 	wp_enqueue_style(
 		'hausmeister-google-fonts',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap',
 		array(),
 		null
 	);
