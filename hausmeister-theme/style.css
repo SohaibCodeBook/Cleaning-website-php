@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -891,7 +891,337 @@ img {
 }
 
 /* ==========================================================================
-   Features / Why Us
+   Why Us section
+   ========================================================================== */
+.why-us {
+	background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-warm) 100%);
+	padding: var(--section-padding-y) 0;
+	overflow: hidden;
+}
+
+.why-us__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	align-items: center;
+}
+
+.why-us__label {
+	display: inline-block;
+	margin-bottom: 0.75rem;
+}
+
+.why-us__title {
+	font-family: var(--font-heading);
+	font-size: clamp(1.75rem, 3vw, 2.5rem);
+	font-weight: 800;
+	color: var(--text-heading);
+	line-height: 1.12;
+	margin: 0 0 1rem;
+}
+
+.why-us__intro {
+	font-size: 17px;
+	color: var(--text-secondary);
+	line-height: 1.7;
+	margin: 0 0 2rem;
+	max-width: 520px;
+}
+
+.why-us__pillars {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.why-pillar {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto auto 1fr;
+	gap: 1rem;
+	align-items: start;
+	padding: 1.25rem 1.25rem 1.25rem 1rem;
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+	background: var(--bg-white);
+	cursor: pointer;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+	outline: none;
+}
+
+.why-pillar:hover,
+.why-pillar:focus-visible,
+.why-pillar.is-active {
+	border-color: rgba(58, 175, 169, 0.45);
+	box-shadow: var(--shadow-card-hover);
+	transform: translateX(4px);
+	background: var(--bg-teal-light);
+}
+
+.why-pillar__num {
+	font-family: var(--font-heading);
+	font-size: 13px;
+	font-weight: 800;
+	color: var(--brand-accent);
+	line-height: 1;
+	padding-top: 0.35rem;
+	min-width: 1.5rem;
+}
+
+.why-pillar__icon {
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--bg-white);
+	border-radius: 12px;
+	color: var(--brand-secondary);
+	font-size: 1.1rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+	transition: transform 0.25s ease, background 0.2s ease;
+}
+
+.why-pillar.is-active .why-pillar__icon,
+.why-pillar:hover .why-pillar__icon {
+	transform: scale(1.06);
+	background: var(--bg-white);
+}
+
+.why-pillar__title {
+	font-family: var(--font-heading);
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--text-heading);
+	margin: 0 0 0.35rem;
+}
+
+.why-pillar__desc {
+	font-size: 14px;
+	color: var(--text-secondary);
+	line-height: 1.65;
+	margin: 0;
+}
+
+.why-pillar__indicator {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%) scaleY(0);
+	width: 3px;
+	height: 60%;
+	background: var(--brand-accent);
+	border-radius: 0 4px 4px 0;
+	transition: transform 0.2s ease;
+}
+
+.why-pillar.is-active .why-pillar__indicator {
+	transform: translateY(-50%) scaleY(1);
+}
+
+.why-us__visual {
+	position: relative;
+}
+
+.why-us__image-frame {
+	position: relative;
+}
+
+.why-us__image-accent {
+	position: absolute;
+	top: -6%;
+	right: -6%;
+	width: 70%;
+	height: 70%;
+	background: var(--bg-teal-light);
+	border-radius: var(--radius-xl);
+	z-index: 0;
+}
+
+.why-us__image-wrap {
+	position: relative;
+	z-index: 1;
+	border-radius: var(--radius-xl);
+	overflow: hidden;
+	box-shadow: 0 20px 50px rgba(10, 46, 54, 0.12);
+	transition: transform 0.35s ease;
+}
+
+.why-us.is-active .why-us__image-wrap {
+	transform: scale(1);
+}
+
+.why-us__image {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	aspect-ratio: 4 / 5;
+	transition: transform 0.35s ease;
+}
+
+.why-us__image-wrap:hover .why-us__image {
+	transform: scale(1.03);
+}
+
+.why-us__quote-card {
+	position: absolute;
+	right: -1rem;
+	bottom: 1.5rem;
+	z-index: 2;
+	max-width: 280px;
+	margin: 0;
+	padding: 1.25rem 1.35rem;
+	background: rgba(255, 255, 255, 0.92);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.8);
+	border-radius: var(--radius-lg);
+	box-shadow: 0 12px 32px rgba(10, 46, 54, 0.12);
+	animation: whyQuoteFloat 4s ease-in-out infinite;
+}
+
+.why-us__quote-card p {
+	font-size: 14px;
+	font-style: italic;
+	color: var(--text-body);
+	line-height: 1.6;
+	margin: 0;
+	transition: opacity 0.18s ease;
+}
+
+.why-us__quote-card p.is-fading {
+	opacity: 0;
+}
+
+.why-us__quote-card cite {
+	display: block;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 600;
+	color: var(--brand-secondary);
+	margin-top: 0.75rem;
+}
+
+@keyframes whyQuoteFloat {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-6px); }
+}
+
+/* Scroll reveal */
+.why-us [data-reveal] {
+	opacity: 0;
+	transform: translateY(18px);
+	transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.why-us.is-visible [data-reveal] {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.why-us.is-visible [data-reveal]:nth-child(1) { transition-delay: 0.05s; }
+.why-us.is-visible [data-reveal]:nth-child(2) { transition-delay: 0.1s; }
+.why-us.is-visible [data-reveal]:nth-child(3) { transition-delay: 0.15s; }
+.why-us.is-visible .why-pillar:nth-child(1) { transition-delay: 0.2s; }
+.why-us.is-visible .why-pillar:nth-child(2) { transition-delay: 0.28s; }
+.why-us.is-visible .why-pillar:nth-child(3) { transition-delay: 0.36s; }
+
+.why-us .why-pillar {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.why-us.is-visible .why-pillar {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.why-us.is-visible .why-pillar.is-active,
+.why-us.is-visible .why-pillar:hover,
+.why-us.is-visible .why-pillar:focus-visible {
+	transform: translateX(4px);
+}
+
+.why-us__visual {
+	opacity: 0;
+	transform: translateX(24px);
+	transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+}
+
+.why-us.is-visible .why-us__visual {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.why-us__quote-card {
+		animation: none;
+	}
+
+	.why-us [data-reveal],
+	.why-us .why-pillar,
+	.why-us__visual,
+	.why-us__image,
+	.why-pillar__icon {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+@media (max-width: 991px) {
+	.why-us__grid {
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+
+	.why-us__visual {
+		order: -1;
+	}
+
+	.why-us__quote-card {
+		right: 1rem;
+		bottom: 1rem;
+		max-width: calc(100% - 2rem);
+	}
+
+	.why-us__intro {
+		max-width: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.why-us {
+		padding: 3rem 0;
+	}
+
+	.why-pillar {
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto;
+	}
+
+	.why-pillar__num {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.why-pillar__icon {
+		grid-column: 1;
+		grid-row: 2;
+		width: 40px;
+		height: 40px;
+	}
+
+	.why-pillar__body {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+}
+
+/* ==========================================================================
+   Features / Why Us (legacy — Über uns page)
    ========================================================================== */
 .features-grid {
 	display: grid;

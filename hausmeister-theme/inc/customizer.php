@@ -111,25 +111,32 @@ function hausmeister_get_defaults() {
 		'service_5_tags'        => 'Schneeräumung, Streuarbeiten, Glättebeseitigung',
 		'service_5_url'         => '/leistungen/',
 
-		// Homepage — Features / Why us.
-		'features_heading'    => 'Warum uns wählen?',
-		'features_subheading' => 'Qualität, Zuverlässigkeit und persönlicher Service stehen bei uns an erster Stelle.',
+		// Homepage — Why Us.
+		'why_section_label'   => 'Warum wir',
+		'features_heading'    => 'Drei Säulen unseres Erfolgs',
+		'features_subheading'   => 'Seit Beginn setzen wir auf Qualität, Transparenz und Zuverlässigkeit. Erfahren Sie, was uns auszeichnet und Ihre Immobilie in besten Händen hält.',
+		'why_image'             => 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1280&q=80',
+		'why_quote_author'      => '— Unser Team',
 
-		'feature_1_icon'        => 'fa-solid fa-clock',
-		'feature_1_title'       => 'Termingerecht',
-		'feature_1_description' => 'Pünktliche Ausführung aller vereinbarten Leistungen — Sie können sich auf uns verlassen.',
+		'feature_1_icon'        => 'fa-solid fa-award',
+		'feature_1_title'       => 'Qualität ohne Kompromisse',
+		'feature_1_description' => 'Regelmäßige Qualitätskontrollen, geschultes Fachpersonal und dokumentierte Abläufe sichern ein gleichbleibend hohes Serviceniveau.',
+		'feature_1_quote'       => 'Wir behandeln Ihre Immobilie, als wäre sie unsere eigene.',
 
-		'feature_2_icon'        => 'fa-solid fa-shield-halved',
-		'feature_2_title'       => 'Zuverlässig & versichert',
-		'feature_2_description' => 'Erfahrenes Team mit voller Versicherungsdeckung für Ihre Sicherheit.',
+		'feature_2_icon'        => 'fa-solid fa-leaf',
+		'feature_2_title'       => 'Nachhaltiges Handeln',
+		'feature_2_description' => 'Umweltbewusste Reinigungsmittel, ressourcenschonende Verfahren und sorgfältiger Umgang mit Ihrer Liegenschaft.',
+		'feature_2_quote'       => 'Nachhaltigkeit ist kein Trend – sondern unsere Überzeugung.',
 
 		'feature_3_icon'        => 'fa-solid fa-handshake',
-		'feature_3_title'       => 'Persönlicher Service',
-		'feature_3_description' => 'Individuelle Betreuung und direkter Ansprechpartner für Ihre Anliegen.',
+		'feature_3_title'       => 'Transparente Partnerschaft',
+		'feature_3_description' => 'Klare Leistungsverzeichnisse und ein fester Ansprechpartner – Sie behalten jederzeit den Überblick.',
+		'feature_3_quote'       => 'Vertrauen entsteht durch Transparenz und offene Kommunikation.',
 
 		'feature_4_icon'        => 'fa-solid fa-star',
 		'feature_4_title'       => 'Hohe Qualität',
 		'feature_4_description' => 'Gründliche Arbeit und gepflegtes Erscheinungsbild Ihrer Immobilie.',
+		'feature_4_quote'       => '',
 
 		// Homepage — CTA.
 		'cta_heading'  => 'Bereit für ein unverbindliches Angebot?',
@@ -500,35 +507,64 @@ function hausmeister_customize_register( $wp_customize ) {
 		) );
 	}
 
-	// --- Homepage Features ---
+	// --- Homepage Why Us ---
 	$wp_customize->add_section( 'hausmeister_home_features', array(
-		'title' => __( 'Startseite — Vorteile', 'hausmeister-theme' ),
+		'title' => __( 'Startseite — Warum wir', 'hausmeister-theme' ),
 		'panel' => 'hausmeister_panel',
 	) );
 
-	foreach ( array( 'features_heading', 'features_subheading' ) as $key ) {
+	foreach ( array(
+		'why_section_label'   => __( 'Sektions-Label', 'hausmeister-theme' ),
+		'features_heading'    => __( 'Überschrift', 'hausmeister-theme' ),
+		'why_quote_author'    => __( 'Zitat-Autor', 'hausmeister-theme' ),
+	) as $key => $label ) {
 		$wp_customize->add_setting( 'hausmeister_' . $key, array(
-			'default'           => $defaults[ $key ],
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
 			'sanitize_callback' => 'sanitize_text_field',
 		) );
 		$wp_customize->add_control( 'hausmeister_' . $key, array(
-			'label'   => $key,
+			'label'   => $label,
 			'section' => 'hausmeister_home_features',
-			'type'    => $key === 'features_subheading' ? 'textarea' : 'text',
+			'type'    => 'text',
 		) );
 	}
 
-	for ( $i = 1; $i <= 4; $i++ ) {
-		foreach ( array( 'icon', 'title', 'description' ) as $field ) {
+	$wp_customize->add_setting( 'hausmeister_features_subheading', array(
+		'default'           => $defaults['features_subheading'],
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_features_subheading', array(
+		'label'   => __( 'Intro-Text', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_features',
+		'type'    => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'hausmeister_why_image', array(
+		'default'           => $defaults['why_image'],
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_why_image', array(
+		'label'   => __( 'Bild (rechte Spalte)', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_features',
+	) ) );
+
+	for ( $i = 1; $i <= 3; $i++ ) {
+		foreach ( array(
+			'icon'        => __( 'Icon (Font Awesome Klasse)', 'hausmeister-theme' ),
+			'title'       => __( 'Titel', 'hausmeister-theme' ),
+			'description' => __( 'Beschreibung', 'hausmeister-theme' ),
+			'quote'       => __( 'Zitat (für Bild-Karte)', 'hausmeister-theme' ),
+		) as $field => $field_label ) {
 			$key = 'feature_' . $i . '_' . $field;
 			$wp_customize->add_setting( 'hausmeister_' . $key, array(
-				'default'           => $defaults[ $key ],
-				'sanitize_callback' => $field === 'description' ? 'sanitize_textarea_field' : 'sanitize_text_field',
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => in_array( $field, array( 'description', 'quote' ), true ) ? 'sanitize_textarea_field' : 'sanitize_text_field',
 			) );
 			$wp_customize->add_control( 'hausmeister_' . $key, array(
-				'label'   => $key,
+				/* translators: %1$d: pillar number, %2$s: field label */
+				'label'   => sprintf( __( 'Säule %1$d — %2$s', 'hausmeister-theme' ), $i, $field_label ),
 				'section' => 'hausmeister_home_features',
-				'type'    => $field === 'description' ? 'textarea' : 'text',
+				'type'    => in_array( $field, array( 'description', 'quote' ), true ) ? 'textarea' : 'text',
 			) );
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Front page template — Hero, Stats, Services.
+ * Front page template — Hero, Stats, Services, Why Us.
  *
  * @package Hausmeister_Theme
  */
@@ -138,6 +138,74 @@ if ( ! $hero_image ) {
 					</a>
 				</div>
 			<?php endfor; ?>
+		</div>
+	</div>
+</section>
+
+<?php
+$why_image = page_home( 'why_image' );
+if ( is_numeric( $why_image ) ) {
+	$why_image = wp_get_attachment_image_url( (int) $why_image, 'full' );
+}
+if ( ! $why_image ) {
+	$why_image = 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1280&q=80';
+}
+$default_quote = page_home( 'feature_1_quote' );
+?>
+
+<section class="why-us" data-why-us aria-label="<?php esc_attr_e( 'Warum wir', 'hausmeister-theme' ); ?>">
+	<div class="container-theme">
+		<div class="why-us__grid">
+			<div class="why-us__content">
+				<span class="section-label why-us__label" data-reveal><?php echo esc_html( page_home( 'why_section_label' ) ); ?></span>
+				<h2 class="why-us__title" data-reveal>
+					<?php echo esc_html( page_home( 'features_heading' ) ); ?><span class="teal-period">.</span>
+				</h2>
+				<p class="why-us__intro" data-reveal><?php echo esc_html( page_home( 'features_subheading' ) ); ?></p>
+
+				<div class="why-us__pillars" role="tablist" aria-label="<?php esc_attr_e( 'Unsere Stärken', 'hausmeister-theme' ); ?>">
+					<?php for ( $i = 1; $i <= 3; $i++ ) : ?>
+						<article
+							class="why-pillar<?php echo 1 === $i ? ' is-active' : ''; ?>"
+							data-why-pillar
+							data-quote="<?php echo esc_attr( page_home( "feature_{$i}_quote" ) ); ?>"
+							role="tab"
+							tabindex="0"
+							aria-selected="<?php echo 1 === $i ? 'true' : 'false'; ?>"
+						>
+							<span class="why-pillar__num"><?php echo esc_html( sprintf( '%02d', $i ) ); ?></span>
+							<div class="why-pillar__icon" aria-hidden="true">
+								<i class="<?php echo esc_attr( page_home( "feature_{$i}_icon" ) ); ?>"></i>
+							</div>
+							<div class="why-pillar__body">
+								<h3 class="why-pillar__title"><?php echo esc_html( page_home( "feature_{$i}_title" ) ); ?></h3>
+								<p class="why-pillar__desc"><?php echo esc_html( page_home( "feature_{$i}_description" ) ); ?></p>
+							</div>
+							<span class="why-pillar__indicator" aria-hidden="true"></span>
+						</article>
+					<?php endfor; ?>
+				</div>
+			</div>
+
+			<div class="why-us__visual">
+				<div class="why-us__image-frame">
+					<div class="why-us__image-accent" aria-hidden="true"></div>
+					<div class="why-us__image-wrap">
+						<img
+							src="<?php echo esc_url( $why_image ); ?>"
+							alt="<?php echo esc_attr( page_home( 'features_heading' ) ); ?>"
+							class="why-us__image"
+							loading="lazy"
+							width="800"
+							height="1000"
+						>
+					</div>
+					<blockquote class="why-us__quote-card" data-why-quote-card>
+						<p data-why-quote-text><?php echo esc_html( $default_quote ); ?></p>
+						<cite><?php echo esc_html( page_home( 'why_quote_author' ) ); ?></cite>
+					</blockquote>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

@@ -80,6 +80,57 @@
 		counters.forEach(animateCounter);
 	}
 
+	/* Why Us — pillar interaction + scroll reveal */
+	var whySection = document.querySelector('[data-why-us]');
+	if (whySection) {
+		var pillars = whySection.querySelectorAll('[data-why-pillar]');
+		var quoteText = whySection.querySelector('[data-why-quote-text]');
+
+		function setActivePillar(pillar) {
+			if (!pillar) return;
+			pillars.forEach(function (p) {
+				p.classList.remove('is-active');
+				p.setAttribute('aria-selected', 'false');
+			});
+			pillar.classList.add('is-active');
+			pillar.setAttribute('aria-selected', 'true');
+
+			if (quoteText && pillar.getAttribute('data-quote')) {
+				quoteText.classList.add('is-fading');
+				window.setTimeout(function () {
+					quoteText.textContent = pillar.getAttribute('data-quote');
+					quoteText.classList.remove('is-fading');
+				}, 160);
+			}
+		}
+
+		pillars.forEach(function (pillar) {
+			pillar.addEventListener('mouseenter', function () {
+				setActivePillar(pillar);
+			});
+			pillar.addEventListener('focus', function () {
+				setActivePillar(pillar);
+			});
+			pillar.addEventListener('click', function () {
+				setActivePillar(pillar);
+			});
+		});
+
+		if ('IntersectionObserver' in window) {
+			var whyObserver = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						whyObserver.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.15 });
+			whyObserver.observe(whySection);
+		} else {
+			whySection.classList.add('is-visible');
+		}
+	}
+
 	/* AJAX contact form */
 	var contactForm = document.getElementById('hausmeister-contact-form');
 	if (contactForm && typeof hausmeisterAjax !== 'undefined') {
