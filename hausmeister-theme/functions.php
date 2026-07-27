@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.0.0' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.0.1' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
