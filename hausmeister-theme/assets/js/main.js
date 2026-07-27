@@ -34,6 +34,75 @@
 		if (e.key === 'Escape') closeNav();
 	});
 
+	/* Services mega menu */
+	var megaItems = document.querySelectorAll('.menu-item-has-mega');
+	var desktopMegaQuery = window.matchMedia('(min-width: 992px)');
+
+	function closeMegaItem(item) {
+		if (!item) return;
+		item.classList.remove('is-open');
+		var trigger = item.querySelector('.nav-link--mega');
+		if (trigger) trigger.setAttribute('aria-expanded', 'false');
+	}
+
+	function closeAllMegaMenus(except) {
+		megaItems.forEach(function (item) {
+			if (item !== except) closeMegaItem(item);
+		});
+	}
+
+	megaItems.forEach(function (item) {
+		var trigger = item.querySelector('.nav-link--mega');
+		var panel = item.querySelector('.mega-menu-panel');
+		if (!trigger || !panel) return;
+
+		function openMega() {
+			closeAllMegaMenus(item);
+			item.classList.add('is-open');
+			trigger.setAttribute('aria-expanded', 'true');
+		}
+
+		function toggleMegaMobile(e) {
+			if (desktopMegaQuery.matches) return;
+			e.preventDefault();
+			var isOpen = item.classList.contains('is-open');
+			closeAllMegaMenus();
+			if (!isOpen) {
+				item.classList.add('is-open');
+				trigger.setAttribute('aria-expanded', 'true');
+			} else {
+				closeMegaItem(item);
+			}
+		}
+
+		if (desktopMegaQuery.matches) {
+			item.addEventListener('mouseenter', openMega);
+			item.addEventListener('mouseleave', function () {
+				closeMegaItem(item);
+			});
+			trigger.addEventListener('focus', openMega);
+		}
+
+		trigger.addEventListener('click', toggleMegaMobile);
+
+		panel.querySelectorAll('a').forEach(function (link) {
+			link.addEventListener('click', function () {
+				closeMegaItem(item);
+				closeNav();
+			});
+		});
+	});
+
+	document.addEventListener('click', function (e) {
+		if (!e.target.closest('.menu-item-has-mega')) {
+			closeAllMegaMenus();
+		}
+	});
+
+	document.addEventListener('keydown', function (e) {
+		if (e.key === 'Escape') closeAllMegaMenus();
+	});
+
 	/* Animated stats counter */
 	function animateCounter(el) {
 		var target = parseInt(el.getAttribute('data-target'), 10);

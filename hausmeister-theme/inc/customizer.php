@@ -79,37 +79,42 @@ function hausmeister_get_defaults() {
 		// Service 1: Hausmeistertätigkeiten.
 		'service_1_icon'        => 'fa-solid fa-building-user',
 		'service_1_title'       => 'Hausmeistertätigkeiten',
+		'service_1_subtitle'    => 'Betreuung & Kleinreparaturen',
 		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: Kontrollgänge, Kleinreparaturen, Müllentsorgung und Ansprechpartner für Mieter und Eigentümer.',
 		'service_1_tags'        => 'Kontrollgänge, Kleinreparaturen, Müllentsorgung',
-		'service_1_url'         => '/leistungen/',
+		'service_1_url'         => '/leistungen/hausmeistertaetigkeiten/',
 
 		// Service 2: Reinigung & Instandhaltung.
 		'service_2_icon'        => 'fa-solid fa-broom',
 		'service_2_title'       => 'Reinigung & Instandhaltung',
+		'service_2_subtitle'    => 'Treppenhäuser, Fenster & Fassade',
 		'service_2_description' => 'Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassadenreinigung und Parkplätze — hygienisch einwandfrei und termingerecht.',
 		'service_2_tags'        => 'Treppenhäuser, Fensterreinigung, Fassadenreinigung',
-		'service_2_url'         => '/leistungen/',
+		'service_2_url'         => '/leistungen/reinigung-instandhaltung/',
 
 		// Service 3: Grünanlagenpflege.
 		'service_3_icon'        => 'fa-solid fa-leaf',
 		'service_3_title'       => 'Grünanlagenpflege',
+		'service_3_subtitle'    => 'Außenanlagen & Bepflanzung',
 		'service_3_description' => 'Fachgerechte Pflege von Außenanlagen, Rasenflächen, Hecken und Beeten — für einen gepflegten ersten Eindruck zu jeder Jahreszeit.',
 		'service_3_tags'        => 'Rasenmähen, Heckenschnitt, Unkrautbeseitigung',
-		'service_3_url'         => '/leistungen/',
+		'service_3_url'         => '/leistungen/gruenanlagenpflege/',
 
 		// Service 4: Entrümpelungen.
 		'service_4_icon'        => 'fa-solid fa-boxes-stacked',
 		'service_4_title'       => 'Entrümpelungen',
+		'service_4_subtitle'    => 'Räumung & Entsorgung',
 		'service_4_description' => 'Schnelle und diskrete Entrümpelung von Wohnungen, Kellern, Dachböden und Gewerbeflächen — inklusive fachgerechter Entsorgung.',
 		'service_4_tags'        => 'Wohnungen, Keller & Dachboden, Entsorgung',
-		'service_4_url'         => '/leistungen/',
+		'service_4_url'         => '/leistungen/entruempelungen/',
 
 		// Service 5: Winterdienst.
 		'service_5_icon'        => 'fa-solid fa-snowflake',
 		'service_5_title'       => 'Winterdienst',
+		'service_5_subtitle'    => 'Räum- & Streudienst',
 		'service_5_description' => 'Zuverlässiger Räum- und Streudienst für Geh- und Fahrwege — rund um die Uhr, damit Ihre Verkehrssicherungspflicht erfüllt bleibt.',
 		'service_5_tags'        => 'Schneeräumung, Streuarbeiten, Glättebeseitigung',
-		'service_5_url'         => '/leistungen/',
+		'service_5_url'         => '/leistungen/winterdienst/',
 
 		// Homepage — Why Us.
 		'why_section_label'   => 'Warum wir',
@@ -748,6 +753,18 @@ function hausmeister_customize_register( $wp_customize ) {
 			'label'   => sprintf( __( 'Leistung %d — Titel', 'hausmeister-theme' ), $i ),
 			'section' => 'hausmeister_home_services',
 			'type'    => 'text',
+		) );
+
+		$wp_customize->add_setting( 'hausmeister_service_' . $i . '_subtitle', array(
+			'default'           => isset( $defaults[ 'service_' . $i . '_subtitle' ] ) ? $defaults[ 'service_' . $i . '_subtitle' ] : '',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_service_' . $i . '_subtitle', array(
+			/* translators: %d: service number */
+			'label'       => sprintf( __( 'Leistung %d — Mega-Menü Untertitel', 'hausmeister-theme' ), $i ),
+			'section'     => 'hausmeister_home_services',
+			'type'        => 'text',
+			'description' => __( 'Kurzer Text unter dem Titel im Mega-Menü.', 'hausmeister-theme' ),
 		) );
 
 		$wp_customize->add_setting( 'hausmeister_service_' . $i . '_description', array(

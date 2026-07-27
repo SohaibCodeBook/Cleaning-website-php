@@ -1,0 +1,210 @@
+/**
+ * Services mega menu — M2A-inspired compact dropdown.
+ */
+
+.primary-nav .menu-item-has-mega {
+	position: relative;
+}
+
+.primary-nav .menu-item-has-mega > .nav-link--mega {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.primary-nav .menu-item-has-mega.is-open > .nav-link--mega,
+.primary-nav .menu-item-has-mega > .nav-link--mega:hover,
+.primary-nav .menu-item-has-mega > .nav-link--mega:focus-visible {
+	background: var(--bg-subtle);
+	color: var(--color-primary);
+}
+
+.primary-nav .menu-item-has-mega .nav-link__chevron {
+	transition: transform 0.2s ease;
+}
+
+.primary-nav .menu-item-has-mega.is-open .nav-link__chevron {
+	transform: rotate(180deg);
+}
+
+.primary-nav .mega-menu-panel {
+	position: absolute;
+	left: 50%;
+	top: calc(100% + 0.35rem);
+	transform: translateX(-50%);
+	width: min(560px, calc(100vw - 2rem));
+	z-index: 1200;
+	padding-top: 0.35rem;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.primary-nav .menu-item-has-mega.is-open .mega-menu-panel {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transform: translateX(-50%) translateY(0);
+}
+
+.mega-menu {
+	background: #fff;
+	border: 1px solid var(--border-light);
+	border-radius: 16px;
+	box-shadow: 0 12px 40px rgba(15, 27, 45, 0.12), 0 2px 8px rgba(15, 27, 45, 0.06);
+	padding: 0.85rem;
+}
+
+.mega-menu__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.25rem;
+}
+
+.mega-menu__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	padding: 0.75rem 0.85rem;
+	border-radius: 12px;
+	text-decoration: none;
+	color: inherit;
+	transition: background 0.2s ease;
+}
+
+.mega-menu__item:hover,
+.mega-menu__item:focus-visible {
+	background: var(--bg-warm);
+}
+
+.mega-menu__icon {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	border-radius: 10px;
+	background: var(--bg-teal-light);
+	color: var(--brand-secondary);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	line-height: 1;
+}
+
+.mega-menu__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-width: 0;
+}
+
+.mega-menu__title {
+	font-family: var(--font-heading);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--text-heading);
+}
+
+.mega-menu__subtitle {
+	font-size: 0.8125rem;
+	line-height: 1.45;
+	color: var(--text-secondary);
+}
+
+.mega-menu__footer {
+	margin-top: 0.5rem;
+	padding-top: 0.65rem;
+	border-top: 1px solid var(--border-subtle);
+}
+
+.mega-menu__overview {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.85rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--brand-secondary);
+	text-decoration: none;
+	border-radius: 999px;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mega-menu__overview:hover {
+	background: var(--bg-teal-light);
+	color: var(--brand-primary);
+}
+
+/* Mobile drawer mega menu */
+.mobile-nav-drawer .menu-item-has-mega {
+	border-bottom: 1px solid var(--color-border);
+}
+
+.mobile-nav-drawer .nav-link--mega {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0.875rem 0;
+	background: none;
+	border: none;
+	text-align: left;
+	color: var(--color-text);
+	font-weight: 500;
+	font-size: inherit;
+	font-family: inherit;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.mobile-nav-drawer .menu-item-has-mega.is-open .nav-link__chevron {
+	transform: rotate(180deg);
+}
+
+.mobile-nav-drawer .mega-menu-panel {
+	display: none;
+	padding: 0 0 0.75rem;
+}
+
+.mobile-nav-drawer .menu-item-has-mega.is-open .mega-menu-panel {
+	display: block;
+}
+
+.mobile-nav-drawer .mega-menu {
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	background: transparent;
+}
+
+.mobile-nav-drawer .mega-menu__grid {
+	grid-template-columns: 1fr;
+	gap: 0;
+}
+
+.mobile-nav-drawer .mega-menu__item {
+	padding: 0.65rem 0;
+	border-radius: 8px;
+}
+
+.mobile-nav-drawer .mega-menu__footer {
+	margin-top: 0.25rem;
+	padding-top: 0.5rem;
+}
+
+@media (max-width: 991px) {
+	.primary-nav .mega-menu-panel {
+		display: none !important;
+	}
+}
+
+@media (max-width: 575px) {
+	.mega-menu__grid {
+		grid-template-columns: 1fr;
+	}
+}

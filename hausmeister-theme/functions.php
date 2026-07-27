@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.0.8' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.0.9' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -22,6 +22,7 @@ function hausmeister_theme_image( $relative_path ) {
 }
 
 require_once HAUSMEISTER_THEME_DIR . '/inc/customizer.php';
+require_once HAUSMEISTER_THEME_DIR . '/inc/mega-menu.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/setup-wizard.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/seo.php';
@@ -88,6 +89,13 @@ function hausmeister_theme_enqueue_assets() {
 		HAUSMEISTER_THEME_VERSION
 	);
 
+	wp_enqueue_style(
+		'hausmeister-mega-menu',
+		HAUSMEISTER_THEME_URI . '/assets/css/mega-menu.css',
+		array( 'hausmeister-theme-style' ),
+		HAUSMEISTER_THEME_VERSION
+	);
+
 	wp_enqueue_script(
 		'bootstrap',
 		'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
@@ -112,7 +120,7 @@ function hausmeister_theme_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'hausmeister_theme_enqueue_assets' );
 
 /**
- * Custom nav walker for Bootstrap-compatible markup.
+ * Custom nav walker with services mega menu support.
  */
 class Hausmeister_Nav_Walker extends Walker_Nav_Menu {
 
@@ -122,13 +130,39 @@ class Hausmeister_Nav_Walker extends Walker_Nav_Menu {
 
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 		$classes     = empty( $item->classes ) ? array() : (array) $item->classes;
-		$class_names = implode( ' ', array_filter( $classes ) );
+		$has_mega    = 0 === (int) $depth && hausmeister_is_leistungen_menu_item( $item );
 
-		$output .= '<li class="' . esc_attr( $class_names ) . '">';
-		$output .= '<a href="' . esc_url( $item->url ) . '">' . esc_html( $item->title ) . '</a>';
+		if ( $has_mega ) {
+			$classes[] = 'menu-item-has-mega';
+		}
+
+		$class_names = implode( ' ', array_map( 'sanitize_html_class', array_filter( $classes ) ) );
+		$output     .= '<li class="' . esc_attr( $class_names ) . '">';
+
+		$link_classes = 'nav-link';
+		if ( $has_mega ) {
+			$link_classes .= ' nav-link--mega';
+		}
+
+		$atts  = ' class="' . esc_attr( $link_classes ) . '" href="' . esc_url( $item->url ) . '"';
+		$atts .= $has_mega ? ' aria-haspopup="true" aria-expanded="false"' : '';
+
+		$output .= '<a' . $atts . '>' . esc_html( $item->title );
+		if ( $has_mega ) {
+			$output .= hausmeister_mega_menu_chevron_svg();
+		}
+		$output .= '</a>';
 	}
 
 	public function end_el( &$output, $item, $depth = 0, $args = null ) {
+		if ( 0 === (int) $depth && hausmeister_is_leistungen_menu_item( $item ) ) {
+			$output .= '<div class="mega-menu-panel">';
+			ob_start();
+			hausmeister_render_services_mega_menu();
+			$output .= ob_get_clean();
+			$output .= '</div>';
+		}
+
 		$output .= '</li>';
 	}
 
@@ -138,21 +172,45 @@ class Hausmeister_Nav_Walker extends Walker_Nav_Menu {
 }
 
 /**
+ * Output a single fallback nav item.
+ *
+ * @param string $slug Page slug.
+ * @param string $label Link label.
+ */
+function hausmeister_render_fallback_nav_item( $slug, $label ) {
+	$page = get_page_by_path( $slug );
+	$url  = $page ? get_permalink( $page ) : home_url( '/' );
+
+	if ( 'leistungen' === $slug ) {
+		echo '<li class="menu-item-has-mega">';
+		echo '<a href="' . esc_url( $url ) . '" class="nav-link nav-link--mega" aria-haspopup="true" aria-expanded="false">';
+		echo esc_html( $label );
+		echo hausmeister_mega_menu_chevron_svg();
+		echo '</a>';
+		echo '<div class="mega-menu-panel">';
+		hausmeister_render_services_mega_menu();
+		echo '</div>';
+		echo '</li>';
+		return;
+	}
+
+	echo '<li><a class="nav-link" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
+}
+
+/**
  * Fallback primary menu when none is assigned.
  */
 function hausmeister_fallback_menu() {
 	$pages = array(
-		'startseite'  => __( 'Startseite', 'hausmeister-theme' ),
-		'leistungen'  => __( 'Leistungen', 'hausmeister-theme' ),
-		'ueber-uns'   => __( 'Über uns', 'hausmeister-theme' ),
-		'kontakt'     => __( 'Kontakt', 'hausmeister-theme' ),
+		'startseite' => __( 'Startseite', 'hausmeister-theme' ),
+		'leistungen' => __( 'Leistungen', 'hausmeister-theme' ),
+		'ueber-uns'  => __( 'Über uns', 'hausmeister-theme' ),
+		'kontakt'    => __( 'Kontakt', 'hausmeister-theme' ),
 	);
 
 	echo '<ul class="nav-list">';
 	foreach ( $pages as $slug => $label ) {
-		$page = get_page_by_path( $slug );
-		$url  = $page ? get_permalink( $page ) : home_url( '/' );
-		echo '<li><a href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
+		hausmeister_render_fallback_nav_item( $slug, $label );
 	}
 	echo '</ul>';
 }
