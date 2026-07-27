@@ -804,6 +804,12 @@ img {
 	white-space: nowrap;
 }
 
+.btn-call {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
 /* Mobile nav toggle */
 .nav-toggle {
 	display: none;

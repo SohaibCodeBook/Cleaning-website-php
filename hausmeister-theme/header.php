@@ -39,7 +39,8 @@ defined( 'ABSPATH' ) || exit;
 			</nav>
 
 			<div class="header-cta">
-				<a href="<?php echo esc_url( hausmeister_theme_url( site_data( 'header_cta_url' ) ) ); ?>" class="btn-primary">
+				<a href="<?php echo esc_attr( hausmeister_tel_link( site_data( 'header_cta_phone' ) ) ); ?>" class="btn-primary btn-call">
+					<i class="fa-solid fa-phone" aria-hidden="true"></i>
 					<?php echo esc_html( site_data( 'header_cta_text' ) ); ?>
 				</a>
 			</div>
@@ -68,7 +69,8 @@ defined( 'ABSPATH' ) || exit;
 		?>
 	</nav>
 	<div class="mt-4">
-		<a href="<?php echo esc_url( hausmeister_theme_url( site_data( 'header_cta_url' ) ) ); ?>" class="btn-primary w-100 text-center">
+		<a href="<?php echo esc_attr( hausmeister_tel_link( site_data( 'header_cta_phone' ) ) ); ?>" class="btn-primary btn-call w-100 text-center">
+			<i class="fa-solid fa-phone" aria-hidden="true"></i>
 			<?php echo esc_html( site_data( 'header_cta_text' ) ); ?>
 		</a>
 	</div>

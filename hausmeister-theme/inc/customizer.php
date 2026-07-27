@@ -21,8 +21,8 @@ function hausmeister_get_defaults() {
 		'contact_email'      => 'info@beispiel.de',
 		'meta_description'   => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst in Ihrer Region.',
 		'custom_logo_url'    => '',
-		'header_cta_text'    => 'Angebot anfordern',
-		'header_cta_url'     => '/kontakt/',
+		'header_cta_text'    => 'Jetzt anrufen',
+		'header_cta_phone'   => '092317960386',
 		'footer_about'       => 'Ihr zuverlässiger Partner für Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege und Winterdienst — professionell und termingerecht.',
 		'footer_copyright'   => 'Alle Rechte vorbehalten.',
 		'social_facebook'    => '',
@@ -180,6 +180,21 @@ function hausmeister_theme_url( $path ) {
 }
 
 /**
+ * Build a tel: link from a phone number.
+ *
+ * @param string $phone Phone number.
+ * @return string
+ */
+function hausmeister_tel_link( $phone ) {
+	$phone = is_string( $phone ) ? trim( $phone ) : '';
+	if ( $phone === '' ) {
+		return '';
+	}
+	$clean = preg_replace( '/[^\d+]/', '', $phone );
+	return 'tel:' . $clean;
+}
+
+/**
  * Get global site setting.
  *
  * @param string $key Setting key.
@@ -302,8 +317,8 @@ function hausmeister_customize_register( $wp_customize ) {
 		'contact_email'    => __( 'E-Mail', 'hausmeister-theme' ),
 		'meta_description' => __( 'Meta-Beschreibung (SEO)', 'hausmeister-theme' ),
 		'custom_logo_url'  => __( 'Logo-URL (falls kein WP-Logo)', 'hausmeister-theme' ),
-		'header_cta_text'  => __( 'Header-Button Text', 'hausmeister-theme' ),
-		'header_cta_url'   => __( 'Header-Button URL', 'hausmeister-theme' ),
+		'header_cta_text'   => __( 'Header-Anruf Button Text', 'hausmeister-theme' ),
+		'header_cta_phone'  => __( 'Header-Anruf Telefonnummer', 'hausmeister-theme' ),
 		'footer_about'     => __( 'Footer-Beschreibung', 'hausmeister-theme' ),
 		'footer_copyright' => __( 'Footer-Copyright Text', 'hausmeister-theme' ),
 	);
@@ -311,7 +326,7 @@ function hausmeister_customize_register( $wp_customize ) {
 	foreach ( $global_fields as $key => $label ) {
 		$wp_customize->add_setting( 'hausmeister_' . $key, array(
 			'default'           => $defaults[ $key ],
-			'sanitize_callback' => in_array( $key, array( 'contact_email' ), true ) ? 'sanitize_email' : ( in_array( $key, array( 'custom_logo_url', 'header_cta_url' ), true ) ? 'esc_url_raw' : 'sanitize_text_field' ),
+			'sanitize_callback' => in_array( $key, array( 'contact_email' ), true ) ? 'sanitize_email' : ( in_array( $key, array( 'custom_logo_url' ), true ) ? 'esc_url_raw' : 'sanitize_text_field' ),
 		) );
 		$control_type = in_array( $key, array( 'footer_about', 'meta_description' ), true ) ? 'textarea' : 'text';
 		$wp_customize->add_control( 'hausmeister_' . $key, array(
