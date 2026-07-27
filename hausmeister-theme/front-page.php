@@ -9,13 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$hero_image = page_home( 'hero_image' );
-if ( is_numeric( $hero_image ) ) {
-	$hero_image = wp_get_attachment_image_url( (int) $hero_image, 'full' );
-}
-if ( ! $hero_image ) {
-	$hero_image = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&q=80';
-}
+$hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 ?>
 
 <section class="hero" aria-label="<?php esc_attr_e( 'Hero', 'hausmeister-theme' ); ?>">
@@ -143,13 +137,7 @@ if ( ! $hero_image ) {
 </section>
 
 <?php
-$why_image = page_home( 'why_image' );
-if ( is_numeric( $why_image ) ) {
-	$why_image = wp_get_attachment_image_url( (int) $why_image, 'full' );
-}
-if ( ! $why_image ) {
-	$why_image = 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1280&q=80';
-}
+$why_image = hausmeister_get_image_url( 'why_image', 'why-us.jpg' );
 $default_quote = page_home( 'feature_1_quote' );
 ?>
 
@@ -237,8 +225,13 @@ $default_quote = page_home( 'feature_1_quote' );
 		<div class="ba-grid" data-ba-grid>
 			<?php
 			for ( $i = 1; $i <= 5; $i++ ) {
-				$ba_index = $i;
-				get_template_part( 'template-parts/ba-comparison', 'card' );
+				get_template_part(
+					'template-parts/ba-comparison',
+					'card',
+					array(
+						'ba_index' => $i,
+					)
+				);
 			}
 			?>
 		</div>

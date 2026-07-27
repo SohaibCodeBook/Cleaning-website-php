@@ -9,14 +9,33 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( empty( $ba_index ) ) {
+$i = isset( $args['ba_index'] ) ? (int) $args['ba_index'] : ( isset( $ba_index ) ? (int) $ba_index : 0 );
+
+if ( $i < 1 || $i > 5 ) {
 	return;
 }
 
-$i        = (int) $ba_index;
+$category_defaults = array(
+	1 => 'treppenhaus',
+	2 => 'gruen',
+	3 => 'fassade',
+	4 => 'glas',
+	5 => 'winter',
+);
 $category = page_home( "ba_{$i}_category" );
-$before   = hausmeister_get_image_url( "ba_{$i}_before" );
-$after    = hausmeister_get_image_url( "ba_{$i}_after" );
+if ( $category === '' && isset( $category_defaults[ $i ] ) ) {
+	$category = $category_defaults[ $i ];
+}
+$ba_files = array(
+	1 => array( 'before' => 'ba/treppenhaus-before.jpg', 'after' => 'ba/treppenhaus-after.jpg' ),
+	2 => array( 'before' => 'ba/gruen-before.jpg', 'after' => 'ba/gruen-after.jpg' ),
+	3 => array( 'before' => 'ba/fassade-before.jpg', 'after' => 'ba/fassade-after.jpg' ),
+	4 => array( 'before' => 'ba/glas-before.jpg', 'after' => 'ba/glas-after.jpg' ),
+	5 => array( 'before' => 'ba/winter-before.jpg', 'after' => 'ba/winter-after.jpg' ),
+);
+$fallback = isset( $ba_files[ $i ] ) ? $ba_files[ $i ] : array( 'before' => '', 'after' => '' );
+$before   = hausmeister_get_image_url( "ba_{$i}_before", $fallback['before'] );
+$after    = hausmeister_get_image_url( "ba_{$i}_after", $fallback['after'] );
 $title    = page_home( "ba_{$i}_title" );
 ?>
 

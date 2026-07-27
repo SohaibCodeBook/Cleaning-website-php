@@ -7,9 +7,19 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.0.4' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.0.6' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
+
+/**
+ * URL for a bundled theme image under assets/images/.
+ *
+ * @param string $relative_path Path relative to assets/images/.
+ * @return string
+ */
+function hausmeister_theme_image( $relative_path ) {
+	return HAUSMEISTER_THEME_URI . '/assets/images/' . ltrim( $relative_path, '/' );
+}
 
 require_once HAUSMEISTER_THEME_DIR . '/inc/customizer.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
