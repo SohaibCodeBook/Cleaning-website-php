@@ -131,6 +131,125 @@
 		}
 	}
 
+	/* Before & After gallery */
+	var baGallery = document.querySelector('[data-ba-gallery]');
+	if (baGallery) {
+		var baTabs = baGallery.querySelectorAll('[data-ba-tab]');
+		var baCards = baGallery.querySelectorAll('[data-ba-card]');
+		var baEmpty = baGallery.querySelector('[data-ba-empty]');
+		var activeDrag = null;
+
+		function initBaSlider(slider) {
+			var frame = slider.querySelector('[data-ba-frame]');
+			var beforeLayer = slider.querySelector('[data-ba-before-layer]');
+			var handle = slider.querySelector('[data-ba-handle]');
+			var imgBefore = slider.querySelector('[data-ba-img-before]');
+			var pos = 50;
+
+			function setPos(percent) {
+				pos = Math.max(5, Math.min(95, percent));
+				if (beforeLayer) beforeLayer.style.width = pos + '%';
+				if (handle) {
+					handle.style.left = pos + '%';
+					handle.setAttribute('aria-valuenow', String(Math.round(pos)));
+				}
+			}
+
+			function syncWidth() {
+				if (frame && imgBefore) {
+					imgBefore.style.width = frame.offsetWidth + 'px';
+				}
+			}
+
+			function moveFromEvent(e) {
+				if (!frame) return;
+				var rect = frame.getBoundingClientRect();
+				var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+				setPos(((clientX - rect.left) / rect.width) * 100);
+			}
+
+			syncWidth();
+			setPos(50);
+
+			if (typeof ResizeObserver !== 'undefined' && frame) {
+				var ro = new ResizeObserver(syncWidth);
+				ro.observe(frame);
+			} else {
+				window.addEventListener('resize', syncWidth);
+			}
+
+			if (handle) {
+				handle.addEventListener('keydown', function (e) {
+					if (e.key === 'ArrowLeft') { setPos(pos - 5); e.preventDefault(); }
+					if (e.key === 'ArrowRight') { setPos(pos + 5); e.preventDefault(); }
+				});
+			}
+
+			if (frame) {
+				frame.addEventListener('mousedown', function (e) {
+					activeDrag = slider;
+					moveFromEvent(e);
+				});
+				frame.addEventListener('touchstart', function (e) {
+					activeDrag = slider;
+					moveFromEvent(e);
+				}, { passive: true });
+			}
+
+			slider._baSetPos = setPos;
+			slider._baSync = syncWidth;
+		}
+
+		baGallery.querySelectorAll('[data-ba-slider]').forEach(initBaSlider);
+
+		document.addEventListener('mousemove', function (e) {
+			if (!activeDrag) return;
+			var frame = activeDrag.querySelector('[data-ba-frame]');
+			if (!frame) return;
+			var rect = frame.getBoundingClientRect();
+			activeDrag._baSetPos(((e.clientX - rect.left) / rect.width) * 100);
+		});
+		document.addEventListener('touchmove', function (e) {
+			if (!activeDrag || !e.touches.length) return;
+			var frame = activeDrag.querySelector('[data-ba-frame]');
+			if (!frame) return;
+			var rect = frame.getBoundingClientRect();
+			activeDrag._baSetPos(((e.touches[0].clientX - rect.left) / rect.width) * 100);
+		}, { passive: true });
+		document.addEventListener('mouseup', function () { activeDrag = null; });
+		document.addEventListener('touchend', function () { activeDrag = null; });
+
+		function applyFilter(category) {
+			var visible = 0;
+			baCards.forEach(function (card) {
+				var show = category === 'all' || card.getAttribute('data-ba-category') === category;
+				card.classList.toggle('is-hidden', !show);
+				if (show) {
+					visible++;
+					card.classList.remove('is-filtering-in');
+					void card.offsetWidth;
+					card.classList.add('is-filtering-in');
+					var slider = card.querySelector('[data-ba-slider]');
+					if (slider && slider._baSync) slider._baSync();
+					if (slider && slider._baSetPos) slider._baSetPos(50);
+				}
+			});
+			if (baEmpty) baEmpty.hidden = visible > 0;
+		}
+
+		baTabs.forEach(function (tab) {
+			tab.addEventListener('click', function () {
+				var category = tab.getAttribute('data-ba-tab');
+				baTabs.forEach(function (t) {
+					var active = t === tab;
+					t.classList.toggle('is-active', active);
+					t.setAttribute('aria-selected', active ? 'true' : 'false');
+				});
+				applyFilter(category);
+			});
+		});
+	}
+
 	/* AJAX contact form */
 	var contactForm = document.getElementById('hausmeister-contact-form');
 	if (contactForm && typeof hausmeisterAjax !== 'undefined') {

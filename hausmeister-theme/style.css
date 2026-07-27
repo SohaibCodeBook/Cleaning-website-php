@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.0.2
+Version: 1.0.4
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -1217,6 +1217,332 @@ img {
 	.why-pillar__body {
 		grid-column: 2;
 		grid-row: 1 / span 2;
+	}
+}
+
+	.why-pillar__body {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+}
+
+/* ==========================================================================
+   Before & After Gallery
+   ========================================================================== */
+.ba-gallery {
+	padding: var(--section-padding-y) 0;
+	background: var(--bg-warm);
+}
+
+.ba-gallery__header {
+	text-align: center;
+	max-width: 680px;
+	margin: 0 auto 2.5rem;
+}
+
+.ba-gallery__title {
+	font-family: var(--font-heading);
+	font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+	font-weight: 800;
+	color: var(--text-heading);
+	line-height: 1.12;
+	margin: 0 0 1rem;
+}
+
+.ba-gallery__subtitle {
+	font-size: 16px;
+	line-height: 1.7;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+.ba-tabs {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0.5rem;
+	overflow-x: auto;
+	padding: 0.35rem;
+	margin-bottom: 2rem;
+	background: var(--bg-white);
+	border: 1px solid var(--border-subtle);
+	border-radius: 999px;
+	box-shadow: var(--shadow-card);
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.ba-tabs::-webkit-scrollbar {
+	display: none;
+}
+
+.ba-tabs__btn {
+	flex: 0 0 auto;
+	border: none;
+	background: transparent;
+	color: var(--text-secondary);
+	font-family: var(--font-body);
+	font-size: 13px;
+	font-weight: 600;
+	padding: 0.7rem 1.2rem;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+	white-space: nowrap;
+}
+
+.ba-tabs__btn:hover,
+.ba-tabs__btn:focus-visible {
+	color: var(--brand-secondary);
+	outline: none;
+}
+
+.ba-tabs__btn.is-active {
+	background: var(--brand-primary);
+	color: #fff;
+	box-shadow: 0 4px 14px rgba(10, 46, 54, 0.2);
+}
+
+.ba-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1.5rem;
+}
+
+.ba-card {
+	display: flex;
+	flex-direction: column;
+	background: var(--bg-white);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-xl);
+	overflow: hidden;
+	box-shadow: var(--shadow-card);
+	transition: opacity 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.ba-card:hover {
+	box-shadow: var(--shadow-card-hover);
+}
+
+.ba-card.is-hidden {
+	display: none;
+}
+
+.ba-card.is-filtering-in {
+	animation: baCardIn 0.35s ease both;
+}
+
+@keyframes baCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.ba-card__header {
+	padding: 1.35rem 1.35rem 1rem;
+}
+
+.ba-card__tag {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--brand-secondary);
+	background: var(--bg-teal-light);
+	padding: 0.3rem 0.7rem;
+	border-radius: 999px;
+	margin-bottom: 0.65rem;
+}
+
+.ba-card__title {
+	font-family: var(--font-heading);
+	font-size: 1.15rem;
+	font-weight: 700;
+	color: var(--text-heading);
+	margin: 0 0 0.5rem;
+}
+
+.ba-card__desc {
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--text-secondary);
+	margin: 0 0 0.75rem;
+}
+
+.ba-card__meta {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.ba-card__meta i {
+	color: var(--brand-accent);
+}
+
+.ba-card__slider {
+	padding: 0 1.35rem 1.35rem;
+	margin-top: auto;
+}
+
+.ba-card__frame {
+	position: relative;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	aspect-ratio: 16 / 10;
+	user-select: none;
+	touch-action: none;
+	cursor: ew-resize;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.ba-card__img {
+	display: block;
+	pointer-events: none;
+	user-select: none;
+}
+
+.ba-card__img--after {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ba-card__before {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	width: 50%;
+	z-index: 2;
+}
+
+.ba-card__img--before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	max-width: none;
+	object-fit: cover;
+}
+
+.ba-card__handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40px;
+	margin-left: -20px;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: ew-resize;
+}
+
+.ba-card__handle-line {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: 2px;
+	margin-left: -1px;
+	background: #fff;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+}
+
+.ba-card__handle-btn {
+	position: relative;
+	width: 40px;
+	height: 40px;
+	background: #fff;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--brand-primary);
+	font-size: 14px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+	transition: transform 0.15s ease;
+}
+
+.ba-card__handle:hover .ba-card__handle-btn,
+.ba-card__handle:focus-visible .ba-card__handle-btn {
+	transform: scale(1.06);
+}
+
+.ba-card__label {
+	position: absolute;
+	top: 0.75rem;
+	z-index: 4;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 0.35rem 0.7rem;
+	border-radius: 999px;
+}
+
+.ba-card__label--before {
+	left: 0.75rem;
+	background: rgba(15, 27, 45, 0.8);
+	color: #fff;
+}
+
+.ba-card__label--after {
+	right: 0.75rem;
+	background: rgba(58, 175, 169, 0.92);
+	color: #fff;
+}
+
+.ba-gallery__empty {
+	text-align: center;
+	color: var(--text-secondary);
+	font-size: 15px;
+	padding: 2rem 0;
+}
+
+@media (max-width: 991px) {
+	.ba-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 767px) {
+	.ba-gallery {
+		padding: 3rem 0;
+	}
+
+	.ba-tabs {
+		border-radius: var(--radius-lg);
+		margin-left: -0.25rem;
+		margin-right: -0.25rem;
+	}
+
+	.ba-card__header,
+	.ba-card__slider {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	.ba-card__slider {
+		padding-bottom: 1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ba-card,
+	.ba-card.is-filtering-in {
+		animation: none !important;
+		transition: none !important;
 	}
 }
 

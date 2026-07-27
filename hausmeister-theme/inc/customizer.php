@@ -138,6 +138,46 @@ function hausmeister_get_defaults() {
 		'feature_4_description' => 'Gründliche Arbeit und gepflegtes Erscheinungsbild Ihrer Immobilie.',
 		'feature_4_quote'       => '',
 
+		// Homepage — Before & After.
+		'ba_section_label' => 'Vorher & Nachher',
+		'ba_heading'       => 'Transformationen, die sprechen',
+		'ba_subheading'    => 'Wählen Sie eine Leistung und ziehen Sie den Regler auf den Karten — so sehen Sie den Unterschied sofort.',
+
+		'ba_1_category'     => 'treppenhaus',
+		'ba_1_title'        => 'Treppenhausreinigung',
+		'ba_1_description'  => 'Vom staubigen Flur zum hygienisch sauberen Treppenhaus — gründlich und termingerecht.',
+		'ba_1_location'     => 'Mehrfamilienhaus',
+		'ba_1_before'       => 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1400&q=85',
+		'ba_1_after'        => 'https://images.unsplash.com/photo-1600585154340-be6162a9a0c?w=1400&q=85',
+
+		'ba_2_category'     => 'gruen',
+		'ba_2_title'        => 'Grünanlagenpflege',
+		'ba_2_description'  => 'Überwucherte Flächen werden zu gepflegten Außenanlagen mit klaren Linien.',
+		'ba_2_location'     => 'Gewerbeobjekt',
+		'ba_2_before'       => 'https://images.unsplash.com/photo-1592150621744-8487f23381ac?w=1400&q=85',
+		'ba_2_after'        => 'https://images.unsplash.com/photo-1598908324228-86d378765913?w=1400&q=85',
+
+		'ba_3_category'     => 'fassade',
+		'ba_3_title'        => 'Fassadenreinigung',
+		'ba_3_description'  => 'Verschmutzte Fassaden erstrahlen wieder in sauberer, gepflegter Optik.',
+		'ba_3_location'     => 'Bürogebäude',
+		'ba_3_before'       => 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1400&q=85',
+		'ba_3_after'        => 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=85',
+
+		'ba_4_category'     => 'glas',
+		'ba_4_title'        => 'Glasreinigung',
+		'ba_4_description'  => 'Schlierenfreie Fenster und Glasflächen für mehr Licht und Transparenz.',
+		'ba_4_location'     => 'Wohn- & Gewerbeobjekt',
+		'ba_4_before'       => 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=1400&q=85',
+		'ba_4_after'        => 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=85',
+
+		'ba_5_category'     => 'winter',
+		'ba_5_title'        => 'Winterdienst',
+		'ba_5_description'  => 'Verschneite Wege werden sicher geräumt und gestreut — rechtssicher und zuverlässig.',
+		'ba_5_location'     => 'Zufahrt & Gehweg',
+		'ba_5_before'       => 'https://images.unsplash.com/photo-1418665086829-2484e7913564?w=1400&q=85',
+		'ba_5_after'        => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=85',
+
 		// Homepage — CTA.
 		'cta_heading'  => 'Bereit für ein unverbindliches Angebot?',
 		'cta_text'     => 'Kontaktieren Sie uns noch heute — wir beraten Sie gerne persönlich zu allen Leistungen.',
@@ -296,6 +336,48 @@ function hausmeister_parse_tags( $raw ) {
 	}
 	$parts = array_map( 'trim', explode( ',', $raw ) );
 	return array_values( array_filter( $parts ) );
+}
+
+/**
+ * Resolve a Customizer image setting (URL or attachment ID).
+ *
+ * @param string $key Theme mod key without prefix.
+ * @return string
+ */
+function hausmeister_get_image_url( $key ) {
+	$value = page_home( $key );
+	if ( is_numeric( $value ) ) {
+		$url = wp_get_attachment_image_url( (int) $value, 'full' );
+		return $url ? $url : '';
+	}
+	return is_string( $value ) ? $value : '';
+}
+
+/**
+ * Before/After filter tabs.
+ *
+ * @return array<string, string>
+ */
+function hausmeister_get_ba_filters() {
+	return array(
+		'all'         => __( 'Alle', 'hausmeister-theme' ),
+		'treppenhaus' => __( 'Treppenhausreinigung', 'hausmeister-theme' ),
+		'gruen'       => __( 'Grünanlagenpflege', 'hausmeister-theme' ),
+		'fassade'     => __( 'Fassadenreinigung', 'hausmeister-theme' ),
+		'glas'        => __( 'Glasreinigung', 'hausmeister-theme' ),
+		'winter'      => __( 'Winterdienst', 'hausmeister-theme' ),
+	);
+}
+
+/**
+ * Get label for a before/after category slug.
+ *
+ * @param string $slug Category slug.
+ * @return string
+ */
+function hausmeister_get_ba_category_label( $slug ) {
+	$filters = hausmeister_get_ba_filters();
+	return isset( $filters[ $slug ] ) ? $filters[ $slug ] : $slug;
 }
 
 /**
@@ -566,6 +648,83 @@ function hausmeister_customize_register( $wp_customize ) {
 				'section' => 'hausmeister_home_features',
 				'type'    => in_array( $field, array( 'description', 'quote' ), true ) ? 'textarea' : 'text',
 			) );
+		}
+	}
+
+	// --- Homepage Before & After ---
+	$wp_customize->add_section( 'hausmeister_home_before_after', array(
+		'title' => __( 'Startseite — Vorher & Nachher', 'hausmeister-theme' ),
+		'panel' => 'hausmeister_panel',
+	) );
+
+	foreach ( array(
+		'ba_section_label' => __( 'Sektions-Label', 'hausmeister-theme' ),
+		'ba_heading'       => __( 'Überschrift', 'hausmeister-theme' ),
+	) as $key => $label ) {
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => $defaults[ $key ],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'   => $label,
+			'section' => 'hausmeister_home_before_after',
+			'type'    => 'text',
+		) );
+	}
+
+	$wp_customize->add_setting( 'hausmeister_ba_subheading', array(
+		'default'           => $defaults['ba_subheading'],
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_ba_subheading', array(
+		'label'   => __( 'Untertitel', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_before_after',
+		'type'    => 'textarea',
+	) );
+
+	for ( $i = 1; $i <= 5; $i++ ) {
+		$key = 'ba_' . $i . '_category';
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+			'sanitize_callback' => 'sanitize_key',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			/* translators: %d: item number */
+			'label'       => sprintf( __( 'Projekt %d — Kategorie (treppenhaus, gruen, fassade, glas, winter)', 'hausmeister-theme' ), $i ),
+			'section'     => 'hausmeister_home_before_after',
+			'type'        => 'text',
+			'description' => __( 'Filter-Schlüssel für diese Karte.', 'hausmeister-theme' ),
+		) );
+
+		foreach ( array(
+			'title'       => array( 'label' => __( 'Projekt-Titel', 'hausmeister-theme' ), 'type' => 'text' ),
+			'description' => array( 'label' => __( 'Beschreibung', 'hausmeister-theme' ), 'type' => 'textarea' ),
+			'location'    => array( 'label' => __( 'Ort / Objekt', 'hausmeister-theme' ), 'type' => 'text' ),
+		) as $field => $meta ) {
+			$key = 'ba_' . $i . '_' . $field;
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => 'textarea' === $meta['type'] ? 'sanitize_textarea_field' : 'sanitize_text_field',
+			) );
+			$wp_customize->add_control( 'hausmeister_' . $key, array(
+				/* translators: %1$d: item number, %2$s: field label */
+				'label'   => sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $meta['label'] ),
+				'section' => 'hausmeister_home_before_after',
+				'type'    => $meta['type'],
+			) );
+		}
+
+		foreach ( array( 'before' => __( 'Vorher-Bild', 'hausmeister-theme' ), 'after' => __( 'Nachher-Bild', 'hausmeister-theme' ) ) as $field => $label ) {
+			$key = 'ba_' . $i . '_' . $field;
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => 'esc_url_raw',
+			) );
+			$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_' . $key, array(
+				/* translators: %1$d: item number, %2$s: before/after label */
+				'label'   => sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $label ),
+				'section' => 'hausmeister_home_before_after',
+			) ) );
 		}
 	}
 
