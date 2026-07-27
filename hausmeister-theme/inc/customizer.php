@@ -178,6 +178,45 @@ function hausmeister_get_defaults() {
 		'ba_5_before'       => hausmeister_theme_image( 'ba/winter-before.jpg' ),
 		'ba_5_after'        => hausmeister_theme_image( 'ba/winter-after.jpg' ),
 
+		// Homepage — Google Reviews.
+		'reviews_section_label'  => 'Google Bewertungen',
+		'reviews_heading'        => 'Das sagen unsere Kunden',
+		'reviews_subheading'     => 'Echte Google-Bewertungen von zufriedenen Kunden — transparent und nachvollziehbar.',
+		'reviews_overall_rating' => '4.9',
+		'reviews_total_count'    => '47',
+		'reviews_google_url'     => 'https://www.google.com/maps',
+		'reviews_btn_text'       => 'Alle Bewertungen auf Google ansehen',
+
+		'review_1_name'   => 'Thomas M.',
+		'review_1_date'   => 'vor 2 Monaten',
+		'review_1_rating' => '5',
+		'review_1_text'   => 'Sehr zuverlässiger Hausmeisterservice! Treppenhausreinigung und Winterdienst laufen termingerecht und gründlich. Klare Empfehlung für Wohnanlagen.',
+
+		'review_2_name'   => 'Sandra K.',
+		'review_2_date'   => 'vor 3 Monaten',
+		'review_2_rating' => '5',
+		'review_2_text'   => 'Professionelle Grünanlagenpflege und schnelle Reaktion bei Sonderwünschen. Das Team ist freundlich und hinterlässt alles sauber.',
+
+		'review_3_name'   => 'Michael B.',
+		'review_3_date'   => 'vor 4 Monaten',
+		'review_3_rating' => '5',
+		'review_3_text'   => 'Fassadenreinigung und Glasreinigung top umgesetzt. Faire Preise und ein fester Ansprechpartner — genau das, was wir gesucht haben.',
+
+		'review_4_name'   => 'Petra H.',
+		'review_4_date'   => 'vor 5 Monaten',
+		'review_4_rating' => '5',
+		'review_4_text'   => 'Seit über einem Jahr betreut uns das Team zuverlässig. Besonders der Winterdienst und die Entrümpelung wurden schnell und professionell erledigt.',
+
+		'review_5_name'   => 'Andreas W.',
+		'review_5_date'   => 'vor 6 Monaten',
+		'review_5_rating' => '4',
+		'review_5_text'   => 'Sehr gute Arbeit bei der Objektbetreuung. Kommunikation ist transparent, kleine Wünsche werden flexibel umgesetzt.',
+
+		'review_6_name'   => 'Claudia R.',
+		'review_6_date'   => 'vor 8 Monaten',
+		'review_6_rating' => '5',
+		'review_6_text'   => 'Pünktlich, gründlich und freundlich — so wünscht man sich einen Hausmeisterservice. Wir sind sehr zufrieden mit der laufenden Betreuung.',
+
 		// Homepage — CTA.
 		'cta_heading'  => 'Bereit für ein unverbindliches Angebot?',
 		'cta_text'     => 'Kontaktieren Sie uns noch heute — wir beraten Sie gerne persönlich zu allen Leistungen.',
@@ -399,6 +438,142 @@ function hausmeister_get_ba_filters() {
 function hausmeister_get_ba_category_label( $slug ) {
 	$filters = hausmeister_get_ba_filters();
 	return isset( $filters[ $slug ] ) ? $filters[ $slug ] : $slug;
+}
+
+/**
+ * Sanitize a star rating (1–5).
+ *
+ * @param mixed $value Raw rating.
+ * @return string
+ */
+function hausmeister_sanitize_star_rating( $value ) {
+	$rating = (int) $value;
+	if ( $rating < 1 ) {
+		return '1';
+	}
+	if ( $rating > 5 ) {
+		return '5';
+	}
+	return (string) $rating;
+}
+
+/**
+ * Sanitize overall Google rating (0–5, one decimal).
+ *
+ * @param mixed $value Raw rating.
+ * @return string
+ */
+function hausmeister_sanitize_overall_rating( $value ) {
+	$value = str_replace( ',', '.', (string) $value );
+	$rating = round( (float) $value, 1 );
+	if ( $rating < 0 ) {
+		$rating = 0;
+	}
+	if ( $rating > 5 ) {
+		$rating = 5;
+	}
+	return number_format( $rating, 1, '.', '' );
+}
+
+/**
+ * Avatar background color based on reviewer name (Google-style).
+ *
+ * @param string $name Reviewer name.
+ * @return string Hex color.
+ */
+function hausmeister_get_review_avatar_color( $name ) {
+	$colors = array( '#1A73E8', '#EA4335', '#FBBC04', '#34A853', '#9334E6', '#FF6D01', '#46BDC6', '#7B1FA2' );
+	$name   = strtolower( trim( (string) $name ) );
+	$index  = $name === '' ? 0 : ( crc32( $name ) % count( $colors ) );
+	return $colors[ $index ];
+}
+
+/**
+ * First letter for a Google-style avatar fallback.
+ *
+ * @param string $name Reviewer name.
+ * @return string
+ */
+function hausmeister_get_review_initial( $name ) {
+	$name = trim( (string) $name );
+	if ( $name === '' ) {
+		return '?';
+	}
+	if ( function_exists( 'mb_substr' ) ) {
+		return mb_strtoupper( mb_substr( $name, 0, 1 ) );
+	}
+	return strtoupper( substr( $name, 0, 1 ) );
+}
+
+/**
+ * Render a single Google-style star SVG.
+ *
+ * @param float $fill   Fill amount 0–1.
+ * @param int   $size   Pixel size.
+ * @return string
+ */
+function hausmeister_google_star_svg( $fill, $size = 18 ) {
+	$fill   = max( 0, min( 1, (float) $fill ) );
+	$size   = max( 12, (int) $size );
+	$clip   = wp_unique_id( 'gstar-' );
+	$width  = round( $fill * 100, 2 );
+
+	ob_start();
+	?>
+	<svg class="g-star" width="<?php echo esc_attr( $size ); ?>" height="<?php echo esc_attr( $size ); ?>" viewBox="0 0 24 24" aria-hidden="true">
+		<defs>
+			<clipPath id="<?php echo esc_attr( $clip ); ?>">
+				<rect x="0" y="0" width="<?php echo esc_attr( $width ); ?>%" height="100%"/>
+			</clipPath>
+		</defs>
+		<path fill="#E8EAED" d="M12 2.5l2.82 5.71 6.3.92-4.56 4.44 1.08 6.28L12 17.77l-5.64 2.08 1.08-6.28L2.88 9.13l6.3-.92L12 2.5z"/>
+		<path fill="#FBBC04" clip-path="url(#<?php echo esc_attr( $clip ); ?>)" d="M12 2.5l2.82 5.71 6.3.92-4.56 4.44 1.08 6.28L12 17.77l-5.64 2.08 1.08-6.28L2.88 9.13l6.3-.92L12 2.5z"/>
+	</svg>
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * Render Google-style star rating markup.
+ *
+ * @param float|string $rating Rating value.
+ * @param string       $size   Size modifier: sm|md|lg.
+ * @return string
+ */
+function hausmeister_render_google_stars( $rating, $size = 'md' ) {
+	$rating = (float) hausmeister_sanitize_overall_rating( $rating );
+	$sizes  = array(
+		'sm' => 14,
+		'md' => 18,
+		'lg' => 22,
+	);
+	$px     = isset( $sizes[ $size ] ) ? $sizes[ $size ] : 18;
+	$label  = sprintf(
+		/* translators: %s: star rating out of 5 */
+		__( '%s von 5 Sternen', 'hausmeister-theme' ),
+		number_format( $rating, 1, '.', '' )
+	);
+
+	$html = '<div class="g-stars g-stars--' . esc_attr( $size ) . '" role="img" aria-label="' . esc_attr( $label ) . '">';
+	for ( $i = 1; $i <= 5; $i++ ) {
+		$star_fill = min( 1, max( 0, $rating - ( $i - 1 ) ) );
+		$html     .= hausmeister_google_star_svg( $star_fill, $px );
+	}
+	$html .= '</div>';
+
+	return $html;
+}
+
+/**
+ * Check whether a review slot has content to display.
+ *
+ * @param int $index Review index (1–6).
+ * @return bool
+ */
+function hausmeister_review_is_visible( $index ) {
+	$name = page_home( "review_{$index}_name" );
+	$text = page_home( "review_{$index}_text" );
+	return $name !== '' && $text !== '';
 }
 
 /**
@@ -747,6 +922,118 @@ function hausmeister_customize_register( $wp_customize ) {
 				'section' => 'hausmeister_home_before_after',
 			) ) );
 		}
+	}
+
+	// --- Homepage Google Reviews ---
+	$wp_customize->add_section( 'hausmeister_home_reviews', array(
+		'title' => __( 'Startseite — Google Bewertungen', 'hausmeister-theme' ),
+		'panel' => 'hausmeister_panel',
+	) );
+
+	foreach ( array(
+		'reviews_section_label' => __( 'Sektions-Label', 'hausmeister-theme' ),
+		'reviews_heading'       => __( 'Überschrift', 'hausmeister-theme' ),
+		'reviews_btn_text'      => __( 'Button-Text (Google-Link)', 'hausmeister-theme' ),
+	) as $key => $label ) {
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => $defaults[ $key ],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'   => $label,
+			'section' => 'hausmeister_home_reviews',
+			'type'    => 'text',
+		) );
+	}
+
+	$wp_customize->add_setting( 'hausmeister_reviews_subheading', array(
+		'default'           => $defaults['reviews_subheading'],
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_reviews_subheading', array(
+		'label'   => __( 'Untertitel', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_reviews',
+		'type'    => 'textarea',
+	) );
+
+	foreach ( array(
+		'reviews_overall_rating' => array(
+			'label'       => __( 'Gesamtbewertung (z. B. 4.9)', 'hausmeister-theme' ),
+			'sanitize'    => 'hausmeister_sanitize_overall_rating',
+			'description' => '',
+		),
+		'reviews_total_count' => array(
+			'label'       => __( 'Anzahl Bewertungen', 'hausmeister-theme' ),
+			'sanitize'    => 'sanitize_text_field',
+			'description' => __( 'z. B. 47', 'hausmeister-theme' ),
+		),
+		'reviews_google_url' => array(
+			'label'       => __( 'Google-Profil URL', 'hausmeister-theme' ),
+			'sanitize'    => 'esc_url_raw',
+			'description' => __( 'Link zu Ihrem Google Business Profil.', 'hausmeister-theme' ),
+		),
+	) as $key => $meta ) {
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => $defaults[ $key ],
+			'sanitize_callback' => $meta['sanitize'],
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'       => $meta['label'],
+			'section'     => 'hausmeister_home_reviews',
+			'type'        => 'text',
+			'description' => $meta['description'],
+		) );
+	}
+
+	for ( $i = 1; $i <= 6; $i++ ) {
+		foreach ( array(
+			'name' => array( 'label' => __( 'Name', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
+			'date' => array( 'label' => __( 'Datum (z. B. vor 2 Monaten)', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
+			'text' => array( 'label' => __( 'Bewertungstext', 'hausmeister-theme' ), 'type' => 'textarea', 'sanitize' => 'sanitize_textarea_field' ),
+		) as $field => $meta ) {
+			$key = 'review_' . $i . '_' . $field;
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => $meta['sanitize'],
+			) );
+			$wp_customize->add_control( 'hausmeister_' . $key, array(
+				/* translators: %1$d: review number, %2$s: field label */
+				'label'   => sprintf( __( 'Bewertung %1$d — %2$s', 'hausmeister-theme' ), $i, $meta['label'] ),
+				'section' => 'hausmeister_home_reviews',
+				'type'    => $meta['type'],
+			) );
+		}
+
+		$key = 'review_' . $i . '_rating';
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '5',
+			'sanitize_callback' => 'hausmeister_sanitize_star_rating',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			/* translators: %d: review number */
+			'label'   => sprintf( __( 'Bewertung %d — Sterne (1–5)', 'hausmeister-theme' ), $i ),
+			'section' => 'hausmeister_home_reviews',
+			'type'    => 'select',
+			'choices' => array(
+				'5' => '5 ★★★★★',
+				'4' => '4 ★★★★☆',
+				'3' => '3 ★★★☆☆',
+				'2' => '2 ★★☆☆☆',
+				'1' => '1 ★☆☆☆☆',
+			),
+		) );
+
+		$key = 'review_' . $i . '_avatar';
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => '',
+			'sanitize_callback' => 'hausmeister_sanitize_image_setting',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_' . $key, array(
+			/* translators: %d: review number */
+			'label'       => sprintf( __( 'Bewertung %d — Profilbild (optional)', 'hausmeister-theme' ), $i ),
+			'section'     => 'hausmeister_home_reviews',
+			'description' => __( 'Ohne Bild wird ein Google-ähnlicher Buchstaben-Avatar angezeigt.', 'hausmeister-theme' ),
+		) ) );
 	}
 
 	// --- Homepage CTA ---

@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.0.6' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.0.8' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -78,6 +78,13 @@ function hausmeister_theme_enqueue_assets() {
 		'hausmeister-theme-style',
 		get_stylesheet_uri(),
 		array( 'bootstrap', 'font-awesome' ),
+		HAUSMEISTER_THEME_VERSION
+	);
+
+	wp_enqueue_style(
+		'hausmeister-google-reviews',
+		HAUSMEISTER_THEME_URI . '/assets/css/google-reviews.css',
+		array( 'hausmeister-theme-style' ),
 		HAUSMEISTER_THEME_VERSION
 	);
 

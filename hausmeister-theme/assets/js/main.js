@@ -250,6 +250,46 @@
 		});
 	}
 
+	/* Google Reviews carousel */
+	var reviewsSection = document.querySelector('[data-google-reviews]');
+	if (reviewsSection) {
+		var reviewsTrack = reviewsSection.querySelector('[data-reviews-track]');
+		var reviewsPrev = reviewsSection.querySelector('[data-reviews-prev]');
+		var reviewsNext = reviewsSection.querySelector('[data-reviews-next]');
+
+		function updateReviewNav() {
+			if (!reviewsTrack || !reviewsPrev || !reviewsNext) return;
+			var maxScroll = reviewsTrack.scrollWidth - reviewsTrack.clientWidth;
+			reviewsPrev.disabled = reviewsTrack.scrollLeft <= 4;
+			reviewsNext.disabled = reviewsTrack.scrollLeft >= maxScroll - 4;
+		}
+
+		function scrollReviews(direction) {
+			if (!reviewsTrack) return;
+			var card = reviewsTrack.querySelector('.g-review-card');
+			var amount = card ? card.offsetWidth + 16 : 320;
+			reviewsTrack.scrollBy({ left: direction * amount, behavior: 'smooth' });
+		}
+
+		if (reviewsTrack) {
+			reviewsTrack.addEventListener('scroll', updateReviewNav, { passive: true });
+			window.addEventListener('resize', updateReviewNav);
+			updateReviewNav();
+		}
+
+		if (reviewsPrev) {
+			reviewsPrev.addEventListener('click', function () {
+				scrollReviews(-1);
+			});
+		}
+
+		if (reviewsNext) {
+			reviewsNext.addEventListener('click', function () {
+				scrollReviews(1);
+			});
+		}
+	}
+
 	/* AJAX contact form */
 	var contactForm = document.getElementById('hausmeister-contact-form');
 	if (contactForm && typeof hausmeisterAjax !== 'undefined') {
