@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.0.9' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.1.0' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -22,6 +22,7 @@ function hausmeister_theme_image( $relative_path ) {
 }
 
 require_once HAUSMEISTER_THEME_DIR . '/inc/customizer.php';
+require_once HAUSMEISTER_THEME_DIR . '/inc/service-pages.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/mega-menu.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/setup-wizard.php';
@@ -95,6 +96,15 @@ function hausmeister_theme_enqueue_assets() {
 		array( 'hausmeister-theme-style' ),
 		HAUSMEISTER_THEME_VERSION
 	);
+
+	if ( is_page_template( 'page-service.php' ) || hausmeister_get_service_index_from_page() ) {
+		wp_enqueue_style(
+			'hausmeister-service-page',
+			HAUSMEISTER_THEME_URI . '/assets/css/service-page.css',
+			array( 'hausmeister-theme-style' ),
+			HAUSMEISTER_THEME_VERSION
+		);
+	}
 
 	wp_enqueue_script(
 		'bootstrap',

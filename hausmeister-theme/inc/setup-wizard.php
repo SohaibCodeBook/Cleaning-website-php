@@ -32,10 +32,31 @@ function hausmeister_has_all_pages() {
 }
 
 /**
+ * Check whether all service sub-pages exist.
+ *
+ * @return bool
+ */
+function hausmeister_has_all_service_pages() {
+	$leistungen = get_page_by_path( 'leistungen', OBJECT, 'page' );
+	if ( ! $leistungen ) {
+		return false;
+	}
+
+	foreach ( hausmeister_get_service_content_blueprints() as $data ) {
+		$page = get_page_by_path( 'leistungen/' . $data['slug'], OBJECT, 'page' );
+		if ( ! $page || 'publish' !== $page->post_status ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
  * Run setup on theme activation.
  */
 function hausmeister_theme_activation_setup() {
-	if ( get_option( 'hausmeister_theme_setup_done' ) && hausmeister_has_all_pages() ) {
+	if ( get_option( 'hausmeister_theme_setup_done' ) && hausmeister_has_all_pages() && hausmeister_has_all_service_pages() ) {
 		return;
 	}
 
@@ -47,11 +68,13 @@ add_action( 'after_switch_theme', 'hausmeister_theme_activation_setup' );
  * Fallback: recreate missing pages when an admin visits the dashboard.
  */
 function hausmeister_admin_setup_fallback() {
-	if ( ! is_admin() || ! current_user_can( 'edit_pages' ) || hausmeister_has_all_pages() ) {
+	if ( ! is_admin() || ! current_user_can( 'edit_pages' ) ) {
 		return;
 	}
 
-	hausmeister_run_theme_setup();
+	if ( ! hausmeister_has_all_pages() || ! hausmeister_has_all_service_pages() ) {
+		hausmeister_run_theme_setup();
+	}
 }
 add_action( 'admin_init', 'hausmeister_admin_setup_fallback', 5 );
 
@@ -74,10 +97,11 @@ add_action( 'admin_notices', 'hausmeister_admin_missing_pages_notice' );
  */
 function hausmeister_run_theme_setup() {
 	$pages = hausmeister_create_pages();
+	hausmeister_create_service_pages( $pages );
 	hausmeister_create_primary_menu( $pages );
 	hausmeister_set_front_page( $pages );
 
-	if ( hausmeister_has_all_pages() ) {
+	if ( hausmeister_has_all_pages() && hausmeister_has_all_service_pages() ) {
 		update_option( 'hausmeister_theme_setup_done', true );
 	} else {
 		delete_option( 'hausmeister_theme_setup_done' );
@@ -144,6 +168,58 @@ function hausmeister_create_pages() {
 	}
 
 	return $created;
+}
+
+/**
+ * Create service sub-pages under Leistungen.
+ *
+ * @param array $pages Map of slug => page ID.
+ */
+function hausmeister_create_service_pages( $pages ) {
+	if ( empty( $pages['leistungen'] ) ) {
+		return;
+	}
+
+	$parent_id = (int) $pages['leistungen'];
+	$author    = get_current_user_id();
+	$author    = $author ? $author : 1;
+	$blueprints = hausmeister_get_service_content_blueprints();
+
+	foreach ( $blueprints as $index => $data ) {
+		$full_path = 'leistungen/' . $data['slug'];
+		$existing  = get_page_by_path( $full_path, OBJECT, 'page' );
+
+		if ( $existing && 'publish' === $existing->post_status ) {
+			if ( 'page-service.php' !== get_page_template_slug( $existing ) ) {
+				update_post_meta( $existing->ID, '_wp_page_template', 'page-service.php' );
+			}
+			continue;
+		}
+
+		$title = page_home( "service_{$index}_title", '' );
+		if ( $title === '' ) {
+			$title = ucfirst( str_replace( '-', ' ', $data['slug'] ) );
+		}
+
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => $title,
+				'post_name'    => $data['slug'],
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_parent'  => $parent_id,
+				'post_content' => '',
+				'post_author'  => $author,
+			),
+			true
+		);
+
+		if ( is_wp_error( $page_id ) || ! $page_id ) {
+			continue;
+		}
+
+		update_post_meta( $page_id, '_wp_page_template', 'page-service.php' );
+	}
 }
 
 /**

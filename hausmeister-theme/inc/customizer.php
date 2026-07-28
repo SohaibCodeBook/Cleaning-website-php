@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @return array
  */
 function hausmeister_get_defaults() {
-	return array(
+	$defaults = array(
 		// Global / Contact.
 		'company_name'       => 'Ihr Hausmeisterservice',
 		'address'            => 'Musterstraße 1, 12345 Musterstadt',
@@ -252,6 +252,8 @@ function hausmeister_get_defaults() {
 		'contact_info_text'      => 'Nutzen Sie das Formular oder kontaktieren Sie uns direkt per Telefon oder E-Mail. Wir melden uns schnellstmöglich bei Ihnen.',
 		'contact_form_submit_text' => 'Nachricht senden',
 	);
+
+	return array_merge( $defaults, hausmeister_get_service_page_defaults() );
 }
 
 /**
@@ -1149,5 +1151,7 @@ function hausmeister_customize_register( $wp_customize ) {
 			'type'    => in_array( $key, array( 'contact_page_subtitle', 'contact_info_text' ), true ) ? 'textarea' : 'text',
 		) );
 	}
+
+	hausmeister_register_service_page_customizer( $wp_customize, $defaults );
 }
 add_action( 'customize_register', 'hausmeister_customize_register' );
