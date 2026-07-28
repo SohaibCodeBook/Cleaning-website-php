@@ -125,11 +125,21 @@
 	gap: 1rem;
 	overflow-x: auto;
 	overflow-y: hidden;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
+	scroll-snap-type: x proximity;
+	scroll-behavior: auto;
 	padding: 0.25rem 0.15rem 0.5rem;
 	-webkit-overflow-scrolling: touch;
 	scrollbar-width: none;
+}
+
+.google-reviews .google-reviews__track.is-auto-scrolling {
+	scroll-snap-type: none;
+	pointer-events: auto;
+}
+
+.google-reviews .google-reviews__track.is-snapping {
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
 }
 
 .google-reviews .google-reviews__track::-webkit-scrollbar {
@@ -139,7 +149,7 @@
 .google-reviews .g-review-card {
 	flex: 0 0 300px;
 	width: 300px;
-	max-width: 100%;
+	max-width: none;
 	scroll-snap-align: start;
 	background: #fff;
 	border: 1px solid #dadce0;

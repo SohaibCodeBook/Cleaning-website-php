@@ -348,41 +348,235 @@
 		});
 	}
 
-	/* Google Reviews carousel */
+	/* Google Reviews — continuous auto-scroll carousel */
 	var reviewsSection = document.querySelector('[data-google-reviews]');
 	if (reviewsSection) {
 		var reviewsTrack = reviewsSection.querySelector('[data-reviews-track]');
 		var reviewsPrev = reviewsSection.querySelector('[data-reviews-prev]');
 		var reviewsNext = reviewsSection.querySelector('[data-reviews-next]');
+		var reviewsReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		var reviewsPaused = false;
+		var reviewsInView = false;
+		var reviewsRaf = 0;
+		var reviewsResumeTimer = null;
+		var reviewsLoopWidth = 0;
+		var reviewsSpeed = 0.45; /* px per frame ~27px/s at 60fps */
+
+		function getReviewCards() {
+			return reviewsTrack ? Array.prototype.slice.call(reviewsTrack.querySelectorAll('.g-review-card')) : [];
+		}
+
+		function getReviewStep() {
+			var card = reviewsTrack && reviewsTrack.querySelector('.g-review-card');
+			if (!card) return 320;
+			var styles = window.getComputedStyle(reviewsTrack);
+			var gap = parseFloat(styles.columnGap || styles.gap) || 16;
+			return card.offsetWidth + gap;
+		}
+
+		function measureReviewsLoop() {
+			if (!reviewsTrack) return 0;
+			var cards = getReviewCards().filter(function (card) {
+				return !card.hasAttribute('data-review-clone');
+			});
+			if (!cards.length) return 0;
+			var styles = window.getComputedStyle(reviewsTrack);
+			var gap = parseFloat(styles.columnGap || styles.gap) || 16;
+			var width = 0;
+			cards.forEach(function (card, index) {
+				width += card.offsetWidth;
+				if (index < cards.length - 1) width += gap;
+			});
+			/* include trailing gap before clones */
+			width += gap;
+			reviewsLoopWidth = width;
+			return width;
+		}
+
+		function ensureReviewClones() {
+			if (!reviewsTrack || reviewsReduceMotion) return;
+			var originals = getReviewCards().filter(function (card) {
+				return !card.hasAttribute('data-review-clone');
+			});
+			if (originals.length < 2) return;
+
+			getReviewCards().forEach(function (card) {
+				if (card.hasAttribute('data-review-clone')) {
+					card.parentNode.removeChild(card);
+				}
+			});
+
+			originals.forEach(function (card) {
+				var clone = card.cloneNode(true);
+				clone.setAttribute('data-review-clone', '1');
+				clone.setAttribute('aria-hidden', 'true');
+				reviewsTrack.appendChild(clone);
+			});
+
+			measureReviewsLoop();
+		}
 
 		function updateReviewNav() {
 			if (!reviewsTrack || !reviewsPrev || !reviewsNext) return;
 			var maxScroll = reviewsTrack.scrollWidth - reviewsTrack.clientWidth;
-			reviewsPrev.disabled = reviewsTrack.scrollLeft <= 4;
-			reviewsNext.disabled = reviewsTrack.scrollLeft >= maxScroll - 4;
+			var canScroll = maxScroll > 8;
+			reviewsPrev.disabled = !canScroll;
+			reviewsNext.disabled = !canScroll;
 		}
 
 		function scrollReviews(direction) {
 			if (!reviewsTrack) return;
-			var card = reviewsTrack.querySelector('.g-review-card');
-			var amount = card ? card.offsetWidth + 16 : 320;
-			reviewsTrack.scrollBy({ left: direction * amount, behavior: 'smooth' });
+			reviewsTrack.classList.add('is-snapping');
+			reviewsTrack.scrollBy({ left: direction * getReviewStep(), behavior: 'smooth' });
+			window.setTimeout(function () {
+				reviewsTrack.classList.remove('is-snapping');
+			}, 500);
+		}
+
+		function stopReviewsAuto() {
+			if (reviewsRaf) {
+				window.cancelAnimationFrame(reviewsRaf);
+				reviewsRaf = 0;
+			}
+			if (reviewsTrack) {
+				reviewsTrack.classList.remove('is-auto-scrolling');
+			}
+		}
+
+		function tickReviewsAuto() {
+			reviewsRaf = 0;
+			if (!reviewsTrack || reviewsPaused || !reviewsInView || reviewsReduceMotion) {
+				return;
+			}
+
+			if (!reviewsLoopWidth) {
+				measureReviewsLoop();
+			}
+
+			var maxScroll = reviewsTrack.scrollWidth - reviewsTrack.clientWidth;
+			if (maxScroll <= 8) {
+				return;
+			}
+
+			reviewsTrack.classList.add('is-auto-scrolling');
+			reviewsTrack.scrollLeft += reviewsSpeed;
+
+			if (reviewsLoopWidth > 0 && reviewsTrack.scrollLeft >= reviewsLoopWidth) {
+				reviewsTrack.scrollLeft -= reviewsLoopWidth;
+			} else if (reviewsTrack.scrollLeft >= maxScroll - 1) {
+				reviewsTrack.scrollLeft = 0;
+			}
+
+			reviewsRaf = window.requestAnimationFrame(tickReviewsAuto);
+		}
+
+		function startReviewsAuto() {
+			if (reviewsReduceMotion || reviewsPaused || !reviewsInView || !reviewsTrack) return;
+			if (reviewsRaf) return;
+			ensureReviewClones();
+			measureReviewsLoop();
+			updateReviewNav();
+			var maxScroll = reviewsTrack.scrollWidth - reviewsTrack.clientWidth;
+			if (maxScroll <= 8) return;
+			reviewsRaf = window.requestAnimationFrame(tickReviewsAuto);
+		}
+
+		function pauseReviewsAuto(temporary) {
+			reviewsPaused = true;
+			stopReviewsAuto();
+			if (reviewsResumeTimer) {
+				window.clearTimeout(reviewsResumeTimer);
+				reviewsResumeTimer = null;
+			}
+			if (temporary) {
+				reviewsResumeTimer = window.setTimeout(function () {
+					reviewsPaused = false;
+					startReviewsAuto();
+				}, 5000);
+			}
+		}
+
+		function resumeReviewsAuto() {
+			if (reviewsResumeTimer) {
+				window.clearTimeout(reviewsResumeTimer);
+				reviewsResumeTimer = null;
+			}
+			reviewsPaused = false;
+			startReviewsAuto();
 		}
 
 		if (reviewsTrack) {
-			reviewsTrack.addEventListener('scroll', updateReviewNav, { passive: true });
-			window.addEventListener('resize', updateReviewNav);
+			ensureReviewClones();
 			updateReviewNav();
+
+			reviewsTrack.addEventListener('scroll', updateReviewNav, { passive: true });
+			window.addEventListener('resize', function () {
+				ensureReviewClones();
+				measureReviewsLoop();
+				updateReviewNav();
+				if (reviewsInView && !reviewsPaused) {
+					stopReviewsAuto();
+					startReviewsAuto();
+				}
+			});
+
+			reviewsSection.addEventListener('mouseenter', function () {
+				pauseReviewsAuto(false);
+			});
+			reviewsSection.addEventListener('mouseleave', resumeReviewsAuto);
+			reviewsTrack.addEventListener('focusin', function () {
+				pauseReviewsAuto(false);
+			});
+			reviewsTrack.addEventListener('focusout', function () {
+				window.setTimeout(function () {
+					if (!reviewsSection.contains(document.activeElement)) {
+						resumeReviewsAuto();
+					}
+				}, 0);
+			});
+			reviewsTrack.addEventListener('touchstart', function () {
+				pauseReviewsAuto(true);
+			}, { passive: true });
+			reviewsTrack.addEventListener('wheel', function () {
+				pauseReviewsAuto(true);
+			}, { passive: true });
+
+			if ('IntersectionObserver' in window) {
+				var reviewsVisibility = new IntersectionObserver(function (entries) {
+					entries.forEach(function (entry) {
+						reviewsInView = entry.isIntersecting && entry.intersectionRatio > 0.05;
+						if (reviewsInView) {
+							startReviewsAuto();
+						} else {
+							stopReviewsAuto();
+						}
+					});
+				}, { threshold: [0, 0.05, 0.15, 0.35] });
+				reviewsVisibility.observe(reviewsSection);
+			} else {
+				reviewsInView = true;
+				startReviewsAuto();
+			}
+
+			/* Fallback: start shortly after load if already near viewport */
+			window.setTimeout(function () {
+				if (!reviewsRaf && reviewsTrack.getBoundingClientRect().top < window.innerHeight) {
+					reviewsInView = true;
+					startReviewsAuto();
+				}
+			}, 800);
 		}
 
 		if (reviewsPrev) {
 			reviewsPrev.addEventListener('click', function () {
+				pauseReviewsAuto(true);
 				scrollReviews(-1);
 			});
 		}
 
 		if (reviewsNext) {
 			reviewsNext.addEventListener('click', function () {
+				pauseReviewsAuto(true);
 				scrollReviews(1);
 			});
 		}
