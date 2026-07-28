@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.1.2
+Version: 1.1.4
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -367,34 +367,54 @@ img {
 	aspect-ratio: 4 / 3;
 }
 
-/* Hero load animation — left-to-right text, CSS only */
-.hero [data-reveal] {
+/* Hero load animation — M2A clip wipe from reference video */
+.hero [data-reveal="fade"],
+.hero [data-reveal="fade-right"] {
 	opacity: 0;
-	animation: revealIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	animation: heroSoftIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	animation-delay: var(--reveal-delay, 0ms);
 	will-change: opacity, transform;
 }
 
-.hero [data-reveal="left"] {
-	transform: translate3d(-32px, 0, 0);
+.hero [data-reveal="fade"] {
+	transform: translate3d(0, 8px, 0);
 }
 
-.hero [data-reveal="right"] {
-	transform: translate3d(32px, 0, 0);
+.hero [data-reveal="fade-right"] {
+	transform: translate3d(14px, 0, 0);
 }
 
-.hero__line[data-reveal] {
-	display: block;
-}
-
-.hero__headline {
-	overflow: hidden;
-}
-
-@keyframes revealIn {
+@keyframes heroSoftIn {
 	to {
 		opacity: 1;
 		transform: translate3d(0, 0, 0);
+	}
+}
+
+/*
+ * Main heading: text stays in place; a horizontal clip opens left → right.
+ * Matches the reference recording (letters cut mid-glyph while revealing).
+ */
+.hero__headline {
+	overflow: visible;
+}
+
+.hero__line {
+	display: block;
+	overflow: hidden;
+	clip-path: inset(0 100% 0 0);
+	animation: heroLineReveal 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+	animation-delay: var(--reveal-delay, 0ms);
+	will-change: clip-path;
+}
+
+.hero__line-text {
+	display: inline-block;
+}
+
+@keyframes heroLineReveal {
+	to {
+		clip-path: inset(0 0 0 0);
 	}
 }
 
@@ -458,9 +478,8 @@ img {
 		padding-top: 1.5rem;
 	}
 
-	.hero [data-reveal="left"],
-	.hero [data-reveal="right"] {
-		transform: translate3d(0, 18px, 0);
+	.hero [data-reveal="fade-right"] {
+		transform: translate3d(0, 10px, 0);
 	}
 
 	.hero__blob {
@@ -1573,6 +1592,13 @@ img {
 		opacity: 1 !important;
 		transform: none !important;
 		transition: none !important;
+		animation: none !important;
+	}
+
+	.hero__line,
+	.hero__line-text {
+		clip-path: none !important;
+		transform: none !important;
 		animation: none !important;
 	}
 }

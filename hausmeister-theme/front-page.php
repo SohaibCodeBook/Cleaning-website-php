@@ -16,21 +16,27 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 	<div class="container-theme hero__container">
 		<div class="hero__grid">
 			<div class="hero__content">
-				<div class="hero-badge" data-reveal="left" style="--reveal-delay: 0ms">
+				<div class="hero-badge" data-reveal="fade" style="--reveal-delay: 120ms">
 					<span class="badge">
 						<span class="badge__text"><?php echo esc_html( page_home( 'hero_badge' ) ); ?></span>
 					</span>
 				</div>
 
 				<h1 class="hero__headline">
-					<span class="hero__line" data-reveal="left" style="--reveal-delay: 80ms"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
-					<span class="hero__line" data-reveal="left" style="--reveal-delay: 160ms"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
-					<span class="hero__line" data-reveal="left" style="--reveal-delay: 240ms"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line" style="--reveal-delay: 380ms">
+						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
+					</span>
+					<span class="hero__line" style="--reveal-delay: 780ms">
+						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
+					</span>
+					<span class="hero__line" style="--reveal-delay: 1180ms">
+						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
+					</span>
 				</h1>
 
-				<p class="hero__subtitle" data-reveal="left" style="--reveal-delay: 320ms"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
+				<p class="hero__subtitle" data-reveal="fade" style="--reveal-delay: 1850ms"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
 
-				<div class="hero__ctas" data-reveal="left" style="--reveal-delay: 400ms">
+				<div class="hero__ctas" data-reveal="fade" style="--reveal-delay: 2100ms">
 					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_primary_url' ) ) ); ?>" class="btn btn--primary btn--lg btn--has-arrow">
 						<span class="btn__text"><?php echo esc_html( page_home( 'hero_btn_primary_text' ) ); ?></span>
 						<svg class="btn__arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -40,7 +46,7 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 					</a>
 				</div>
 
-				<div class="hero__trust" data-reveal="left" style="--reveal-delay: 480ms">
+				<div class="hero__trust" data-reveal="fade" style="--reveal-delay: 2320ms">
 					<?php for ( $t = 1; $t <= 3; $t++ ) : ?>
 						<?php if ( $t > 1 ) : ?>
 							<span class="hero__trust-sep" aria-hidden="true">&middot;</span>
@@ -53,7 +59,7 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 				</div>
 			</div>
 
-			<div class="hero__visual" data-reveal="right" style="--reveal-delay: 180ms">
+			<div class="hero__visual" data-reveal="fade-right" style="--reveal-delay: 200ms">
 				<div class="hero__blob" aria-hidden="true"></div>
 				<div class="hero__image-wrap">
 					<img
