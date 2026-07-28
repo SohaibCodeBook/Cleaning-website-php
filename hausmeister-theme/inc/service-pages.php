@@ -23,6 +23,26 @@ function hausmeister_get_service_slug_map() {
 }
 
 /**
+ * Find a service page by slug (top-level or legacy nested path).
+ *
+ * @param string $slug Service slug.
+ * @return WP_Post|null
+ */
+function hausmeister_get_service_page_by_slug( $slug ) {
+	$page = get_page_by_path( $slug, OBJECT, 'page' );
+	if ( $page && 'publish' === $page->post_status ) {
+		return $page;
+	}
+
+	$page = get_page_by_path( 'leistungen/' . $slug, OBJECT, 'page' );
+	if ( $page && 'publish' === $page->post_status ) {
+		return $page;
+	}
+
+	return null;
+}
+
+/**
  * Get service index from a page object or slug.
  *
  * @param WP_Post|string|null $page Post object or slug.
@@ -100,14 +120,10 @@ function hausmeister_get_related_service_indexes( $current ) {
  * @param int $index Service index.
  */
 function hausmeister_service_breadcrumbs( $index ) {
-	$leistungen = get_page_by_path( 'leistungen' );
-	$services   = hausmeister_theme_url( '/leistungen/' );
-	$title      = page_home( "service_{$index}_title" );
+	$title = page_home( "service_{$index}_title" );
 	?>
 	<nav class="sp-breadcrumbs" aria-label="<?php esc_attr_e( 'Brotkrumen-Navigation', 'hausmeister-theme' ); ?>">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Startseite', 'hausmeister-theme' ); ?></a>
-		<span aria-hidden="true">/</span>
-		<a href="<?php echo esc_url( $leistungen ? get_permalink( $leistungen ) : $services ); ?>"><?php esc_html_e( 'Leistungen', 'hausmeister-theme' ); ?></a>
 		<span aria-hidden="true">/</span>
 		<span class="sp-breadcrumbs__current"><?php echo esc_html( $title ); ?></span>
 	</nav>

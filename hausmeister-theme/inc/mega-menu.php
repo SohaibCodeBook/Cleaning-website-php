@@ -21,12 +21,23 @@ function hausmeister_get_services() {
 			continue;
 		}
 
+		$slug = '';
+		foreach ( hausmeister_get_service_slug_map() as $service_slug => $index ) {
+			if ( (int) $index === $i ) {
+				$slug = $service_slug;
+				break;
+			}
+		}
+
+		$page = $slug ? hausmeister_get_service_page_by_slug( $slug ) : null;
+		$url  = $page ? get_permalink( $page ) : hausmeister_theme_url( page_home( "service_{$i}_url" ) );
+
 		$services[] = array(
 			'id'       => $i,
 			'icon'     => page_home( "service_{$i}_icon" ),
 			'title'    => $title,
 			'subtitle' => page_home( "service_{$i}_subtitle" ),
-			'url'      => hausmeister_theme_url( page_home( "service_{$i}_url" ) ),
+			'url'      => $url,
 		);
 	}
 
@@ -44,17 +55,8 @@ function hausmeister_is_leistungen_menu_item( $item ) {
 		return true;
 	}
 
-	$leistungen_page = get_page_by_path( 'leistungen' );
-	if ( $leistungen_page && 'page' === $item->object && (int) $item->object_id === (int) $leistungen_page->ID ) {
-		return true;
-	}
-
 	$title = isset( $item->title ) ? strtolower( trim( wp_strip_all_tags( $item->title ) ) ) : '';
-	if ( in_array( $title, array( 'leistungen', 'services', 'our services' ), true ) ) {
-		return true;
-	}
-
-	return false;
+	return in_array( $title, array( 'leistungen', 'services', 'our services' ), true );
 }
 
 /**

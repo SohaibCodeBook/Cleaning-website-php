@@ -38,7 +38,7 @@ function hausmeister_get_defaults() {
 		'hero_btn_primary_text'   => 'Kostenlos beraten lassen',
 		'hero_btn_primary_url'    => '/kontakt/',
 		'hero_btn_secondary_text' => 'Leistungen entdecken',
-		'hero_btn_secondary_url'  => '/leistungen/',
+		'hero_btn_secondary_url'  => '/hausmeistertaetigkeiten/',
 		'hero_trust_1'            => 'Gewerbe & Wohnen',
 		'hero_trust_2'            => 'Termingerecht',
 		'hero_trust_3'            => '24/7 Notdienst',
@@ -82,7 +82,7 @@ function hausmeister_get_defaults() {
 		'service_1_subtitle'    => 'Betreuung & Kleinreparaturen',
 		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: Kontrollgänge, Kleinreparaturen, Müllentsorgung und Ansprechpartner für Mieter und Eigentümer.',
 		'service_1_tags'        => 'Kontrollgänge, Kleinreparaturen, Müllentsorgung',
-		'service_1_url'         => '/leistungen/hausmeistertaetigkeiten/',
+		'service_1_url'         => '/hausmeistertaetigkeiten/',
 
 		// Service 2: Reinigung & Instandhaltung.
 		'service_2_icon'        => 'fa-solid fa-broom',
@@ -90,7 +90,7 @@ function hausmeister_get_defaults() {
 		'service_2_subtitle'    => 'Treppenhäuser, Fenster & Fassade',
 		'service_2_description' => 'Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassadenreinigung und Parkplätze — hygienisch einwandfrei und termingerecht.',
 		'service_2_tags'        => 'Treppenhäuser, Fensterreinigung, Fassadenreinigung',
-		'service_2_url'         => '/leistungen/reinigung-instandhaltung/',
+		'service_2_url'         => '/reinigung-instandhaltung/',
 
 		// Service 3: Grünanlagenpflege.
 		'service_3_icon'        => 'fa-solid fa-leaf',
@@ -98,7 +98,7 @@ function hausmeister_get_defaults() {
 		'service_3_subtitle'    => 'Außenanlagen & Bepflanzung',
 		'service_3_description' => 'Fachgerechte Pflege von Außenanlagen, Rasenflächen, Hecken und Beeten — für einen gepflegten ersten Eindruck zu jeder Jahreszeit.',
 		'service_3_tags'        => 'Rasenmähen, Heckenschnitt, Unkrautbeseitigung',
-		'service_3_url'         => '/leistungen/gruenanlagenpflege/',
+		'service_3_url'         => '/gruenanlagenpflege/',
 
 		// Service 4: Entrümpelungen.
 		'service_4_icon'        => 'fa-solid fa-boxes-stacked',
@@ -106,7 +106,7 @@ function hausmeister_get_defaults() {
 		'service_4_subtitle'    => 'Räumung & Entsorgung',
 		'service_4_description' => 'Schnelle und diskrete Entrümpelung von Wohnungen, Kellern, Dachböden und Gewerbeflächen — inklusive fachgerechter Entsorgung.',
 		'service_4_tags'        => 'Wohnungen, Keller & Dachboden, Entsorgung',
-		'service_4_url'         => '/leistungen/entruempelungen/',
+		'service_4_url'         => '/entruempelungen/',
 
 		// Service 5: Winterdienst.
 		'service_5_icon'        => 'fa-solid fa-snowflake',
@@ -114,7 +114,7 @@ function hausmeister_get_defaults() {
 		'service_5_subtitle'    => 'Räum- & Streudienst',
 		'service_5_description' => 'Zuverlässiger Räum- und Streudienst für Geh- und Fahrwege — rund um die Uhr, damit Ihre Verkehrssicherungspflicht erfüllt bleibt.',
 		'service_5_tags'        => 'Schneeräumung, Streuarbeiten, Glättebeseitigung',
-		'service_5_url'         => '/leistungen/winterdienst/',
+		'service_5_url'         => '/winterdienst/',
 
 		// Homepage — Why Us.
 		'why_section_label'   => 'Warum wir',

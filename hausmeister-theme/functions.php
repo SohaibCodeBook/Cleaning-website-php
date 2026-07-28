@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.1.0' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.1.1' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -154,8 +154,9 @@ class Hausmeister_Nav_Walker extends Walker_Nav_Menu {
 			$link_classes .= ' nav-link--mega';
 		}
 
-		$atts  = ' class="' . esc_attr( $link_classes ) . '" href="' . esc_url( $item->url ) . '"';
-		$atts .= $has_mega ? ' aria-haspopup="true" aria-expanded="false"' : '';
+		$link_url = $has_mega ? '#leistungen' : $item->url;
+		$atts     = ' class="' . esc_attr( $link_classes ) . '" href="' . esc_url( $link_url ) . '"';
+		$atts    .= $has_mega ? ' aria-haspopup="true" aria-expanded="false" role="button"' : '';
 
 		$output .= '<a' . $atts . '>' . esc_html( $item->title );
 		if ( $has_mega ) {
@@ -188,12 +189,9 @@ class Hausmeister_Nav_Walker extends Walker_Nav_Menu {
  * @param string $label Link label.
  */
 function hausmeister_render_fallback_nav_item( $slug, $label ) {
-	$page = get_page_by_path( $slug );
-	$url  = $page ? get_permalink( $page ) : home_url( '/' );
-
 	if ( 'leistungen' === $slug ) {
-		echo '<li class="menu-item-has-mega">';
-		echo '<a href="' . esc_url( $url ) . '" class="nav-link nav-link--mega" aria-haspopup="true" aria-expanded="false">';
+		echo '<li class="menu-item-has-mega leistungen-mega-menu">';
+		echo '<a href="#leistungen" class="nav-link nav-link--mega" aria-haspopup="true" aria-expanded="false" role="button">';
 		echo esc_html( $label );
 		echo hausmeister_mega_menu_chevron_svg();
 		echo '</a>';
@@ -203,6 +201,9 @@ function hausmeister_render_fallback_nav_item( $slug, $label ) {
 		echo '</li>';
 		return;
 	}
+
+	$page = get_page_by_path( $slug );
+	$url  = $page ? get_permalink( $page ) : home_url( '/' );
 
 	echo '<li><a class="nav-link" href="' . esc_url( $url ) . '">' . esc_html( $label ) . '</a></li>';
 }
@@ -219,8 +220,8 @@ function hausmeister_fallback_menu() {
 	);
 
 	echo '<ul class="nav-list">';
-	foreach ( $pages as $slug => $label ) {
-		hausmeister_render_fallback_nav_item( $slug, $label );
+	foreach ( hausmeister_get_primary_menu_slugs() as $slug ) {
+		hausmeister_render_fallback_nav_item( $slug, $pages[ $slug ] );
 	}
 	echo '</ul>';
 }

@@ -8,11 +8,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Required page slugs for this theme.
+ * Required top-level page slugs (no services overview page).
  *
  * @return string[]
  */
 function hausmeister_get_required_page_slugs() {
+	return array( 'startseite', 'ueber-uns', 'kontakt' );
+}
+
+/**
+ * Primary menu order including the Leistungen mega-menu trigger.
+ *
+ * @return string[]
+ */
+function hausmeister_get_primary_menu_slugs() {
 	return array( 'startseite', 'leistungen', 'ueber-uns', 'kontakt' );
 }
 
@@ -37,14 +46,8 @@ function hausmeister_has_all_pages() {
  * @return bool
  */
 function hausmeister_has_all_service_pages() {
-	$leistungen = get_page_by_path( 'leistungen', OBJECT, 'page' );
-	if ( ! $leistungen ) {
-		return false;
-	}
-
 	foreach ( hausmeister_get_service_content_blueprints() as $data ) {
-		$page = get_page_by_path( 'leistungen/' . $data['slug'], OBJECT, 'page' );
-		if ( ! $page || 'publish' !== $page->post_status ) {
+		if ( ! hausmeister_get_service_page_by_slug( $data['slug'] ) ) {
 			return false;
 		}
 	}
@@ -79,10 +82,31 @@ function hausmeister_admin_setup_fallback() {
 add_action( 'admin_init', 'hausmeister_admin_setup_fallback', 5 );
 
 /**
+ * Keep Leistungen menu items on the mega-menu trigger after theme updates.
+ */
+function hausmeister_admin_sync_leistungen_menu() {
+	if ( ! is_admin() || ! current_user_can( 'edit_theme_options' ) ) {
+		return;
+	}
+
+	$locations = get_theme_mod( 'nav_menu_locations', array() );
+	if ( empty( $locations['primary'] ) ) {
+		return;
+	}
+
+	hausmeister_sync_leistungen_menu_trigger( (int) $locations['primary'] );
+}
+add_action( 'admin_init', 'hausmeister_admin_sync_leistungen_menu', 6 );
+
+/**
  * Show admin notice if pages are still missing after setup attempt.
  */
 function hausmeister_admin_missing_pages_notice() {
-	if ( ! current_user_can( 'manage_options' ) || hausmeister_has_all_pages() ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( hausmeister_has_all_pages() && hausmeister_has_all_service_pages() ) {
 		return;
 	}
 
@@ -97,7 +121,7 @@ add_action( 'admin_notices', 'hausmeister_admin_missing_pages_notice' );
  */
 function hausmeister_run_theme_setup() {
 	$pages = hausmeister_create_pages();
-	hausmeister_create_service_pages( $pages );
+	hausmeister_create_service_pages();
 	hausmeister_create_primary_menu( $pages );
 	hausmeister_set_front_page( $pages );
 
@@ -118,10 +142,6 @@ function hausmeister_create_pages() {
 		'startseite' => array(
 			'title'    => 'Startseite',
 			'template' => '',
-		),
-		'leistungen' => array(
-			'title'    => 'Leistungen',
-			'template' => 'page-leistungen.php',
 		),
 		'ueber-uns'  => array(
 			'title'    => 'Über uns',
@@ -171,25 +191,17 @@ function hausmeister_create_pages() {
 }
 
 /**
- * Create service sub-pages under Leistungen.
- *
- * @param array $pages Map of slug => page ID.
+ * Create top-level service pages (no Leistungen overview parent).
  */
-function hausmeister_create_service_pages( $pages ) {
-	if ( empty( $pages['leistungen'] ) ) {
-		return;
-	}
-
-	$parent_id = (int) $pages['leistungen'];
-	$author    = get_current_user_id();
-	$author    = $author ? $author : 1;
+function hausmeister_create_service_pages() {
+	$author     = get_current_user_id();
+	$author     = $author ? $author : 1;
 	$blueprints = hausmeister_get_service_content_blueprints();
 
 	foreach ( $blueprints as $index => $data ) {
-		$full_path = 'leistungen/' . $data['slug'];
-		$existing  = get_page_by_path( $full_path, OBJECT, 'page' );
+		$existing = hausmeister_get_service_page_by_slug( $data['slug'] );
 
-		if ( $existing && 'publish' === $existing->post_status ) {
+		if ( $existing ) {
 			if ( 'page-service.php' !== get_page_template_slug( $existing ) ) {
 				update_post_meta( $existing->ID, '_wp_page_template', 'page-service.php' );
 			}
@@ -207,7 +219,7 @@ function hausmeister_create_service_pages( $pages ) {
 				'post_name'    => $data['slug'],
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
-				'post_parent'  => $parent_id,
+				'post_parent'  => 0,
 				'post_content' => '',
 				'post_author'  => $author,
 			),
@@ -241,10 +253,28 @@ function hausmeister_create_primary_menu( $pages ) {
 		return;
 	}
 
-	$menu_order = hausmeister_get_required_page_slugs();
-	$position   = 1;
+	$position = 1;
 
-	foreach ( $menu_order as $slug ) {
+	foreach ( hausmeister_get_primary_menu_slugs() as $slug ) {
+		if ( 'leistungen' === $slug ) {
+			if ( ! hausmeister_menu_has_leistungen_trigger( $menu_id ) ) {
+				wp_update_nav_menu_item(
+					$menu_id,
+					0,
+					array(
+						'menu-item-title'    => __( 'Leistungen', 'hausmeister-theme' ),
+						'menu-item-url'      => '#leistungen',
+						'menu-item-type'     => 'custom',
+						'menu-item-status'   => 'publish',
+						'menu-item-position' => $position,
+						'menu-item-classes'  => 'leistungen-mega-menu',
+					)
+				);
+			}
+			$position++;
+			continue;
+		}
+
 		if ( empty( $pages[ $slug ] ) ) {
 			continue;
 		}
@@ -283,6 +313,68 @@ function hausmeister_create_primary_menu( $pages ) {
 	$locations            = get_theme_mod( 'nav_menu_locations', array() );
 	$locations['primary'] = $menu_id;
 	set_theme_mod( 'nav_menu_locations', $locations );
+
+	hausmeister_sync_leistungen_menu_trigger( $menu_id );
+}
+
+/**
+ * Ensure Leistungen menu items use the mega-menu trigger instead of a page link.
+ *
+ * @param int $menu_id Menu term ID.
+ */
+function hausmeister_sync_leistungen_menu_trigger( $menu_id ) {
+	$menu_items = wp_get_nav_menu_items( $menu_id );
+	if ( ! $menu_items ) {
+		return;
+	}
+
+	foreach ( $menu_items as $item ) {
+		if ( ! hausmeister_is_leistungen_menu_item( $item ) ) {
+			continue;
+		}
+
+		$classes = array_filter( (array) $item->classes );
+		if ( ! in_array( 'leistungen-mega-menu', $classes, true ) ) {
+			$classes[] = 'leistungen-mega-menu';
+		}
+
+		if ( '#leistungen' === $item->url && 'custom' === $item->type && in_array( 'leistungen-mega-menu', $classes, true ) ) {
+			continue;
+		}
+
+		wp_update_nav_menu_item(
+			$menu_id,
+			$item->ID,
+			array(
+				'menu-item-title'   => $item->title,
+				'menu-item-url'     => '#leistungen',
+				'menu-item-type'    => 'custom',
+				'menu-item-status'  => 'publish',
+				'menu-item-classes' => implode( ' ', $classes ),
+			)
+		);
+	}
+}
+
+/**
+ * Check whether the menu already has a Leistungen mega-menu trigger.
+ *
+ * @param int $menu_id Menu term ID.
+ * @return bool
+ */
+function hausmeister_menu_has_leistungen_trigger( $menu_id ) {
+	$menu_items = wp_get_nav_menu_items( $menu_id );
+	if ( ! $menu_items ) {
+		return false;
+	}
+
+	foreach ( $menu_items as $item ) {
+		if ( hausmeister_is_leistungen_menu_item( $item ) ) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 /**

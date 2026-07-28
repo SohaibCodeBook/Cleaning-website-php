@@ -116,30 +116,6 @@
 	color: var(--text-secondary);
 }
 
-.mega-menu__footer {
-	margin-top: 0.5rem;
-	padding-top: 0.65rem;
-	border-top: 1px solid var(--border-subtle);
-}
-
-.mega-menu__overview {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.35rem;
-	padding: 0.35rem 0.85rem;
-	font-size: 0.8125rem;
-	font-weight: 600;
-	color: var(--brand-secondary);
-	text-decoration: none;
-	border-radius: 999px;
-	transition: background 0.2s ease, color 0.2s ease;
-}
-
-.mega-menu__overview:hover {
-	background: var(--bg-teal-light);
-	color: var(--brand-primary);
-}
-
 /* Mobile drawer mega menu */
 .mobile-nav-drawer .menu-item-has-mega {
 	border-bottom: 1px solid var(--color-border);

@@ -63,8 +63,11 @@
 		}
 
 		function toggleMegaMobile(e) {
+			var href = trigger.getAttribute('href') || '';
+			if (href.charAt(0) === '#') {
+				e.preventDefault();
+			}
 			if (desktopMegaQuery.matches) return;
-			e.preventDefault();
 			var isOpen = item.classList.contains('is-open');
 			closeAllMegaMenus();
 			if (!isOpen) {
