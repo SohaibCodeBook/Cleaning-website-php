@@ -16,21 +16,21 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 	<div class="container-theme hero__container">
 		<div class="hero__grid">
 			<div class="hero__content">
-				<div class="hero-badge">
+				<div class="hero-badge" data-reveal="left" style="--reveal-delay: 0ms">
 					<span class="badge">
 						<span class="badge__text"><?php echo esc_html( page_home( 'hero_badge' ) ); ?></span>
 					</span>
 				</div>
 
 				<h1 class="hero__headline">
-					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
-					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
-					<span class="hero__line"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line" data-reveal="left" style="--reveal-delay: 80ms"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line" data-reveal="left" style="--reveal-delay: 160ms"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
+					<span class="hero__line" data-reveal="left" style="--reveal-delay: 240ms"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
 				</h1>
 
-				<p class="hero__subtitle"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
+				<p class="hero__subtitle" data-reveal="left" style="--reveal-delay: 320ms"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>
 
-				<div class="hero__ctas">
+				<div class="hero__ctas" data-reveal="left" style="--reveal-delay: 400ms">
 					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( 'hero_btn_primary_url' ) ) ); ?>" class="btn btn--primary btn--lg btn--has-arrow">
 						<span class="btn__text"><?php echo esc_html( page_home( 'hero_btn_primary_text' ) ); ?></span>
 						<svg class="btn__arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -40,7 +40,7 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 					</a>
 				</div>
 
-				<div class="hero__trust">
+				<div class="hero__trust" data-reveal="left" style="--reveal-delay: 480ms">
 					<?php for ( $t = 1; $t <= 3; $t++ ) : ?>
 						<?php if ( $t > 1 ) : ?>
 							<span class="hero__trust-sep" aria-hidden="true">&middot;</span>
@@ -53,7 +53,7 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 				</div>
 			</div>
 
-			<div class="hero__visual">
+			<div class="hero__visual" data-reveal="right" style="--reveal-delay: 180ms">
 				<div class="hero__blob" aria-hidden="true"></div>
 				<div class="hero__image-wrap">
 					<img
@@ -71,11 +71,11 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 	</div>
 </section>
 
-<section class="stats-bar" aria-label="<?php esc_attr_e( 'Statistiken', 'hausmeister-theme' ); ?>">
+<section class="stats-bar js-reveal" data-reveal-root aria-label="<?php esc_attr_e( 'Statistiken', 'hausmeister-theme' ); ?>">
 	<div class="container-theme">
 		<div class="stats-bar__grid">
 			<?php for ( $s = 1; $s <= 4; $s++ ) : ?>
-				<div class="stats-bar__item<?php echo $s > 1 ? ' stats-bar__item--border' : ''; ?>">
+				<div class="stats-bar__item<?php echo $s > 1 ? ' stats-bar__item--border' : ''; ?>" data-reveal="up" style="--reveal-delay: <?php echo esc_attr( ( $s - 1 ) * 90 ); ?>ms">
 					<div class="stat-card">
 						<?php if ( page_home( "stat_{$s}_animate" ) === '0' ) : ?>
 							<span class="stat-card__value"><?php echo esc_html( page_home( "stat_{$s}_display" ) ); ?></span>
@@ -96,19 +96,19 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
 	</div>
 </section>
 
-<section class="services-section" aria-label="<?php esc_attr_e( 'Leistungen', 'hausmeister-theme' ); ?>">
+<section class="services-section js-reveal" data-reveal-root aria-label="<?php esc_attr_e( 'Leistungen', 'hausmeister-theme' ); ?>">
 	<div class="container-theme">
 		<div class="section-header section-header--center services-section__header">
-			<span class="section-label"><?php echo esc_html( page_home( 'services_section_label' ) ); ?></span>
-			<h2 class="section-header__title">
+			<span class="section-label" data-reveal="up" style="--reveal-delay: 0ms"><?php echo esc_html( page_home( 'services_section_label' ) ); ?></span>
+			<h2 class="section-header__title" data-reveal="up" style="--reveal-delay: 80ms">
 				<?php echo esc_html( page_home( 'services_heading' ) ); ?><span class="teal-period">.</span>
 			</h2>
-			<p class="section-header__subtitle"><?php echo esc_html( page_home( 'services_subheading' ) ); ?></p>
+			<p class="section-header__subtitle" data-reveal="up" style="--reveal-delay: 160ms"><?php echo esc_html( page_home( 'services_subheading' ) ); ?></p>
 		</div>
 
 		<div class="services-section__grid">
 			<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-				<div class="services-section__cell">
+				<div class="services-section__cell" data-reveal="up" style="--reveal-delay: <?php echo esc_attr( 200 + ( $i - 1 ) * 80 ); ?>ms">
 					<a href="<?php echo esc_url( hausmeister_theme_url( page_home( "service_{$i}_url" ) ) ); ?>" class="service-card">
 						<div class="service-card__icon">
 							<i class="<?php echo esc_attr( page_home( "service_{$i}_icon" ) ); ?>" aria-hidden="true"></i>

@@ -106,6 +106,32 @@
 		if (e.key === 'Escape') closeAllMegaMenus();
 	});
 
+	/* Lightweight scroll reveals (stats + services) */
+	var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	var revealRoots = document.querySelectorAll('[data-reveal-root]');
+
+	function showRevealRoot(root) {
+		root.classList.add('is-visible');
+	}
+
+	if (reduceMotion) {
+		revealRoots.forEach(showRevealRoot);
+	} else if (revealRoots.length && 'IntersectionObserver' in window) {
+		var revealObserver = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (!entry.isIntersecting) return;
+				showRevealRoot(entry.target);
+				revealObserver.unobserve(entry.target);
+			});
+		}, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+		revealRoots.forEach(function (root) {
+			revealObserver.observe(root);
+		});
+	} else {
+		revealRoots.forEach(showRevealRoot);
+	}
+
 	/* Animated stats counter */
 	function animateCounter(el) {
 		var target = parseInt(el.getAttribute('data-target'), 10);
