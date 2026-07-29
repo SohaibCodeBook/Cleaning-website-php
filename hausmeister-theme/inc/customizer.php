@@ -16,7 +16,7 @@ function hausmeister_get_defaults() {
 	$defaults = array(
 		// Global / Contact.
 		'company_name'       => 'Haus und Objektbetreuung Fichtelgebirge',
-		'address'            => 'Musterstraße 1, 12345 Musterstadt',
+		'address'            => 'Am Rang 9, 95615 Marktredwitz',
 		'phone'              => '+49 123 456789',
 		'contact_email'      => 'info@beispiel.de',
 		'meta_description'   => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst in Ihrer Region.',
