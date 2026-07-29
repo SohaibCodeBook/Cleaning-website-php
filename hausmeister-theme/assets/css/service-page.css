@@ -490,4 +490,112 @@
 	.sp-cta__box {
 		padding: 1.5rem;
 	}
+
+	.sp-hero [data-reveal="fade-right"] {
+		transform: translate3d(0, 10px, 0);
+	}
+}
+
+/* ==========================================================================
+   Service page animations (homepage-matched)
+   ========================================================================== */
+
+/* Hero load — soft fade + title left-to-right clip */
+.sp-hero [data-reveal="fade"],
+.sp-hero [data-reveal="fade-right"] {
+	opacity: 0;
+	animation: spHeroSoftIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	animation-delay: var(--reveal-delay, 0ms);
+	will-change: opacity, transform;
+}
+
+.sp-hero [data-reveal="fade"] {
+	transform: translate3d(0, 8px, 0);
+}
+
+.sp-hero [data-reveal="fade-right"] {
+	transform: translate3d(14px, 0, 0);
+}
+
+@keyframes spHeroSoftIn {
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.sp-hero__title-line {
+	display: block;
+	overflow: hidden;
+	clip-path: inset(0 100% 0 0);
+	animation: spHeroLineReveal 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+	animation-delay: var(--reveal-delay, 0ms);
+	will-change: clip-path;
+}
+
+.sp-hero__title-text {
+	display: inline-block;
+}
+
+@keyframes spHeroLineReveal {
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+/* Scroll reveal for lower sections */
+.sp-features [data-reveal],
+.sp-intro [data-reveal],
+.sp-process [data-reveal],
+.sp-sectors [data-reveal],
+.sp-faq [data-reveal],
+.sp-related [data-reveal],
+.sp-cta [data-reveal] {
+	opacity: 0;
+	will-change: opacity, transform;
+	transition:
+		opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+.sp-features [data-reveal="up"],
+.sp-intro [data-reveal="up"],
+.sp-process [data-reveal="up"],
+.sp-sectors [data-reveal="up"],
+.sp-faq [data-reveal="up"],
+.sp-related [data-reveal="up"],
+.sp-cta [data-reveal="up"] {
+	transform: translate3d(0, 22px, 0);
+}
+
+.sp-features.is-visible [data-reveal],
+.sp-intro.is-visible [data-reveal],
+.sp-process.is-visible [data-reveal],
+.sp-sectors.is-visible [data-reveal],
+.sp-faq.is-visible [data-reveal],
+.sp-related.is-visible [data-reveal],
+.sp-cta.is-visible [data-reveal] {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sp-hero [data-reveal="fade"],
+	.sp-hero [data-reveal="fade-right"],
+	.sp-hero__title-line,
+	.sp-hero__title-text,
+	.sp-features [data-reveal],
+	.sp-intro [data-reveal],
+	.sp-process [data-reveal],
+	.sp-sectors [data-reveal],
+	.sp-faq [data-reveal],
+	.sp-related [data-reveal],
+	.sp-cta [data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		clip-path: none !important;
+		animation: none !important;
+		transition: none !important;
+	}
 }
