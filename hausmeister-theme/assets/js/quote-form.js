@@ -163,7 +163,8 @@
 				.replace(/\n/g, '<br>');
 		}
 
-		function goTo(step) {
+		function goTo(step, options) {
+			var opts = options || {};
 			current = step;
 			panels.forEach(function (panel) {
 				var num = parseInt(panel.getAttribute('data-quote-panel'), 10);
@@ -182,20 +183,22 @@
 				buildReview();
 			}
 
-			root.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			if (opts.scroll) {
+				root.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			}
 		}
 
 		form.querySelectorAll('[data-quote-next]').forEach(function (btn) {
 			btn.addEventListener('click', function () {
 				if (!validateStep(current)) return;
-				if (current < total) goTo(current + 1);
+				if (current < total) goTo(current + 1, { scroll: true });
 			});
 		});
 
 		form.querySelectorAll('[data-quote-back]').forEach(function (btn) {
 			btn.addEventListener('click', function () {
 				clearErrors();
-				if (current > 1) goTo(current - 1);
+				if (current > 1) goTo(current - 1, { scroll: true });
 			});
 		});
 
@@ -206,15 +209,15 @@
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
 			if (!validateStep(1)) {
-				goTo(1);
+				goTo(1, { scroll: true });
 				return;
 			}
 			if (!validateStep(2)) {
-				goTo(2);
+				goTo(2, { scroll: true });
 				return;
 			}
 			if (!validateStep(3)) {
-				goTo(3);
+				goTo(3, { scroll: true });
 				return;
 			}
 
@@ -257,7 +260,7 @@
 						form.reset();
 						if (propertyHidden) propertyHidden.value = '';
 						window.setTimeout(function () {
-							goTo(1);
+							goTo(1, { scroll: true });
 						}, 2500);
 					} else {
 						messageEl.classList.add('is-error');
