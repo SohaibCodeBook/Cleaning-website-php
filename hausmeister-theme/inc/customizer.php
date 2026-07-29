@@ -250,7 +250,7 @@ function hausmeister_get_defaults() {
 		'contact_page_title'       => 'Kontakt',
 		'contact_page_subtitle'    => 'Wir freuen uns auf Ihre Anfrage — schreiben Sie uns oder rufen Sie uns an.',
 		'contact_info_text'      => 'Nutzen Sie das Formular oder kontaktieren Sie uns direkt per Telefon oder E-Mail. Wir melden uns schnellstmöglich bei Ihnen.',
-		'contact_form_submit_text' => 'Nachricht senden',
+		'contact_form_submit_text' => 'Anfrage senden',
 	);
 
 	return array_merge( $defaults, hausmeister_get_service_page_defaults() );

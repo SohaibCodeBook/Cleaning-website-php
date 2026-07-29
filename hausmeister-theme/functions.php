@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.1.6' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.2.0' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -24,6 +24,7 @@ function hausmeister_theme_image( $relative_path ) {
 require_once HAUSMEISTER_THEME_DIR . '/inc/customizer.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/service-pages.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/mega-menu.php';
+require_once HAUSMEISTER_THEME_DIR . '/inc/quote-form.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/setup-wizard.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/seo.php';
@@ -97,6 +98,13 @@ function hausmeister_theme_enqueue_assets() {
 		HAUSMEISTER_THEME_VERSION
 	);
 
+	wp_enqueue_style(
+		'hausmeister-quote-form',
+		HAUSMEISTER_THEME_URI . '/assets/css/quote-form.css',
+		array( 'hausmeister-theme-style' ),
+		HAUSMEISTER_THEME_VERSION
+	);
+
 	if ( is_page_template( 'page-service.php' ) || hausmeister_get_service_index_from_page() ) {
 		wp_enqueue_style(
 			'hausmeister-service-page',
@@ -118,6 +126,14 @@ function hausmeister_theme_enqueue_assets() {
 		'hausmeister-main',
 		HAUSMEISTER_THEME_URI . '/assets/js/main.js',
 		array(),
+		HAUSMEISTER_THEME_VERSION,
+		true
+	);
+
+	wp_enqueue_script(
+		'hausmeister-quote-form',
+		HAUSMEISTER_THEME_URI . '/assets/js/quote-form.js',
+		array( 'hausmeister-main' ),
 		HAUSMEISTER_THEME_VERSION,
 		true
 	);
