@@ -14,7 +14,9 @@ defined( 'ABSPATH' ) || exit;
 	<div class="container-theme">
 		<div class="footer-grid">
 			<div class="footer-col">
-				<h4><?php echo esc_html( site_data( 'company_name' ) ); ?></h4>
+				<div class="footer-logo">
+					<?php hausmeister_the_logo(); ?>
+				</div>
 				<p><?php echo esc_html( site_data( 'footer_about' ) ); ?></p>
 				<?php if ( site_data( 'social_facebook' ) || site_data( 'social_instagram' ) || site_data( 'social_linkedin' ) ) : ?>
 				<div class="footer-social">

@@ -23,7 +23,15 @@ defined( 'ABSPATH' ) || exit;
 	<div class="container-theme">
 		<div class="header-inner">
 			<div class="site-logo">
-				<?php hausmeister_the_logo(); ?>
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo-link">
+						<img
+							class="logo-header-img"
+							src="<?php echo esc_url( hausmeister_theme_image( 'logo header.jpeg' ) ); ?>"
+							alt="<?php echo esc_attr( site_data( 'company_name' ) ); ?>"
+							loading="eager"
+							decoding="async"
+						>
+					</a>
 			</div>
 
 			<nav class="primary-nav" aria-label="<?php esc_attr_e( 'Hauptnavigation', 'hausmeister-theme' ); ?>">

@@ -20,7 +20,7 @@ function hausmeister_get_defaults() {
 		'phone'              => '+49 123 456789',
 		'contact_email'      => 'info@beispiel.de',
 		'meta_description'   => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst in Ihrer Region.',
-		'custom_logo_url'    => '',
+			'custom_logo_url'    => hausmeister_theme_image( 'logo.svg' ),
 		'header_cta_text'    => 'Jetzt anrufen',
 		'header_cta_phone'   => '092317960386',
 		'footer_about'       => 'Ihr zuverlässiger Partner für Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege und Winterdienst — professionell und termingerecht.',
