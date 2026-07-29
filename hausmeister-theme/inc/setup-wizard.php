@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string[]
  */
 function hausmeister_get_required_page_slugs() {
-	return array( 'startseite', 'ueber-uns', 'kontakt' );
+	return array( 'startseite', 'ueber-uns', 'kontakt', 'impressum' );
 }
 
 /**
@@ -151,6 +151,10 @@ function hausmeister_create_pages() {
 			'title'    => 'Kontakt',
 			'template' => 'page-kontakt.php',
 		),
+		'impressum'  => array(
+			'title'    => 'Impressum',
+			'template' => 'page-impressum.php',
+		),
 	);
 
 	$author  = get_current_user_id();
@@ -161,6 +165,12 @@ function hausmeister_create_pages() {
 		$existing = get_page_by_path( $slug, OBJECT, 'page' );
 		if ( $existing && 'publish' === $existing->post_status ) {
 			$created[ $slug ] = $existing->ID;
+			if ( ! empty( $def['template'] ) ) {
+				$current_template = get_post_meta( $existing->ID, '_wp_page_template', true );
+				if ( $current_template !== $def['template'] ) {
+					update_post_meta( $existing->ID, '_wp_page_template', $def['template'] );
+				}
+			}
 			continue;
 		}
 
