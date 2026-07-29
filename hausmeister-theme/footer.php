@@ -33,13 +33,8 @@ $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 
 					</a>
 				</div>
 				<p><?php echo esc_html( site_data( 'footer_about' ) ); ?></p>
-				<?php if ( site_data( 'whatsapp' ) || site_data( 'social_facebook' ) || site_data( 'social_instagram' ) || site_data( 'social_linkedin' ) ) : ?>
+				<?php if ( site_data( 'social_facebook' ) || site_data( 'social_instagram' ) || site_data( 'social_linkedin' ) ) : ?>
 				<div class="footer-social">
-					<?php if ( site_data( 'whatsapp' ) ) : ?>
-						<a href="<?php echo esc_url( hausmeister_whatsapp_link( site_data( 'whatsapp' ) ) ); ?>" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-							<i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-						</a>
-					<?php endif; ?>
 					<?php if ( site_data( 'social_facebook' ) ) : ?>
 						<a href="<?php echo esc_url( site_data( 'social_facebook' ) ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
 							<i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
@@ -72,7 +67,7 @@ $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 
 
 			<div class="footer-col">
 				<h4><?php esc_html_e( 'Unternehmen', 'hausmeister-theme' ); ?></h4>
-				<ul>
+				<ul class="footer-col__links">
 					<li>
 						<?php if ( $hausmeister_footer_about_page ) : ?>
 							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_about_page->ID ) ); ?>"><?php echo esc_html__( 'Über uns', 'hausmeister-theme' ); ?></a>
@@ -80,7 +75,6 @@ $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 
 							<span class="footer-policy--disabled"><?php echo esc_html__( 'Über uns', 'hausmeister-theme' ); ?></span>
 						<?php endif; ?>
 					</li>
-					<li><i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i><?php echo esc_html( site_data( 'address' ) ); ?></li>
 					<li>
 						<?php if ( $hausmeister_footer_contact_page ) : ?>
 							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_contact_page->ID ) ); ?>"><?php echo esc_html__( 'Kontakt', 'hausmeister-theme' ); ?></a>
@@ -88,6 +82,9 @@ $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 
 							<span class="footer-policy--disabled"><?php echo esc_html__( 'Kontakt', 'hausmeister-theme' ); ?></span>
 						<?php endif; ?>
 					</li>
+				</ul>
+				<ul class="footer-col__contact">
+					<li><i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i><?php echo esc_html( site_data( 'address' ) ); ?></li>
 					<?php if ( site_data( 'whatsapp' ) ) : ?>
 					<li>
 						<i class="fa-brands fa-whatsapp me-2" aria-hidden="true"></i>
