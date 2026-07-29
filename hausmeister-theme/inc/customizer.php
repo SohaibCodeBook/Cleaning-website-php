@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 function hausmeister_get_defaults() {
 	$defaults = array(
 		// Global / Contact.
-		'company_name'       => 'Ihr Hausmeisterservice',
+		'company_name'       => 'Haus und Objektbetreuung Fichtelgebirge',
 		'address'            => 'Musterstraße 1, 12345 Musterstadt',
 		'phone'              => '+49 123 456789',
 		'contact_email'      => 'info@beispiel.de',
@@ -236,6 +236,57 @@ function hausmeister_get_defaults() {
 		'about_page_title'    => 'Über uns',
 		'about_page_subtitle' => 'Ihr Partner für professionelle Immobilienbetreuung.',
 		'about_intro_text'    => 'Wir sind ein erfahrenes Team im Bereich Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege und Winterdienst. Mit Leidenschaft und Fachkompetenz sorgen wir dafür, dass Ihre Immobilie stets in bestem Zustand bleibt. Vertrauen, Qualität und Zuverlässigkeit sind die Grundpfeiler unserer Arbeit.',
+		'about_story_heading' => 'Unsere Geschichte',
+
+		// Über uns — Warum wir.
+		'about_why_label'           => 'Warum wir',
+		'about_why_heading'        => 'Ihre Immobilie in guten Händen',
+		'about_why_intro'          => 'Haus und Objektbetreuung aus einer Hand: planbar, zuverlässig und mit einem Blick für das Wesentliche.',
+		'about_why_quote_author'   => '— Ihr Team',
+		'about_why_image'          => hausmeister_theme_image( 'why-us.jpg' ),
+		'about_why_1_icon'         => 'fa-solid fa-award',
+		'about_why_1_title'        => 'Qualität & Sorgfalt',
+		'about_why_1_description'  => 'Konsequente Qualitätskontrollen und saubere Ausführung — für einen sicheren Eindruck.',
+		'about_why_1_quote'        => 'Qualität, die man sieht und spürt.',
+		'about_why_2_icon'         => 'fa-solid fa-handshake',
+		'about_why_2_title'        => 'Klare Kommunikation',
+		'about_why_2_description'  => 'Verbindliche Absprachen, transparente Abläufe und feste Ansprechpartner.',
+		'about_why_2_quote'        => 'Vertrauen entsteht durch Klarheit.',
+		'about_why_3_icon'         => 'fa-solid fa-leaf',
+		'about_why_3_title'        => 'Nachhaltige Arbeitsweise',
+		'about_why_3_description'  => 'Ressourcenschonende Vorgehensweisen und ein sorgfältiger Umgang mit Ihrer Immobilie.',
+		'about_why_3_quote'        => 'Nachhaltig heißt für uns: zuverlässig.',
+
+		// Über uns — Werte.
+		'about_values_heading' => 'Unsere Werte',
+		'about_values_title'   => 'Wofür wir stehen',
+
+		// Über uns — Prozess.
+		'about_process_heading'   => 'So arbeiten wir',
+		'about_process_title'     => 'Ein klarer Ablauf',
+		'about_process_subtitle'  => 'Von der ersten Kontaktaufnahme bis zur Umsetzung — strukturiert, termingerecht und verständlich.',
+		'about_process_1_icon'    => 'fa-solid fa-message',
+		'about_process_1_title'   => '1. Anfrage & Bedarf',
+		'about_process_1_description' => 'Sie melden sich — wir besprechen Ihren Bedarf und klären die Rahmenbedingungen.',
+		'about_process_2_icon'    => 'fa-solid fa-clipboard-check',
+		'about_process_2_title'   => '2. Planung & Angebot',
+		'about_process_2_description' => 'Wir erstellen einen klaren Vorschlag inklusive Zeitplan und Leistungen.',
+		'about_process_3_icon'    => 'fa-solid fa-gear',
+		'about_process_3_title'   => '3. Umsetzung vor Ort',
+		'about_process_3_description' => 'Unsere Teams starten zuverlässig und arbeiten nach definierten Abläufen.',
+		'about_process_4_icon'    => 'fa-solid fa-star',
+		'about_process_4_title'   => '4. Qualität & Betreuung',
+		'about_process_4_description' => 'Regelmäßige Kontrollen und Betreuung — damit alles dauerhaft passt.',
+
+		// Über uns — Zertifikate & Mitgliedschaften.
+		'about_certs_heading' => 'Zertifikate & Mitgliedschaften',
+		'about_certs_title'   => 'Nachweise für Qualität',
+		'about_cert_1'         => '',
+		'about_cert_2'         => '',
+		'about_cert_3'         => '',
+		'about_cert_4'         => '',
+		'about_cert_5'         => '',
+		'about_cert_6'         => '',
 		'about_value_1_icon'        => 'fa-solid fa-users',
 		'about_value_1_title'       => 'Erfahrenes Team',
 		'about_value_1_description' => 'Qualifizierte Fachkräfte mit langjähriger Erfahrung in der Immobilienbetreuung.',
@@ -1119,6 +1170,68 @@ function hausmeister_customize_register( $wp_customize ) {
 		'type'    => 'textarea',
 	) );
 
+	// Story heading.
+	$wp_customize->add_setting( 'hausmeister_about_story_heading', array(
+		'default'           => $defaults['about_story_heading'],
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_about_story_heading', array(
+		'label'   => __( 'Überschrift — Unsere Geschichte', 'hausmeister-theme' ),
+		'section' => 'hausmeister_page_about',
+		'type'    => 'text',
+	) );
+
+	// Why us.
+	foreach ( array(
+		'about_why_label'         => __( 'Label — Warum wir', 'hausmeister-theme' ),
+		'about_why_heading'       => __( 'Überschrift — Warum wir', 'hausmeister-theme' ),
+		'about_why_intro'         => __( 'Intro — Warum wir', 'hausmeister-theme' ),
+		'about_why_quote_author'  => __( 'Zitat-Autor', 'hausmeister-theme' ),
+		'about_values_heading'    => __( 'Label — Werte', 'hausmeister-theme' ),
+		'about_values_title'      => __( 'Titel — Werte', 'hausmeister-theme' ),
+		'about_process_heading'   => __( 'Label — Prozess', 'hausmeister-theme' ),
+		'about_process_title'     => __( 'Titel — Prozess', 'hausmeister-theme' ),
+		'about_process_subtitle'  => __( 'Untertitel — Prozess', 'hausmeister-theme' ),
+		'about_certs_heading'     => __( 'Label — Zertifikate', 'hausmeister-theme' ),
+		'about_certs_title'       => __( 'Titel — Zertifikate', 'hausmeister-theme' ),
+	) as $key => $label ) {
+		$is_textarea = in_array( $key, array( 'about_why_intro', 'about_process_subtitle' ), true );
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+			'sanitize_callback' => $is_textarea ? 'sanitize_textarea_field' : 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'   => $label,
+			'section' => 'hausmeister_page_about',
+			'type'    => $is_textarea ? 'textarea' : 'text',
+		) );
+	}
+
+	$wp_customize->add_setting( 'hausmeister_about_why_image', array(
+		'default'           => $defaults['about_why_image'],
+		'sanitize_callback' => 'hausmeister_sanitize_image_setting',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_about_why_image', array(
+		'label'   => __( 'Bild (rechte Spalte — Warum)', 'hausmeister-theme' ),
+		'section' => 'hausmeister_page_about',
+	) ) );
+
+	// Why pillars (3).
+	for ( $i = 1; $i <= 3; $i++ ) {
+		foreach ( array( 'icon', 'title', 'description', 'quote' ) as $field ) {
+			$key = 'about_why_' . $i . '_' . $field;
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => in_array( $field, array( 'description', 'quote' ), true ) ? 'sanitize_textarea_field' : 'sanitize_text_field',
+			) );
+			$wp_customize->add_control( 'hausmeister_' . $key, array(
+				'label'   => sprintf( __( 'Warum-Säule %d — %s', 'hausmeister-theme' ), $i, $field ),
+				'section' => 'hausmeister_page_about',
+				'type'    => in_array( $field, array( 'description', 'quote' ), true ) ? 'textarea' : 'text',
+			) );
+		}
+	}
+
 	for ( $i = 1; $i <= 3; $i++ ) {
 		foreach ( array( 'icon', 'title', 'description' ) as $field ) {
 			$key = 'about_value_' . $i . '_' . $field;
@@ -1132,6 +1245,36 @@ function hausmeister_customize_register( $wp_customize ) {
 				'type'    => $field === 'description' ? 'textarea' : 'text',
 			) );
 		}
+	}
+
+	// Process steps (4).
+	for ( $i = 1; $i <= 4; $i++ ) {
+		foreach ( array( 'icon', 'title', 'description' ) as $field ) {
+			$key = 'about_process_' . $i . '_' . $field;
+			$wp_customize->add_setting( 'hausmeister_' . $key, array(
+				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+				'sanitize_callback' => $field === 'description' ? 'sanitize_textarea_field' : 'sanitize_text_field',
+			) );
+			$wp_customize->add_control( 'hausmeister_' . $key, array(
+				'label'   => sprintf( __( 'Prozess-Schritt %d — %s', 'hausmeister-theme' ), $i, $field ),
+				'section' => 'hausmeister_page_about',
+				'type'    => $field === 'description' ? 'textarea' : 'text',
+			) );
+		}
+	}
+
+	// Certifications / memberships (optional list).
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$key = 'about_cert_' . $i;
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'   => sprintf( __( 'Zertifikat/ Mitgliedschaft %d (optional)', 'hausmeister-theme' ), $i ),
+			'section' => 'hausmeister_page_about',
+			'type'    => 'text',
+		) );
 	}
 
 	// --- Kontakt page ---
