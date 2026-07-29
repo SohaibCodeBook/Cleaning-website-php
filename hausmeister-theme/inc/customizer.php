@@ -18,6 +18,7 @@ function hausmeister_get_defaults() {
 		'company_name'       => 'Haus und Objektbetreuung Fichtelgebirge',
 		'address'            => 'Am Rang 9, 95615 Marktredwitz',
 'phone'              => '+49 9231 7960386',
+		'whatsapp'           => '+49 176 23532132',
 		'contact_email'      => 'info@objektbetreuung-fichtelgebirge.de',
 		'meta_description'   => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst in Ihrer Region.',
 		'custom_logo_url'    => hausmeister_theme_image( 'logo.svg' ),
@@ -339,6 +340,21 @@ function hausmeister_tel_link( $phone ) {
 }
 
 /**
+ * Build a WhatsApp chat link from a phone number.
+ *
+ * @param string $phone Phone number (with country code).
+ * @return string
+ */
+function hausmeister_whatsapp_link( $phone ) {
+	$phone = is_string( $phone ) ? trim( $phone ) : '';
+	if ( $phone === '' ) {
+		return '';
+	}
+	$digits = preg_replace( '/\D+/', '', $phone );
+	return $digits ? 'https://wa.me/' . $digits : '';
+}
+
+/**
  * Get global site setting.
  *
  * @param string $key Setting key.
@@ -657,6 +673,7 @@ function hausmeister_customize_register( $wp_customize ) {
 		'company_name'     => __( 'Firmenname', 'hausmeister-theme' ),
 		'address'          => __( 'Adresse', 'hausmeister-theme' ),
 		'phone'            => __( 'Telefon', 'hausmeister-theme' ),
+		'whatsapp'         => __( 'WhatsApp Nummer', 'hausmeister-theme' ),
 		'contact_email'    => __( 'E-Mail', 'hausmeister-theme' ),
 		'meta_description' => __( 'Meta-Beschreibung (SEO)', 'hausmeister-theme' ),
 		'custom_logo_url'  => __( 'Logo-URL (falls kein WP-Logo)', 'hausmeister-theme' ),
