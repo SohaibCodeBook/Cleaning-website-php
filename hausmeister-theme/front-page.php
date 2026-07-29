@@ -151,11 +151,11 @@ $default_quote = page_home( 'feature_1_quote' );
 	<div class="container-theme">
 		<div class="why-us__grid">
 			<div class="why-us__content">
-				<span class="section-label why-us__label" data-reveal><?php echo esc_html( page_home( 'why_section_label' ) ); ?></span>
-				<h2 class="why-us__title" data-reveal>
+				<span class="section-label why-us__label" data-reveal style="--reveal-delay: 0ms"><?php echo esc_html( page_home( 'why_section_label' ) ); ?></span>
+				<h2 class="why-us__title" data-reveal style="--reveal-delay: 80ms">
 					<?php echo esc_html( page_home( 'features_heading' ) ); ?><span class="teal-period">.</span>
 				</h2>
-				<p class="why-us__intro" data-reveal><?php echo esc_html( page_home( 'features_subheading' ) ); ?></p>
+				<p class="why-us__intro" data-reveal style="--reveal-delay: 160ms"><?php echo esc_html( page_home( 'features_subheading' ) ); ?></p>
 
 				<div class="why-us__pillars" role="tablist" aria-label="<?php esc_attr_e( 'Unsere Stärken', 'hausmeister-theme' ); ?>">
 					<?php for ( $i = 1; $i <= 3; $i++ ) : ?>

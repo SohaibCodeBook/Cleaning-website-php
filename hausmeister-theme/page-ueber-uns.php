@@ -11,10 +11,14 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 ?>
 
-<div class="page-header">
+<div class="page-header about-page-hero">
 	<div class="container-theme">
-		<h1><?php echo esc_html( page_about( 'page_title', get_the_title() ) ); ?></h1>
-		<p class="section-subtitle"><?php echo esc_html( page_about( 'page_subtitle' ) ); ?></p>
+		<h1 class="about-page-hero__title">
+			<span class="about-page-hero__line" style="--reveal-delay: 280ms">
+				<span class="about-page-hero__text"><?php echo esc_html( page_about( 'page_title', get_the_title() ) ); ?></span>
+			</span>
+		</h1>
+		<p class="section-subtitle" data-reveal="fade" style="--reveal-delay: 780ms"><?php echo esc_html( page_about( 'page_subtitle' ) ); ?></p>
 	</div>
 </div>
 
@@ -23,14 +27,14 @@ get_header();
 		<div class="container-theme">
 			<div class="about-story__grid">
 				<div class="about-story__content">
-					<span class="section-label"><?php echo esc_html( site_data( 'company_name' ) ); ?></span>
-					<h2 class="section-header__title">
+					<span class="section-label" data-reveal="up" style="--reveal-delay: 0ms"><?php echo esc_html( site_data( 'company_name' ) ); ?></span>
+					<h2 class="section-header__title" data-reveal="up" style="--reveal-delay: 80ms">
 						<?php echo esc_html( page_about( 'about_story_heading', __( 'Unsere Geschichte', 'hausmeister-theme' ) ) ); ?>
 						<span class="teal-period">.</span>
 					</h2>
-					<p class="about-story__text">
+					<div class="about-story__text" data-reveal="up" style="--reveal-delay: 160ms">
 						<?php echo wp_kses_post( wpautop( page_about( 'intro_text' ) ) ); ?>
-					</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -40,14 +44,14 @@ get_header();
 		<div class="container-theme">
 			<div class="why-us__grid">
 				<div>
-					<span class="why-us__label section-label" data-reveal>
+					<span class="why-us__label section-label" data-reveal="up" style="--reveal-delay: 0ms">
 						<?php echo esc_html( page_about( 'about_why_label', __( 'Warum wir', 'hausmeister-theme' ) ) ); ?>
 					</span>
-					<h2 class="why-us__title" data-reveal>
+					<h2 class="why-us__title" data-reveal="up" style="--reveal-delay: 80ms">
 						<?php echo esc_html( page_about( 'about_why_heading', __( 'Ihre Immobilie in guten Händen', 'hausmeister-theme' ) ) ); ?>
 						<span class="teal-period">.</span>
 					</h2>
-					<p class="why-us__intro" data-reveal>
+					<p class="why-us__intro" data-reveal="up" style="--reveal-delay: 160ms">
 						<?php echo esc_html( page_about( 'about_why_intro', '' ) ); ?>
 					</p>
 
@@ -67,6 +71,8 @@ get_header();
 								type="button"
 								class="<?php echo esc_attr( $classes ); ?>"
 								data-why-pillar
+								data-reveal="up"
+								style="--reveal-delay: <?php echo esc_attr( 220 + ( ( $i - 1 ) * 90 ) ); ?>ms"
 								aria-selected="<?php echo esc_attr( $aria_selected ); ?>"
 								data-quote="<?php echo esc_attr( $pillar_quote ); ?>"
 							>
@@ -84,7 +90,7 @@ get_header();
 					</div>
 				</div>
 
-				<div class="why-us__visual">
+				<div class="why-us__visual" data-reveal="fade-right" style="--reveal-delay: 200ms">
 					<div class="why-us__image-frame">
 						<div class="why-us__image-accent" aria-hidden="true"></div>
 						<div class="why-us__image-wrap">
@@ -108,11 +114,11 @@ get_header();
 		</div>
 	</section>
 
-	<section class="about-values" aria-label="<?php esc_attr_e( 'Unsere Werte', 'hausmeister-theme' ); ?>">
+	<section class="about-values js-reveal" data-reveal-root aria-label="<?php esc_attr_e( 'Unsere Werte', 'hausmeister-theme' ); ?>">
 		<div class="container-theme">
 			<div class="section-header section-header--center">
-				<span class="section-label"><?php echo esc_html( page_about( 'about_values_heading', __( 'Unsere Werte', 'hausmeister-theme' ) ) ); ?></span>
-				<h2 class="section-header__title">
+				<span class="section-label" data-reveal="up" style="--reveal-delay: 0ms"><?php echo esc_html( page_about( 'about_values_heading', __( 'Unsere Werte', 'hausmeister-theme' ) ) ); ?></span>
+				<h2 class="section-header__title" data-reveal="up" style="--reveal-delay: 80ms">
 					<?php echo esc_html( page_about( 'about_values_title', __( 'Wofür wir stehen', 'hausmeister-theme' ) ) ); ?>
 					<span class="teal-period">.</span>
 				</h2>
@@ -120,7 +126,7 @@ get_header();
 
 			<div class="features-grid mt-5">
 				<?php for ( $i = 1; $i <= 3; $i++ ) : ?>
-					<div class="feature-item">
+					<div class="feature-item" data-reveal="up" style="--reveal-delay: <?php echo esc_attr( 160 + ( ( $i - 1 ) * 90 ) ); ?>ms">
 						<div class="feature-icon">
 							<i class="<?php echo esc_attr( page_about( 'value_' . $i . '_icon' ) ); ?>" aria-hidden="true"></i>
 						</div>
@@ -132,20 +138,20 @@ get_header();
 		</div>
 	</section>
 
-	<section class="about-process" aria-label="<?php esc_attr_e( 'Unser Prozess', 'hausmeister-theme' ); ?>">
+	<section class="about-process js-reveal" data-reveal-root aria-label="<?php esc_attr_e( 'Unser Prozess', 'hausmeister-theme' ); ?>">
 		<div class="container-theme">
 			<div class="section-header section-header--center">
-				<span class="section-label"><?php echo esc_html( page_about( 'about_process_heading', __( 'So arbeiten wir', 'hausmeister-theme' ) ) ); ?></span>
-				<h2 class="section-header__title">
+				<span class="section-label" data-reveal="up" style="--reveal-delay: 0ms"><?php echo esc_html( page_about( 'about_process_heading', __( 'So arbeiten wir', 'hausmeister-theme' ) ) ); ?></span>
+				<h2 class="section-header__title" data-reveal="up" style="--reveal-delay: 80ms">
 					<?php echo esc_html( page_about( 'about_process_title', __( 'Ein klarer Ablauf', 'hausmeister-theme' ) ) ); ?>
 					<span class="teal-period">.</span>
 				</h2>
-				<p class="section-header__subtitle"><?php echo esc_html( page_about( 'about_process_subtitle', '' ) ); ?></p>
+				<p class="section-header__subtitle" data-reveal="up" style="--reveal-delay: 140ms"><?php echo esc_html( page_about( 'about_process_subtitle', '' ) ); ?></p>
 			</div>
 
 			<div class="about-process__grid">
 				<?php for ( $i = 1; $i <= 4; $i++ ) : ?>
-					<div class="about-process__step">
+					<div class="about-process__step" data-reveal="up" style="--reveal-delay: <?php echo esc_attr( 180 + ( ( $i - 1 ) * 90 ) ); ?>ms">
 						<div class="about-process__num" aria-hidden="true"><?php echo esc_html( (string) $i ); ?></div>
 						<?php if ( page_about( 'about_process_' . $i . '_icon', '' ) ) : ?>
 							<div class="about-process__icon" aria-hidden="true">
@@ -171,19 +177,19 @@ get_header();
 	?>
 
 	<?php if ( ! empty( $certs ) ) : ?>
-		<section class="about-certifications" aria-label="<?php esc_attr_e( 'Zertifikate & Mitgliedschaften', 'hausmeister-theme' ); ?>">
+		<section class="about-certifications js-reveal" data-reveal-root aria-label="<?php esc_attr_e( 'Zertifikate & Mitgliedschaften', 'hausmeister-theme' ); ?>">
 			<div class="container-theme">
 				<div class="section-header section-header--center">
-					<span class="section-label"><?php echo esc_html( page_about( 'about_certs_heading', __( 'Zertifikate & Mitgliedschaften', 'hausmeister-theme' ) ) ); ?></span>
-					<h2 class="section-header__title">
+					<span class="section-label" data-reveal="up" style="--reveal-delay: 0ms"><?php echo esc_html( page_about( 'about_certs_heading', __( 'Zertifikate & Mitgliedschaften', 'hausmeister-theme' ) ) ); ?></span>
+					<h2 class="section-header__title" data-reveal="up" style="--reveal-delay: 80ms">
 						<?php echo esc_html( page_about( 'about_certs_title', __( 'Nachweise für Qualität', 'hausmeister-theme' ) ) ); ?>
 						<span class="teal-period">.</span>
 					</h2>
 				</div>
 
 				<div class="about-certifications__list" role="list">
-					<?php foreach ( $certs as $cert ) : ?>
-						<span class="about-certifications__badge" role="listitem">
+					<?php foreach ( $certs as $cert_i => $cert ) : ?>
+						<span class="about-certifications__badge" role="listitem" data-reveal="up" style="--reveal-delay: <?php echo esc_attr( 140 + ( $cert_i * 70 ) ); ?>ms">
 							<?php echo esc_html( $cert ); ?>
 						</span>
 					<?php endforeach; ?>
