@@ -339,5 +339,28 @@ for ( $r = 1; $r <= 6; $r++ ) {
 </section>
 <?php endif; ?>
 
+<section class="home-quote" aria-label="<?php esc_attr_e( 'Anfrage', 'hausmeister-theme' ); ?>">
+	<div class="container-theme">
+		<div class="section-header section-header--center home-quote__header">
+			<span class="section-label"><?php esc_html_e( 'Kontakt', 'hausmeister-theme' ); ?></span>
+			<h2 class="section-header__title">
+				<?php echo esc_html( page_home( 'cta_heading' ) ); ?><span class="teal-period">.</span>
+			</h2>
+			<p class="section-header__subtitle"><?php echo esc_html( page_home( 'cta_text' ) ); ?></p>
+		</div>
+
+		<div class="home-quote__form">
+			<?php
+			hausmeister_render_quote_form(
+				array(
+					'id'    => 'home-quote-form',
+					'title' => __( 'Nachricht senden', 'hausmeister-theme' ),
+				)
+			);
+			?>
+		</div>
+	</div>
+</section>
+
 <?php
 get_footer();

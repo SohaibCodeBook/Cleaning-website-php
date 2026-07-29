@@ -524,6 +524,21 @@
 	color: var(--brand-accent);
 }
 
+/* Homepage quote form section */
+.home-quote {
+	padding: var(--section-padding-y) 0;
+	background: var(--bg-white);
+}
+
+.home-quote__header {
+	margin-bottom: 2.5rem;
+}
+
+.home-quote__form {
+	max-width: 920px;
+	margin: 0 auto;
+}
+
 @media (max-width: 991px) {
 	.contact-page__grid {
 		grid-template-columns: 1fr;
