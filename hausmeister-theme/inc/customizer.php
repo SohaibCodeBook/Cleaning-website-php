@@ -18,7 +18,7 @@ function hausmeister_get_defaults() {
 		'company_name'       => 'Haus und Objektbetreuung Fichtelgebirge',
 		'address'            => 'Am Rang 9, 95615 Marktredwitz',
 'phone'              => '+49 9231 7960386',
-		'contact_email'      => 'info@beispiel.de',
+		'contact_email'      => 'info@objektbetreuung-fichtelgebirge.de',
 		'meta_description'   => 'Professionelle Hausmeistertätigkeiten, Reinigung, Grünanlagenpflege, Entrümpelungen und Winterdienst in Ihrer Region.',
 		'custom_logo_url'    => hausmeister_theme_image( 'logo.svg' ),
 		'header_cta_text'    => 'Jetzt anrufen',
