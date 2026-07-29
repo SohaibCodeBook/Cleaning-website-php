@@ -15,7 +15,15 @@ defined( 'ABSPATH' ) || exit;
 		<div class="footer-grid">
 			<div class="footer-col">
 				<div class="footer-logo">
-					<?php hausmeister_the_logo(); ?>
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-logo-link">
+						<img
+							class="logo-footer-img"
+							src="<?php echo esc_url( hausmeister_theme_image( 'footer logo no-bg.png' ) ); ?>"
+							alt="<?php echo esc_attr( site_data( 'company_name' ) ); ?>"
+							loading="eager"
+							decoding="async"
+						>
+					</a>
 				</div>
 				<p><?php echo esc_html( site_data( 'footer_about' ) ); ?></p>
 				<?php if ( site_data( 'social_facebook' ) || site_data( 'social_instagram' ) || site_data( 'social_linkedin' ) ) : ?>
