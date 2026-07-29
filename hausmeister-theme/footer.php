@@ -10,6 +10,13 @@ defined( 'ABSPATH' ) || exit;
 
 </main><!-- .site-main -->
 
+<?php
+$hausmeister_footer_about_page = get_page_by_path( 'ueber-uns', OBJECT, 'page' );
+$hausmeister_footer_contact_page = get_page_by_path( 'kontakt', OBJECT, 'page' );
+$hausmeister_footer_impressum_page = get_page_by_path( 'impressum', OBJECT, 'page' );
+$hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 'page' );
+?>
+
 <footer class="site-footer">
 	<div class="container-theme">
 		<div class="footer-grid">
@@ -59,17 +66,54 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 
 			<div class="footer-col">
-				<h4><?php esc_html_e( 'Kontakt', 'hausmeister-theme' ); ?></h4>
+				<h4><?php esc_html_e( 'Unternehmen', 'hausmeister-theme' ); ?></h4>
 				<ul>
+					<li>
+						<?php if ( $hausmeister_footer_about_page ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_about_page->ID ) ); ?>"><?php echo esc_html__( 'Über uns', 'hausmeister-theme' ); ?></a>
+						<?php else : ?>
+							<span class="footer-policy--disabled"><?php echo esc_html__( 'Über uns', 'hausmeister-theme' ); ?></span>
+						<?php endif; ?>
+					</li>
 					<li><i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i><?php echo esc_html( site_data( 'address' ) ); ?></li>
+					<li>
+						<?php if ( $hausmeister_footer_contact_page ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_contact_page->ID ) ); ?>"><?php echo esc_html__( 'Kontakt', 'hausmeister-theme' ); ?></a>
+						<?php else : ?>
+							<span class="footer-policy--disabled"><?php echo esc_html__( 'Kontakt', 'hausmeister-theme' ); ?></span>
+						<?php endif; ?>
+					</li>
 					<li><i class="fa-solid fa-phone me-2" aria-hidden="true"></i><a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', site_data( 'phone' ) ) ); ?>"><?php echo esc_html( site_data( 'phone' ) ); ?></a></li>
 					<li><i class="fa-solid fa-envelope me-2" aria-hidden="true"></i><a href="mailto:<?php echo esc_attr( site_data( 'contact_email' ) ); ?>"><?php echo esc_html( site_data( 'contact_email' ) ); ?></a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h4><?php esc_html_e( 'Rechtliches', 'hausmeister-theme' ); ?></h4>
+				<ul>
+					<li>
+						<?php if ( $hausmeister_footer_impressum_page ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_impressum_page->ID ) ); ?>"><?php echo esc_html__( 'Impressum', 'hausmeister-theme' ); ?></a>
+						<?php else : ?>
+							<span class="footer-policy--disabled"><?php echo esc_html__( 'Impressum', 'hausmeister-theme' ); ?></span>
+						<?php endif; ?>
+					</li>
+					<li>
+						<?php if ( $hausmeister_footer_datenschutz_page ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_datenschutz_page->ID ) ); ?>"><?php echo esc_html__( 'Datenschutz', 'hausmeister-theme' ); ?></a>
+						<?php else : ?>
+							<span class="footer-policy--disabled"><?php echo esc_html__( 'Datenschutz', 'hausmeister-theme' ); ?></span>
+						<?php endif; ?>
+					</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="footer-bottom">
-			<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( site_data( 'company_name' ) ); ?>. <?php echo esc_html( site_data( 'footer_copyright' ) ); ?></p>
+			<div class="footer-bottom-left">
+				<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( site_data( 'company_name' ) ); ?>. <?php echo esc_html( site_data( 'footer_copyright' ) ); ?></p>
+			</div>
+			<div class="footer-bottom-right"></div>
 		</div>
 	</div>
 </footer>
