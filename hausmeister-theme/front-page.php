@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$hero_image = hausmeister_get_image_url( 'hero_image', 'hero.jpg' );
+$hero_image = hausmeister_get_image_url( 'hero_image', 'hero2.jpeg' );
 ?>
 
 <section class="hero" aria-label="<?php esc_attr_e( 'Hero', 'hausmeister-theme' ); ?>">

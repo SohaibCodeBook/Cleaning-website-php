@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.4.2
+Version: 1.4.3
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -241,7 +241,7 @@ img {
 .hero {
 	min-height: calc(100vh - var(--header-height));
 	background: var(--bg-warm);
-	padding: 2rem 0 0;
+	padding: 1.5rem 0 2rem;
 	overflow: hidden;
 	display: flex;
 	align-items: center;
@@ -357,14 +357,17 @@ img {
 	overflow: hidden;
 	box-shadow: 0 1.2vw 3.5vw rgba(0, 0, 0, 0.12), 0 0.25vw 1vw rgba(0, 0, 0, 0.06);
 	width: 100%;
+	max-height: min(78vh, 720px);
 }
 
 .hero__image {
 	width: 100%;
-	height: auto;
+	height: 100%;
+	max-height: min(78vh, 720px);
 	display: block;
 	object-fit: cover;
-	aspect-ratio: 4 / 3;
+	object-position: center 42%;
+	aspect-ratio: 3 / 4;
 }
 
 /* Hero load animation — M2A clip wipe from reference video */
@@ -491,8 +494,14 @@ img {
 		box-shadow: none;
 	}
 
+	.hero__image-wrap,
 	.hero__image {
-		aspect-ratio: 16 / 9;
+		max-height: min(62vh, 520px);
+	}
+
+	.hero__image {
+		aspect-ratio: 4 / 5;
+		object-position: center 38%;
 	}
 
 	.hero__visual::after {

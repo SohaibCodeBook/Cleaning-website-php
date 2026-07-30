@@ -43,7 +43,7 @@ function hausmeister_get_defaults() {
 		'hero_trust_1'            => 'Gewerbe & Wohnen',
 		'hero_trust_2'            => 'Termingerecht',
 		'hero_trust_3'            => '24/7 Notdienst',
-		'hero_image'              => hausmeister_theme_image( 'hero.jpg' ),
+		'hero_image'              => hausmeister_theme_image( 'hero2.jpeg' ),
 
 		// Homepage — Stats.
 		'stat_1_target'   => '8',
