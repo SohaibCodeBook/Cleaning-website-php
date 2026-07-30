@@ -214,20 +214,6 @@ $default_quote = page_home( 'feature_1_quote' );
 			<p class="ba-gallery__subtitle"><?php echo esc_html( page_home( 'ba_subheading' ) ); ?></p>
 		</div>
 
-		<div class="ba-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Leistungen filtern', 'hausmeister-theme' ); ?>">
-			<?php foreach ( hausmeister_get_ba_filters() as $slug => $label ) : ?>
-				<button
-					type="button"
-					class="ba-tabs__btn<?php echo 'all' === $slug ? ' is-active' : ''; ?>"
-					role="tab"
-					data-ba-tab="<?php echo esc_attr( $slug ); ?>"
-					aria-selected="<?php echo 'all' === $slug ? 'true' : 'false'; ?>"
-				>
-					<?php echo esc_html( $label ); ?>
-				</button>
-			<?php endforeach; ?>
-		</div>
-
 		<div class="ba-grid" data-ba-grid>
 			<?php
 			for ( $i = 1; $i <= 5; $i++ ) {
@@ -241,10 +227,6 @@ $default_quote = page_home( 'feature_1_quote' );
 			}
 			?>
 		</div>
-
-		<p class="ba-gallery__empty" data-ba-empty hidden>
-			<?php esc_html_e( 'Für diese Leistung sind noch keine Vergleichsbilder hinterlegt.', 'hausmeister-theme' ); ?>
-		</p>
 	</div>
 </section>
 

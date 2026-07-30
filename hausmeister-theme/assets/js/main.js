@@ -232,9 +232,6 @@
 	/* Before & After gallery */
 	var baGallery = document.querySelector('[data-ba-gallery]');
 	if (baGallery) {
-		var baTabs = baGallery.querySelectorAll('[data-ba-tab]');
-		var baCards = baGallery.querySelectorAll('[data-ba-card]');
-		var baEmpty = baGallery.querySelector('[data-ba-empty]');
 		var activeDrag = null;
 
 		function initBaSlider(slider) {
@@ -316,36 +313,6 @@
 		}, { passive: true });
 		document.addEventListener('mouseup', function () { activeDrag = null; });
 		document.addEventListener('touchend', function () { activeDrag = null; });
-
-		function applyFilter(category) {
-			var visible = 0;
-			baCards.forEach(function (card) {
-				var show = category === 'all' || card.getAttribute('data-ba-category') === category;
-				card.classList.toggle('is-hidden', !show);
-				if (show) {
-					visible++;
-					card.classList.remove('is-filtering-in');
-					void card.offsetWidth;
-					card.classList.add('is-filtering-in');
-					var slider = card.querySelector('[data-ba-slider]');
-					if (slider && slider._baSync) slider._baSync();
-					if (slider && slider._baSetPos) slider._baSetPos(50);
-				}
-			});
-			if (baEmpty) baEmpty.hidden = visible > 0;
-		}
-
-		baTabs.forEach(function (tab) {
-			tab.addEventListener('click', function () {
-				var category = tab.getAttribute('data-ba-tab');
-				baTabs.forEach(function (t) {
-					var active = t === tab;
-					t.classList.toggle('is-active', active);
-					t.setAttribute('aria-selected', active ? 'true' : 'false');
-				});
-				applyFilter(category);
-			});
-		});
 	}
 
 	/* Google Reviews — continuous auto-scroll carousel */

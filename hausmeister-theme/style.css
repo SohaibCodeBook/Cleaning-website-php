@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.4.3
+Version: 1.4.4
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -1523,52 +1523,6 @@ img {
 	margin: 0;
 }
 
-.ba-tabs {
-	display: flex;
-	flex-wrap: nowrap;
-	gap: 0.5rem;
-	overflow-x: auto;
-	padding: 0.35rem;
-	margin-bottom: 2rem;
-	background: var(--bg-white);
-	border: 1px solid var(--border-subtle);
-	border-radius: 999px;
-	box-shadow: var(--shadow-card);
-	scrollbar-width: none;
-	-webkit-overflow-scrolling: touch;
-}
-
-.ba-tabs::-webkit-scrollbar {
-	display: none;
-}
-
-.ba-tabs__btn {
-	flex: 0 0 auto;
-	border: none;
-	background: transparent;
-	color: var(--text-secondary);
-	font-family: var(--font-body);
-	font-size: 13px;
-	font-weight: 600;
-	padding: 0.7rem 1.2rem;
-	border-radius: 999px;
-	cursor: pointer;
-	transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-	white-space: nowrap;
-}
-
-.ba-tabs__btn:hover,
-.ba-tabs__btn:focus-visible {
-	color: var(--brand-secondary);
-	outline: none;
-}
-
-.ba-tabs__btn.is-active {
-	background: var(--brand-primary);
-	color: #fff;
-	box-shadow: 0 4px 14px rgba(10, 46, 54, 0.2);
-}
-
 .ba-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -1588,25 +1542,6 @@ img {
 
 .ba-card:hover {
 	box-shadow: var(--shadow-card-hover);
-}
-
-.ba-card.is-hidden {
-	display: none;
-}
-
-.ba-card.is-filtering-in {
-	animation: baCardIn 0.35s ease both;
-}
-
-@keyframes baCardIn {
-	from {
-		opacity: 0;
-		transform: translateY(12px) scale(0.98);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
 }
 
 .ba-card__header {
@@ -1770,13 +1705,6 @@ img {
 	color: #fff;
 }
 
-.ba-gallery__empty {
-	text-align: center;
-	color: var(--text-secondary);
-	font-size: 15px;
-	padding: 2rem 0;
-}
-
 @media (max-width: 991px) {
 	.ba-grid {
 		grid-template-columns: 1fr;
@@ -1786,12 +1714,6 @@ img {
 @media (max-width: 767px) {
 	.ba-gallery {
 		padding: 3rem 0;
-	}
-
-	.ba-tabs {
-		border-radius: var(--radius-lg);
-		margin-left: -0.25rem;
-		margin-right: -0.25rem;
 	}
 
 	.ba-card__header,
@@ -1806,8 +1728,7 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.ba-card,
-	.ba-card.is-filtering-in {
+	.ba-card {
 		animation: none !important;
 		transition: none !important;
 	}
