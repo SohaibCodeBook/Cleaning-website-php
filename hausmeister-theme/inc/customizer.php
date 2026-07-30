@@ -46,7 +46,7 @@ function hausmeister_get_defaults() {
 		'hero_image'              => hausmeister_theme_image( 'hero.jpg' ),
 
 		// Homepage — Stats.
-		'stat_1_target'   => '50',
+		'stat_1_target'   => '8',
 		'stat_1_suffix'   => '+',
 		'stat_1_prefix'   => '',
 		'stat_1_display'  => '',
@@ -80,41 +80,41 @@ function hausmeister_get_defaults() {
 		// Service 1: Hausmeistertätigkeiten.
 		'service_1_icon'        => 'fa-solid fa-building-user',
 		'service_1_title'       => 'Hausmeistertätigkeiten',
-		'service_1_subtitle'    => 'Betreuung & Kleinreparaturen',
-		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: Kontrollgänge, Kleinreparaturen, Müllentsorgung und Ansprechpartner für Mieter und Eigentümer.',
-		'service_1_tags'        => 'Kontrollgänge, Kleinreparaturen, Müllentsorgung',
+		'service_1_subtitle'    => 'Prävention, Reparaturen & Ansprechpartner',
+		'service_1_description' => 'Zuverlässige Betreuung Ihrer Immobilie: präventive Kontrollgänge, fachmännische Kleinreparaturen und Ihr zentraler Ansprechpartner für Mieter und Eigentümer.',
+		'service_1_tags'        => 'Technische Überwachung, Fachmännische Kleinreparaturen, Zentraler Ansprechpartner',
 		'service_1_url'         => '/hausmeistertaetigkeiten/',
 
 		// Service 2: Reinigung & Instandhaltung.
 		'service_2_icon'        => 'fa-solid fa-broom',
 		'service_2_title'       => 'Reinigung & Instandhaltung',
-		'service_2_subtitle'    => 'Treppenhäuser, Fenster & Fassade',
-		'service_2_description' => 'Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassadenreinigung und Parkplätze — hygienisch einwandfrei und termingerecht.',
-		'service_2_tags'        => 'Treppenhäuser, Fensterreinigung, Fassadenreinigung',
+		'service_2_subtitle'    => 'Gewerbe, Treppenhaus & Fassade',
+		'service_2_description' => 'Werterhaltende Objekt- und Unterhaltsreinigung für Gewerbe, Praxen und Wohnanlagen – für ein repräsentatives und hygienisch einwandfreies Erscheinungsbild.',
+		'service_2_tags'        => 'Gewerbe- und Praxisreinigung (Unterhaltsreinigung), Intervallgerechte Treppenhausreinigung, Professionelle Fenster- und Fassadenreinigung',
 		'service_2_url'         => '/reinigung-instandhaltung/',
 
 		// Service 3: Grünanlagenpflege.
 		'service_3_icon'        => 'fa-solid fa-leaf',
 		'service_3_title'       => 'Grünanlagenpflege',
-		'service_3_subtitle'    => 'Außenanlagen & Bepflanzung',
-		'service_3_description' => 'Fachgerechte Pflege von Außenanlagen, Rasenflächen, Hecken und Beeten — für einen gepflegten ersten Eindruck zu jeder Jahreszeit.',
-		'service_3_tags'        => 'Rasenmähen, Heckenschnitt, Unkrautbeseitigung',
+		'service_3_subtitle'    => 'Rasen, Hecken & Unkraut',
+		'service_3_description' => 'Ganzheitliche Außenanlagenpflege für einen gepflegten ersten Eindruck Ihrer Liegenschaft zu jeder Jahreszeit.',
+		'service_3_tags'        => 'Fachgerechter Rasenschnitt, Präziser Heckenschnitt, Nachhaltige Unkrautbeseitigung',
 		'service_3_url'         => '/gruenanlagenpflege/',
 
 		// Service 4: Entrümpelungen.
 		'service_4_icon'        => 'fa-solid fa-boxes-stacked',
 		'service_4_title'       => 'Entrümpelungen',
-		'service_4_subtitle'    => 'Räumung & Entsorgung',
-		'service_4_description' => 'Schnelle und diskrete Entrümpelung von Wohnungen, Kellern, Dachböden und Gewerbeflächen — inklusive fachgerechter Entsorgung.',
-		'service_4_tags'        => 'Wohnungen, Keller & Dachboden, Entsorgung',
+		'service_4_subtitle'    => 'Auflösung & Entsorgung',
+		'service_4_description' => 'Schnelle, diskrete und saubere Entrümpelung von Wohnungen, Kellern und Gewerbeflächen – inklusive fachgerechter Entsorgung.',
+		'service_4_tags'        => 'Wohnungsauflösungen, Keller / Dachböden & Gewerbe, Fachgerechte Entsorgung',
 		'service_4_url'         => '/entruempelungen/',
 
 		// Service 5: Winterdienst.
 		'service_5_icon'        => 'fa-solid fa-snowflake',
 		'service_5_title'       => 'Winterdienst',
-		'service_5_subtitle'    => 'Räum- & Streudienst',
-		'service_5_description' => 'Zuverlässiger Räum- und Streudienst für Geh- und Fahrwege — rund um die Uhr, damit Ihre Verkehrssicherungspflicht erfüllt bleibt.',
-		'service_5_tags'        => 'Schneeräumung, Streuarbeiten, Glättebeseitigung',
+		'service_5_subtitle'    => 'Räumung, Streu & Protokolle',
+		'service_5_description' => 'Rechtssicherer Räum- und Streudienst für Geh- und Fahrwege – damit Ihre gesetzliche Verkehrssicherungspflicht lückenlos erfüllt bleibt.',
+		'service_5_tags'        => 'Termingerechte Schneeräumung, Glatteisbeseitigung & Streudienst, Lückenlose Einsatzprotokolle',
 		'service_5_url'         => '/winterdienst/',
 
 		// Homepage — Why Us.
