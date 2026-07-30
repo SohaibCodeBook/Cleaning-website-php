@@ -231,6 +231,54 @@ $default_quote = page_home( 'feature_1_quote' );
 </section>
 
 <?php
+$work_gallery = hausmeister_get_work_gallery_images();
+if ( ! empty( $work_gallery ) ) :
+	$gallery_subheading = page_home( 'gallery_subheading' );
+	?>
+<section class="work-gallery" aria-label="<?php esc_attr_e( 'Galerie unserer Arbeiten', 'hausmeister-theme' ); ?>">
+	<div class="container-theme">
+		<div class="work-gallery__header">
+			<span class="section-label"><?php echo esc_html( page_home( 'gallery_section_label' ) ); ?></span>
+			<h2 class="work-gallery__title">
+				<?php echo esc_html( page_home( 'gallery_heading' ) ); ?>
+				<span class="work-gallery__star" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+						<path d="M12 2.5l2.72 6.62 7.18.62-5.4 4.72 1.62 7.04L12 17.77l-6.12 3.73 1.62-7.04-5.4-4.72 7.18-.62L12 2.5z"/>
+					</svg>
+				</span>
+			</h2>
+			<?php if ( $gallery_subheading !== '' ) : ?>
+				<p class="work-gallery__subtitle"><?php echo esc_html( $gallery_subheading ); ?></p>
+			<?php endif; ?>
+		</div>
+
+		<div class="work-gallery__grid" data-work-gallery>
+			<?php foreach ( $work_gallery as $index => $item ) : ?>
+				<figure class="work-gallery__item work-gallery__item--<?php echo esc_attr( $item['span'] ); ?>">
+					<button
+						type="button"
+						class="work-gallery__trigger"
+						data-gallery-open
+						data-gallery-index="<?php echo esc_attr( (string) $index ); ?>"
+						aria-label="<?php echo esc_attr( sprintf( __( 'Bild vergrößern: %s', 'hausmeister-theme' ), $item['alt'] ) ); ?>"
+					>
+						<img
+							src="<?php echo esc_url( $item['url'] ); ?>"
+							alt="<?php echo esc_attr( $item['alt'] ); ?>"
+							width="<?php echo esc_attr( (string) $item['width'] ); ?>"
+							height="<?php echo esc_attr( (string) $item['height'] ); ?>"
+							loading="lazy"
+							decoding="async"
+						>
+					</button>
+				</figure>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+<?php endif; ?>
+
+<?php
 $reviews_google_url = page_home( 'reviews_google_url' );
 $reviews_visible    = 0;
 for ( $r = 1; $r <= 7; $r++ ) {

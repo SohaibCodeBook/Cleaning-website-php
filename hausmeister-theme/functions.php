@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.4.6' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.4.8' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -18,7 +18,87 @@ define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
  * @return string
  */
 function hausmeister_theme_image( $relative_path ) {
-	return HAUSMEISTER_THEME_URI . '/assets/images/' . ltrim( $relative_path, '/' );
+	$parts = array_map( 'rawurlencode', explode( '/', str_replace( '\\', '/', ltrim( $relative_path, '/' ) ) ) );
+	return HAUSMEISTER_THEME_URI . '/assets/images/' . implode( '/', $parts );
+}
+
+/**
+ * Relative path of the homepage work gallery folder under assets/images/.
+ *
+ * Drop new JPG/PNG/WebP files into this folder — they appear automatically.
+ *
+ * @return string
+ */
+function hausmeister_work_gallery_dir_relative() {
+	return 'after images gallery';
+}
+
+/**
+ * Collect work gallery images from the theme folder, with span hints for the grid.
+ *
+ * @return array<int, array{url:string, path:string, width:int, height:int, span:string, alt:string}>
+ */
+function hausmeister_get_work_gallery_images() {
+	$relative = hausmeister_work_gallery_dir_relative();
+	$dir      = HAUSMEISTER_THEME_DIR . '/assets/images/' . $relative;
+
+	if ( ! is_dir( $dir ) ) {
+		return array();
+	}
+
+	$files = array();
+	foreach ( scandir( $dir ) as $file ) {
+		if ( '.' === $file || '..' === $file ) {
+			continue;
+		}
+		$ext = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
+		if ( ! in_array( $ext, array( 'jpg', 'jpeg', 'png', 'webp', 'gif' ), true ) ) {
+			continue;
+		}
+		$files[] = $file;
+	}
+
+	natsort( $files );
+	$files = array_values( $files );
+
+	$images = array();
+	$index  = 0;
+	foreach ( $files as $file ) {
+		$path = $dir . '/' . $file;
+		$size = @getimagesize( $path );
+		$w    = $size ? (int) $size[0] : 0;
+		$h    = $size ? (int) $size[1] : 0;
+		$ratio = $h > 0 ? ( $w / $h ) : 1;
+
+		if ( $ratio >= 1.35 ) {
+			$span = 'wide';
+		} elseif ( $ratio <= 0.75 ) {
+			$span = 'tall';
+		} else {
+			$span = 'square';
+		}
+
+		// Every 5th image gets a larger featured cell when enough photos exist.
+		if ( 0 === ( $index % 5 ) && $index > 0 && count( $files ) >= 6 ) {
+			$span = 'featured';
+		}
+
+		$images[] = array(
+			'url'    => hausmeister_theme_image( $relative . '/' . $file ),
+			'path'   => $path,
+			'width'  => $w,
+			'height' => $h,
+			'span'   => $span,
+			'alt'    => sprintf(
+				/* translators: %d: gallery image number */
+				__( 'Arbeitsbeispiel %d', 'hausmeister-theme' ),
+				$index + 1
+			),
+		);
+		$index++;
+	}
+
+	return $images;
 }
 
 require_once HAUSMEISTER_THEME_DIR . '/inc/customizer.php';

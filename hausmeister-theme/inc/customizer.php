@@ -184,6 +184,11 @@ function hausmeister_get_defaults() {
 		'ba_5_before'       => hausmeister_theme_image( 'ba/winter-before.jpg' ),
 		'ba_5_after'        => hausmeister_theme_image( 'ba/winter-after.jpg' ),
 
+		// Homepage — Work gallery.
+		'gallery_section_label' => 'Galerie',
+		'gallery_heading'       => 'Galerie unserer Arbeiten',
+		'gallery_subheading'    => 'Einblicke in gepflegte Objekte und abgeschlossene Arbeiten aus dem Fichtelgebirge.',
+
 		// Homepage — Google Reviews.
 		'reviews_section_label'  => 'Google Bewertungen',
 		'reviews_heading'        => 'Das sagen unsere Kunden',
@@ -1015,6 +1020,38 @@ function hausmeister_customize_register( $wp_customize ) {
 			) ) );
 		}
 	}
+
+	// --- Homepage Work Gallery ---
+	$wp_customize->add_section( 'hausmeister_home_gallery', array(
+		'title'       => __( 'Startseite — Galerie', 'hausmeister-theme' ),
+		'description' => __( 'Bilder kommen aus dem Ordner assets/images/after images gallery/. Neue Dateien erscheinen automatisch.', 'hausmeister-theme' ),
+		'panel'       => 'hausmeister_panel',
+	) );
+
+	foreach ( array(
+		'gallery_section_label' => __( 'Sektions-Label', 'hausmeister-theme' ),
+		'gallery_heading'       => __( 'Überschrift', 'hausmeister-theme' ),
+	) as $key => $label ) {
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => $defaults[ $key ],
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'hausmeister_' . $key, array(
+			'label'   => $label,
+			'section' => 'hausmeister_home_gallery',
+			'type'    => 'text',
+		) );
+	}
+
+	$wp_customize->add_setting( 'hausmeister_gallery_subheading', array(
+		'default'           => $defaults['gallery_subheading'],
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_gallery_subheading', array(
+		'label'       => __( 'Untertitel (optional, leer lassen zum Ausblenden)', 'hausmeister-theme' ),
+		'section'     => 'hausmeister_home_gallery',
+		'type'        => 'textarea',
+	) );
 
 	// --- Homepage Google Reviews ---
 	$wp_customize->add_section( 'hausmeister_home_reviews', array(

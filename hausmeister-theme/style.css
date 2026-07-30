@@ -3,7 +3,7 @@ Theme Name: Hausmeister Theme
 Theme URI: https://example.com
 Author: Custom Development
 Description: WordPress theme for property maintenance and facility services (Hausmeister, Reinigung, Grünanlagenpflege, Winterdienst).
-Version: 1.4.6
+Version: 1.4.8
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -1295,12 +1295,6 @@ img {
 	}
 }
 
-	.why-pillar__body {
-		grid-column: 2;
-		grid-row: 1 / span 2;
-	}
-}
-
 /* ==========================================================================
    About page sections
    ========================================================================== */
@@ -1747,6 +1741,325 @@ img {
 		clip-path: none !important;
 		transform: none !important;
 		animation: none !important;
+	}
+}
+
+/* ==========================================================================
+   Work Gallery (homepage)
+   ========================================================================== */
+.work-gallery {
+	padding: var(--section-padding-y) 0;
+	background: var(--bg-white);
+}
+
+.work-gallery__header {
+	text-align: center;
+	max-width: 680px;
+	margin: 0 auto 2.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.work-gallery__title {
+	font-family: var(--font-heading);
+	font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+	font-weight: 800;
+	color: var(--text-heading);
+	line-height: 1.12;
+	margin: 0 0 1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.35rem 0.55rem;
+}
+
+.work-gallery__star {
+	display: inline-flex;
+	color: var(--brand-secondary);
+	line-height: 0;
+	transform: translateY(-2px);
+}
+
+.work-gallery__star svg {
+	display: block;
+}
+
+.work-gallery__subtitle {
+	font-size: 16px;
+	line-height: 1.7;
+	color: var(--text-secondary);
+	margin: 0;
+}
+
+.work-gallery__grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-auto-rows: 160px;
+	grid-auto-flow: dense;
+	gap: 0.85rem;
+}
+
+.work-gallery__item {
+	position: relative;
+	margin: 0;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--bg-warm);
+}
+
+.work-gallery__trigger {
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	margin: 0;
+	background: transparent;
+	cursor: zoom-in;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+.work-gallery__trigger:focus-visible {
+	outline: 3px solid var(--brand-secondary);
+	outline-offset: -3px;
+}
+
+.work-gallery__item img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center;
+	transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.work-gallery__item:hover img {
+	transform: scale(1.04);
+}
+
+.work-gallery__item--wide {
+	grid-column: span 2;
+}
+
+.work-gallery__item--tall {
+	grid-row: span 2;
+}
+
+.work-gallery__item--featured {
+	grid-column: span 2;
+	grid-row: span 2;
+}
+
+.work-gallery__item--square {
+	grid-column: span 1;
+	grid-row: span 1;
+}
+
+@media (max-width: 991px) {
+	.work-gallery__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-auto-rows: 150px;
+		gap: 0.7rem;
+	}
+
+	.work-gallery__item--featured {
+		grid-column: span 2;
+		grid-row: span 2;
+	}
+}
+
+@media (max-width: 575px) {
+	.work-gallery {
+		padding: 3rem 0;
+	}
+
+	.work-gallery__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-auto-rows: 120px;
+		gap: 0.55rem;
+	}
+
+	.work-gallery__item--wide {
+		grid-column: span 2;
+	}
+
+	.work-gallery__item--tall {
+		grid-row: span 2;
+	}
+
+	.work-gallery__item {
+		border-radius: var(--radius);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.work-gallery__item img {
+		transition: none;
+	}
+
+	.work-gallery__item:hover img {
+		transform: none;
+	}
+
+	.gallery-lightbox,
+	.gallery-lightbox__img {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+/* Gallery lightbox */
+.gallery-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 10000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.25rem;
+}
+
+.gallery-lightbox[hidden] {
+	display: none !important;
+}
+
+.gallery-lightbox__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(8, 18, 28, 0.88);
+	cursor: zoom-out;
+}
+
+.gallery-lightbox__dialog {
+	position: relative;
+	z-index: 1;
+	width: min(96vw, 1200px);
+	height: min(88vh, 900px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gallery-lightbox__figure {
+	margin: 0;
+	max-width: 100%;
+	max-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gallery-lightbox__img {
+	display: block;
+	max-width: min(92vw, 1100px);
+	max-height: min(82vh, 860px);
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border-radius: var(--radius);
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+	background: #0b1520;
+}
+
+.gallery-lightbox__close,
+.gallery-lightbox__nav {
+	position: absolute;
+	border: 0;
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+	cursor: pointer;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.gallery-lightbox__close:hover,
+.gallery-lightbox__nav:hover,
+.gallery-lightbox__close:focus-visible,
+.gallery-lightbox__nav:focus-visible {
+	background: rgba(255, 255, 255, 0.22);
+	outline: none;
+}
+
+.gallery-lightbox__close {
+	top: -0.25rem;
+	right: -0.25rem;
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	font-size: 1.75rem;
+	line-height: 1;
+	z-index: 2;
+}
+
+.gallery-lightbox__nav {
+	top: 50%;
+	transform: translateY(-50%);
+	width: 46px;
+	height: 46px;
+	border-radius: 999px;
+	font-size: 1.25rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+}
+
+.gallery-lightbox__nav--prev {
+	left: -0.35rem;
+}
+
+.gallery-lightbox__nav--next {
+	right: -0.35rem;
+}
+
+.gallery-lightbox__counter {
+	position: absolute;
+	left: 50%;
+	bottom: -2.25rem;
+	transform: translateX(-50%);
+	margin: 0;
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+	.gallery-lightbox {
+		padding: 0.75rem;
+	}
+
+	.gallery-lightbox__dialog {
+		width: 100%;
+		height: 100%;
+	}
+
+	.gallery-lightbox__img {
+		max-width: 100%;
+		max-height: calc(100vh - 7rem);
+		border-radius: var(--radius-sm, 8px);
+	}
+
+	.gallery-lightbox__close {
+		top: 0.5rem;
+		right: 0.5rem;
+	}
+
+	.gallery-lightbox__nav--prev {
+		left: 0.35rem;
+	}
+
+	.gallery-lightbox__nav--next {
+		right: 0.35rem;
+	}
+
+	.gallery-lightbox__counter {
+		bottom: 1rem;
 	}
 }
 
