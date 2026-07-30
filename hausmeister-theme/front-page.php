@@ -143,7 +143,7 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero2.jpeg' );
 </section>
 
 <?php
-$why_image = hausmeister_get_image_url( 'why_image', 'why-us.jpg' );
+$why_image = hausmeister_get_image_url( 'why_image', 'Sascha Becker.jpeg' );
 $default_quote = page_home( 'feature_1_quote' );
 ?>
 

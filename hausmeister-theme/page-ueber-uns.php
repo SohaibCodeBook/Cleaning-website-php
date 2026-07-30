@@ -95,7 +95,7 @@ get_header();
 						<div class="why-us__image-accent" aria-hidden="true"></div>
 						<div class="why-us__image-wrap">
 							<?php
-							$why_image = hausmeister_get_image_url( 'about_why_image', 'why-us.jpg' );
+							$why_image = hausmeister_get_image_url( 'about_why_image', 'Sascha Becker.jpeg' );
 							if ( $why_image ) :
 								?>
 								<img src="<?php echo esc_url( $why_image ); ?>" class="why-us__image" alt="" loading="lazy" />
