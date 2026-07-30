@@ -188,40 +188,45 @@ function hausmeister_get_defaults() {
 		'reviews_section_label'  => 'Google Bewertungen',
 		'reviews_heading'        => 'Das sagen unsere Kunden',
 		'reviews_subheading'     => 'Echte Google-Bewertungen von zufriedenen Kunden — transparent und nachvollziehbar.',
-		'reviews_overall_rating' => '4.9',
-		'reviews_total_count'    => '47',
-		'reviews_google_url'     => 'https://www.google.com/maps',
+		'reviews_overall_rating' => '5.0',
+		'reviews_total_count'    => '11',
+		'reviews_google_url'     => 'https://www.google.com/search?q=Haus+und+Objektbetreuung+Fichtelgebirge&kgmid=/g/11yx2g23kr#lrd=0xaa36157fa7a4381b:0xde975adc48f819de,1,,,',
 		'reviews_btn_text'       => 'Alle Bewertungen auf Google ansehen',
 
-		'review_1_name'   => 'Thomas M.',
-		'review_1_date'   => 'vor 2 Monaten',
+		'review_1_name'   => 'Marvin Graf',
+		'review_1_date'   => 'vor 6 Monaten',
 		'review_1_rating' => '5',
-		'review_1_text'   => 'Sehr zuverlässiger Hausmeisterservice! Treppenhausreinigung und Winterdienst laufen termingerecht und gründlich. Klare Empfehlung für Wohnanlagen.',
+		'review_1_text'   => 'Sehr sehr guter und persönlicher Service. Man hat hier ausnahmsweise echt das Gefühl dass man als Kunde ernst genommen wird und muss nicht zwanzig mal anrufen um jemanden zu erreichen. Jederzeit wieder 👍',
 
-		'review_2_name'   => 'Sandra K.',
-		'review_2_date'   => 'vor 3 Monaten',
+		'review_2_name'   => 'Nele Wegmann',
+		'review_2_date'   => 'vor 6 Monaten',
 		'review_2_rating' => '5',
-		'review_2_text'   => 'Professionelle Grünanlagenpflege und schnelle Reaktion bei Sonderwünschen. Das Team ist freundlich und hinterlässt alles sauber.',
+		'review_2_text'   => 'Top. Waren mega zufrieden. Dafür 5 Sterne👍',
 
-		'review_3_name'   => 'Michael B.',
-		'review_3_date'   => 'vor 4 Monaten',
+		'review_3_name'   => 'Thomas Heckel',
+		'review_3_date'   => 'vor 6 Monaten',
 		'review_3_rating' => '5',
-		'review_3_text'   => 'Fassadenreinigung und Glasreinigung top umgesetzt. Faire Preise und ein fester Ansprechpartner — genau das, was wir gesucht haben.',
+		'review_3_text'   => 'Professionell und proaktiv! Endlich ein Hausmeisterservice, der mitdenkt! Probleme werden oft schon behoben, bevor man sie selbst bemerkt. Die Kommunikation läuft reibungslos.',
 
-		'review_4_name'   => 'Petra H.',
+		'review_4_name'   => 'Thomas Prucker',
 		'review_4_date'   => 'vor 5 Monaten',
 		'review_4_rating' => '5',
-		'review_4_text'   => 'Seit über einem Jahr betreut uns das Team zuverlässig. Besonders der Winterdienst und die Entrümpelung wurden schnell und professionell erledigt.',
+		'review_4_text'   => 'Sehr zuverlässig und sympathisch, hat super Arbeit gemacht. Jederzeit wieder 👍',
 
-		'review_5_name'   => 'Andreas W.',
+		'review_5_name'   => 'Sandra Moussa',
 		'review_5_date'   => 'vor 6 Monaten',
-		'review_5_rating' => '4',
-		'review_5_text'   => 'Sehr gute Arbeit bei der Objektbetreuung. Kommunikation ist transparent, kleine Wünsche werden flexibel umgesetzt.',
+		'review_5_rating' => '5',
+		'review_5_text'   => 'Zuverlässiger und kompetenter Hausmeisterservice. Alle Arbeiten wurden stets schnell, sauber und professionell erledigt. Freundlicher Kontakt und sehr gute Erreichbarkeit. Absolut empfehlenswert!',
 
-		'review_6_name'   => 'Claudia R.',
-		'review_6_date'   => 'vor 8 Monaten',
+		'review_6_name'   => 'Cassandra Merz',
+		'review_6_date'   => 'vor 6 Monaten',
 		'review_6_rating' => '5',
-		'review_6_text'   => 'Pünktlich, gründlich und freundlich — so wünscht man sich einen Hausmeisterservice. Wir sind sehr zufrieden mit der laufenden Betreuung.',
+		'review_6_text'   => "Sehr zuverlässig\nSehr ordentliche Durchführung\nSuper netter Ansprechpartner\nIch bin super zufrieden",
+
+		'review_7_name'   => 'Dominik Metz',
+		'review_7_date'   => 'vor 5 Monaten',
+		'review_7_rating' => '5',
+		'review_7_text'   => 'Ich habe mich wegen einer Entrümpelung an Herrn Becker gewandt, obwohl ich selbst weiter entfernt wohne und nicht vor Ort sein konnte. Die gesamte Organisation lief absolut zuverlässig und unkompliziert.',
 
 		// Homepage — CTA.
 		'cta_heading'  => 'Bereit für ein unverbindliches Angebot?',
@@ -1072,7 +1077,7 @@ function hausmeister_customize_register( $wp_customize ) {
 		) );
 	}
 
-	for ( $i = 1; $i <= 6; $i++ ) {
+	for ( $i = 1; $i <= 7; $i++ ) {
 		foreach ( array(
 			'name' => array( 'label' => __( 'Name', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
 			'date' => array( 'label' => __( 'Datum (z. B. vor 2 Monaten)', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),

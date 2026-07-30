@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 $i = isset( $args['review_index'] ) ? (int) $args['review_index'] : 0;
 
-if ( $i < 1 || $i > 6 || ! hausmeister_review_is_visible( $i ) ) {
+if ( $i < 1 || $i > 7 || ! hausmeister_review_is_visible( $i ) ) {
 	return;
 }
 
@@ -58,5 +58,5 @@ $color  = hausmeister_get_review_avatar_color( $name );
 		</svg>
 	</header>
 
-	<p class="g-review-card__text"><?php echo esc_html( $text ); ?></p>
+	<p class="g-review-card__text"><?php echo nl2br( esc_html( $text ), false ); ?></p>
 </article>

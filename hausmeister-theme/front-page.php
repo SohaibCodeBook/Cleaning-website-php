@@ -251,7 +251,7 @@ $default_quote = page_home( 'feature_1_quote' );
 <?php
 $reviews_google_url = page_home( 'reviews_google_url' );
 $reviews_visible    = 0;
-for ( $r = 1; $r <= 6; $r++ ) {
+for ( $r = 1; $r <= 7; $r++ ) {
 	if ( hausmeister_review_is_visible( $r ) ) {
 		$reviews_visible++;
 	}
@@ -312,7 +312,7 @@ for ( $r = 1; $r <= 6; $r++ ) {
 				<div class="google-reviews__reviews">
 					<div class="google-reviews__track" data-reviews-track tabindex="0">
 						<?php
-						for ( $i = 1; $i <= 6; $i++ ) {
+						for ( $i = 1; $i <= 7; $i++ ) {
 							get_template_part(
 								'template-parts/google-review',
 								'card',
