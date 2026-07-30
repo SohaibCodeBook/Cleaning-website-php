@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string[]
  */
 function hausmeister_get_required_page_slugs() {
-	return array( 'startseite', 'ueber-uns', 'kontakt', 'impressum' );
+	return array( 'startseite', 'ueber-uns', 'kontakt', 'impressum', 'datenschutz' );
 }
 
 /**
@@ -154,6 +154,10 @@ function hausmeister_create_pages() {
 		'impressum'  => array(
 			'title'    => 'Impressum',
 			'template' => 'page-impressum.php',
+		),
+		'datenschutz' => array(
+			'title'    => 'Datenschutz',
+			'template' => 'page-datenschutz.php',
 		),
 	);
 
