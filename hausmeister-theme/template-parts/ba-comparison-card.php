@@ -15,17 +15,6 @@ if ( $i < 1 || $i > 5 ) {
 	return;
 }
 
-$category_defaults = array(
-	1 => 'treppenhaus',
-	2 => 'gruen',
-	3 => 'fassade',
-	4 => 'glas',
-	5 => 'winter',
-);
-$category = page_home( "ba_{$i}_category" );
-if ( $category === '' && isset( $category_defaults[ $i ] ) ) {
-	$category = $category_defaults[ $i ];
-}
 $ba_files = array(
 	1 => array( 'before' => 'ba/treppenhaus-before.jpg', 'after' => 'ba/treppenhaus-after.jpg' ),
 	2 => array( 'before' => 'ba/gruen-before.jpg', 'after' => 'ba/gruen-after.jpg' ),
@@ -37,25 +26,20 @@ $fallback = isset( $ba_files[ $i ] ) ? $ba_files[ $i ] : array( 'before' => '', 
 $before   = hausmeister_get_image_url( "ba_{$i}_before", $fallback['before'] );
 $after    = hausmeister_get_image_url( "ba_{$i}_after", $fallback['after'] );
 $title    = page_home( "ba_{$i}_title" );
+$alt_base = $title !== '' ? $title : sprintf(
+	/* translators: %d: comparison number */
+	__( 'Vorher-Nachher-Vergleich %d', 'hausmeister-theme' ),
+	$i
+);
 ?>
 
-<article class="ba-card" data-ba-card data-ba-category="<?php echo esc_attr( $category ); ?>">
-	<div class="ba-card__header">
-		<span class="ba-card__tag"><?php echo esc_html( hausmeister_get_ba_category_label( $category ) ); ?></span>
-		<h3 class="ba-card__title"><?php echo esc_html( $title ); ?></h3>
-		<p class="ba-card__desc"><?php echo esc_html( page_home( "ba_{$i}_description" ) ); ?></p>
-		<div class="ba-card__meta">
-			<i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-			<span><?php echo esc_html( page_home( "ba_{$i}_location" ) ); ?></span>
-		</div>
-	</div>
-
+<article class="ba-card" data-ba-card>
 	<div class="ba-card__slider" data-ba-slider>
 		<div class="ba-card__frame" data-ba-frame>
 			<img
 				class="ba-card__img ba-card__img--after"
 				src="<?php echo esc_url( $after ); ?>"
-				alt="<?php echo esc_attr( $title ); ?> — <?php esc_attr_e( 'Nachher', 'hausmeister-theme' ); ?>"
+				alt="<?php echo esc_attr( $alt_base ); ?> — <?php esc_attr_e( 'Nachher', 'hausmeister-theme' ); ?>"
 				loading="lazy"
 				draggable="false"
 			>
@@ -64,7 +48,7 @@ $title    = page_home( "ba_{$i}_title" );
 					class="ba-card__img ba-card__img--before"
 					data-ba-img-before
 					src="<?php echo esc_url( $before ); ?>"
-					alt="<?php echo esc_attr( $title ); ?> — <?php esc_attr_e( 'Vorher', 'hausmeister-theme' ); ?>"
+					alt="<?php echo esc_attr( $alt_base ); ?> — <?php esc_attr_e( 'Vorher', 'hausmeister-theme' ); ?>"
 					loading="lazy"
 					draggable="false"
 				>
