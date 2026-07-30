@@ -184,6 +184,31 @@ function hausmeister_get_defaults() {
 		'ba_5_before'       => hausmeister_theme_image( 'ba/winter-before.jpg' ),
 		'ba_5_after'        => hausmeister_theme_image( 'ba/winter-after.jpg' ),
 
+		// Extra BA placeholders (shown after "Mehr anzeigen").
+		'ba_6_title'  => '',
+		'ba_6_before' => hausmeister_theme_image( 'ba/treppenhaus-before.jpg' ),
+		'ba_6_after'  => hausmeister_theme_image( 'ba/treppenhaus-after.jpg' ),
+		'ba_7_title'  => '',
+		'ba_7_before' => hausmeister_theme_image( 'ba/gruen-before.jpg' ),
+		'ba_7_after'  => hausmeister_theme_image( 'ba/gruen-after.jpg' ),
+		'ba_8_title'  => '',
+		'ba_8_before' => hausmeister_theme_image( 'ba/fassade-before.jpg' ),
+		'ba_8_after'  => hausmeister_theme_image( 'ba/fassade-after.jpg' ),
+		'ba_9_title'  => '',
+		'ba_9_before' => hausmeister_theme_image( 'ba/glas-before.jpg' ),
+		'ba_9_after'  => hausmeister_theme_image( 'ba/glas-after.jpg' ),
+		'ba_10_title'  => '',
+		'ba_10_before' => hausmeister_theme_image( 'ba/winter-before.jpg' ),
+		'ba_10_after'  => hausmeister_theme_image( 'ba/winter-after.jpg' ),
+		'ba_11_title'  => '',
+		'ba_11_before' => hausmeister_theme_image( 'ba/treppenhaus-before.jpg' ),
+		'ba_11_after'  => hausmeister_theme_image( 'ba/treppenhaus-after.jpg' ),
+		'ba_12_title'  => '',
+		'ba_12_before' => hausmeister_theme_image( 'ba/gruen-before.jpg' ),
+		'ba_12_after'  => hausmeister_theme_image( 'ba/gruen-after.jpg' ),
+
+		'ba_more_btn_text' => 'Mehr anzeigen',
+
 		// Homepage — Work gallery.
 		'gallery_section_label' => 'Galerie',
 		'gallery_heading'       => 'Galerie unserer Arbeiten',
@@ -975,36 +1000,38 @@ function hausmeister_customize_register( $wp_customize ) {
 		'type'    => 'textarea',
 	) );
 
-	for ( $i = 1; $i <= 5; $i++ ) {
-		$key = 'ba_' . $i . '_category';
-		$wp_customize->add_setting( 'hausmeister_' . $key, array(
-			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
-			'sanitize_callback' => 'sanitize_key',
-		) );
-		$wp_customize->add_control( 'hausmeister_' . $key, array(
-			/* translators: %d: item number */
-			'label'   => sprintf( __( 'Projekt %d — Kategorie', 'hausmeister-theme' ), $i ),
-			'section' => 'hausmeister_home_before_after',
-			'type'    => 'select',
-			'choices' => array_diff_key( hausmeister_get_ba_filters(), array( 'all' => true ) ),
-		) );
-
-		foreach ( array(
-			'title'       => array( 'label' => __( 'Projekt-Titel', 'hausmeister-theme' ), 'type' => 'text' ),
-			'description' => array( 'label' => __( 'Beschreibung', 'hausmeister-theme' ), 'type' => 'textarea' ),
-			'location'    => array( 'label' => __( 'Ort / Objekt', 'hausmeister-theme' ), 'type' => 'text' ),
-		) as $field => $meta ) {
-			$key = 'ba_' . $i . '_' . $field;
+	for ( $i = 1; $i <= 12; $i++ ) {
+		if ( $i <= 5 ) {
+			$key = 'ba_' . $i . '_category';
 			$wp_customize->add_setting( 'hausmeister_' . $key, array(
 				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
-				'sanitize_callback' => 'textarea' === $meta['type'] ? 'sanitize_textarea_field' : 'sanitize_text_field',
+				'sanitize_callback' => 'sanitize_key',
 			) );
 			$wp_customize->add_control( 'hausmeister_' . $key, array(
-				/* translators: %1$d: item number, %2$s: field label */
-				'label'   => sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $meta['label'] ),
+				/* translators: %d: item number */
+				'label'   => sprintf( __( 'Projekt %d — Kategorie', 'hausmeister-theme' ), $i ),
 				'section' => 'hausmeister_home_before_after',
-				'type'    => $meta['type'],
+				'type'    => 'select',
+				'choices' => array_diff_key( hausmeister_get_ba_filters(), array( 'all' => true ) ),
 			) );
+
+			foreach ( array(
+				'title'       => array( 'label' => __( 'Projekt-Titel', 'hausmeister-theme' ), 'type' => 'text' ),
+				'description' => array( 'label' => __( 'Beschreibung', 'hausmeister-theme' ), 'type' => 'textarea' ),
+				'location'    => array( 'label' => __( 'Ort / Objekt', 'hausmeister-theme' ), 'type' => 'text' ),
+			) as $field => $meta ) {
+				$key = 'ba_' . $i . '_' . $field;
+				$wp_customize->add_setting( 'hausmeister_' . $key, array(
+					'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+					'sanitize_callback' => 'textarea' === $meta['type'] ? 'sanitize_textarea_field' : 'sanitize_text_field',
+				) );
+				$wp_customize->add_control( 'hausmeister_' . $key, array(
+					/* translators: %1$d: item number, %2$s: field label */
+					'label'   => sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $meta['label'] ),
+					'section' => 'hausmeister_home_before_after',
+					'type'    => $meta['type'],
+				) );
+			}
 		}
 
 		foreach ( array( 'before' => __( 'Vorher-Bild', 'hausmeister-theme' ), 'after' => __( 'Nachher-Bild', 'hausmeister-theme' ) ) as $field => $label ) {
@@ -1020,6 +1047,16 @@ function hausmeister_customize_register( $wp_customize ) {
 			) ) );
 		}
 	}
+
+	$wp_customize->add_setting( 'hausmeister_ba_more_btn_text', array(
+		'default'           => $defaults['ba_more_btn_text'],
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_ba_more_btn_text', array(
+		'label'   => __( 'Button „Mehr anzeigen“', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_before_after',
+		'type'    => 'text',
+	) );
 
 	// --- Homepage Work Gallery ---
 	$wp_customize->add_section( 'hausmeister_home_gallery', array(

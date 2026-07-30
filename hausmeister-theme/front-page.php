@@ -225,7 +225,23 @@ $default_quote = page_home( 'feature_1_quote' );
 					)
 				);
 			}
+			for ( $i = 6; $i <= 12; $i++ ) {
+				get_template_part(
+					'template-parts/ba-comparison',
+					'card',
+					array(
+						'ba_index' => $i,
+						'ba_extra' => true,
+					)
+				);
+			}
 			?>
+		</div>
+
+		<div class="ba-gallery__more">
+			<button type="button" class="btn btn--secondary ba-gallery__more-btn" data-ba-more>
+				<?php echo esc_html( page_home( 'ba_more_btn_text' ) ); ?>
+			</button>
 		</div>
 	</div>
 </section>
