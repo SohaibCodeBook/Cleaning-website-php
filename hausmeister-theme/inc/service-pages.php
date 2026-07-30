@@ -140,8 +140,8 @@ function hausmeister_get_service_content_blueprints() {
 		1 => array(
 			'slug'       => 'hausmeistertaetigkeiten',
 			'badges'     => array( 'Geprüfte Qualität', 'Fester Ansprechpartner', 'Schnelle Reaktion' ),
-			'hero'       => 'Professionelle Hausmeistertätigkeiten für Wohn- und Gewerbeimmobilien — zuverlässige Objektbetreuung, Kleinreparaturen und klare Kommunikation aus einer Hand.',
-			'highlights' => "Kontrollgänge & Protokolle\nKleinreparaturen vor Ort\nMüll- & Containerbetreuung",
+			'hero'       => 'Zuverlässige Betreuung Ihrer Immobilie: präventive Kontrollgänge, fachmännische Kleinreparaturen und Ihr zentraler Ansprechpartner für Mieter und Eigentümer.',
+			'highlights' => "Technische Überwachung\nFachmännische Kleinreparaturen\nZentraler Ansprechpartner",
 			'features_heading' => 'Was unsere Hausmeisterleistung umfasst',
 			'features'   => array(
 				array( 'fa-solid fa-clipboard-check', 'Objektkontrollen', 'Regelmäßige Kontrollgänge mit dokumentierten Protokollen für Eigentümer und Verwaltungen.' ),
@@ -169,8 +169,8 @@ function hausmeister_get_service_content_blueprints() {
 		2 => array(
 			'slug'       => 'reinigung-instandhaltung',
 			'badges'     => array( 'Hygienisch sauber', 'Modernes Equipment', 'Termingerecht' ),
-			'hero'       => 'Gründliche Reinigung und Instandhaltung für Treppenhäuser, Fenster, Dachrinnen, PV-Anlagen, Fassaden und Parkplätze — professionell und zuverlässig.',
-			'highlights' => "Treppenhausreinigung\nGlas- & Fassadenreinigung\nDachrinnen & Außenflächen",
+			'hero'       => 'Werterhaltende Objekt- und Unterhaltsreinigung für Gewerbe, Praxen und Wohnanlagen – für ein repräsentatives und hygienisch einwandfreies Erscheinungsbild.',
+			'highlights' => "Gewerbe- und Praxisreinigung (Unterhaltsreinigung)\nIntervallgerechte Treppenhausreinigung\nProfessionelle Fenster- und Fassadenreinigung",
 			'features_heading' => 'Reinigung & Instandhaltung im Detail',
 			'features'   => array(
 				array( 'fa-solid fa-stairs', 'Treppenhausreinigung', 'Regelmäßige Reinigung von Fluren, Geländern und Eingangsbereichen.' ),
@@ -198,8 +198,8 @@ function hausmeister_get_service_content_blueprints() {
 		3 => array(
 			'slug'       => 'gruenanlagenpflege',
 			'badges'     => array( 'Ganzjährig', 'Fachgerecht', 'Gepflegtes Erscheinungsbild' ),
-			'hero'       => 'Professionelle Grünanlagenpflege für Außenflächen, Rasen, Hecken und Beete — für einen einladenden ersten Eindruck Ihrer Immobilie.',
-			'highlights' => "Rasen- & Beetpflege\nHecken- & Strauchschnitt\nSaisonale Pflegepläne",
+			'hero'       => 'Ganzheitliche Außenanlagenpflege für einen gepflegten ersten Eindruck Ihrer Liegenschaft zu jeder Jahreszeit.',
+			'highlights' => "Fachgerechter Rasenschnitt\nPräziser Heckenschnitt\nNachhaltige Unkrautbeseitigung",
 			'features_heading' => 'Leistungen in der Grünanlagenpflege',
 			'features'   => array(
 				array( 'fa-solid fa-seedling', 'Rasenpflege', 'Mähen, Düngen und Pflege für dichte, gesunde Rasenflächen.' ),
@@ -227,8 +227,8 @@ function hausmeister_get_service_content_blueprints() {
 		4 => array(
 			'slug'       => 'entruempelungen',
 			'badges'     => array( 'Diskret', 'Schnell', 'Inkl. Entsorgung' ),
-			'hero'       => 'Schnelle und diskrete Entrümpelungen von Wohnungen, Kellern, Dachböden und Gewerbeflächen — inklusive fachgerechter Entsorgung.',
-			'highlights' => "Wohnungsräumung\nKeller & Dachboden\nGewerbe & Objekte",
+			'hero'       => 'Schnelle, diskrete und saubere Entrümpelung von Wohnungen, Kellern und Gewerbeflächen – inklusive fachgerechter Entsorgung.',
+			'highlights' => "Wohnungsauflösungen\nKeller, Dachböden & Gewerbe\nFachgerechte Entsorgung",
 			'features_heading' => 'Unser Entrümpelungsservice',
 			'features'   => array(
 				array( 'fa-solid fa-house-chimney', 'Wohnungsentrümpelung', 'Komplette Räumung von Wohnungen und Häusern.' ),
@@ -256,8 +256,8 @@ function hausmeister_get_service_content_blueprints() {
 		5 => array(
 			'slug'       => 'winterdienst',
 			'badges'     => array( '24/7 Bereitschaft', 'Rechtssicher', 'Dokumentiert' ),
-			'hero'       => 'Zuverlässiger Winterdienst für Geh- und Fahrwege — Räum- und Streuarbeiten, damit Ihre Verkehrssicherungspflicht erfüllt bleibt.',
-			'highlights' => "Schneeräumung\nStreudienst\nEinsatzprotokolle",
+			'hero'       => 'Rechtssicherer Räum- und Streudienst für Geh- und Fahrwege – damit Ihre gesetzliche Verkehrssicherungspflicht lückenlos erfüllt bleibt.',
+			'highlights' => "Termingerechte Schneeräumung\nGlatteisbeseitigung & Streudienst\nLückenlose Einsatzprotokolle",
 			'features_heading' => 'Leistungen im Winterdienst',
 			'features'   => array(
 				array( 'fa-solid fa-snowplow', 'Schneeräumung', 'Räumung von Gehwegen, Zufahrten und Parkflächen.' ),
