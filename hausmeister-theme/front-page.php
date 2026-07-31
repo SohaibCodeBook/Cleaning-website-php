@@ -23,15 +23,22 @@ $hero_image = hausmeister_get_image_url( 'hero_image', 'hero2.jpeg' );
 				</div>
 
 				<h1 class="hero__headline">
-					<span class="hero__line" style="--reveal-delay: 380ms">
-						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_1' ) ); ?><span class="teal-period">.</span></span>
-					</span>
-					<span class="hero__line" style="--reveal-delay: 780ms">
-						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_2' ) ); ?><span class="teal-period">.</span></span>
-					</span>
-					<span class="hero__line" style="--reveal-delay: 1180ms">
-						<span class="hero__line-text"><?php echo esc_html( page_home( 'hero_line_3' ) ); ?><span class="teal-period">.</span></span>
-					</span>
+					<?php
+					$hero_lines = array();
+					for ( $hl = 1; $hl <= 3; $hl++ ) {
+						$line = trim( (string) page_home( "hero_line_{$hl}" ) );
+						if ( $line !== '' ) {
+							$hero_lines[] = $line;
+						}
+					}
+					$hero_line_delays = array( 380, 780, 1180 );
+					foreach ( $hero_lines as $hl_index => $hero_line ) :
+						$delay = isset( $hero_line_delays[ $hl_index ] ) ? $hero_line_delays[ $hl_index ] : ( 380 + ( $hl_index * 400 ) );
+						?>
+						<span class="hero__line" style="--reveal-delay: <?php echo esc_attr( (string) $delay ); ?>ms">
+							<span class="hero__line-text"><?php echo esc_html( $hero_line ); ?><span class="teal-period">.</span></span>
+						</span>
+					<?php endforeach; ?>
 				</h1>
 
 				<p class="hero__subtitle" data-reveal="fade" style="--reveal-delay: 1850ms"><?php echo esc_html( page_home( 'hero_subtitle' ) ); ?></p>

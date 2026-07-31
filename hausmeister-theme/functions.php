@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.5.5' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.5.6' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -129,6 +129,38 @@ function hausmeister_migrate_sascha_why_us() {
 	update_option( 'hausmeister_sascha_why_v2', '1' );
 }
 add_action( 'after_setup_theme', 'hausmeister_migrate_sascha_why_us', 20 );
+
+/**
+ * One-time: apply updated homepage hero + stats copy.
+ */
+function hausmeister_migrate_home_hero_stats_v1() {
+	if ( get_option( 'hausmeister_home_hero_stats_v1' ) === '1' ) {
+		return;
+	}
+
+	$defaults = hausmeister_get_defaults();
+	$keys     = array(
+		'hero_line_1',
+		'hero_line_2',
+		'hero_line_3',
+		'hero_subtitle',
+		'hero_trust_1',
+		'hero_trust_2',
+		'hero_trust_3',
+		'stat_1_suffix',
+		'stat_3_label',
+		'stat_4_suffix',
+	);
+
+	foreach ( $keys as $key ) {
+		if ( isset( $defaults[ $key ] ) ) {
+			set_theme_mod( 'hausmeister_' . $key, $defaults[ $key ] );
+		}
+	}
+
+	update_option( 'hausmeister_home_hero_stats_v1', '1' );
+}
+add_action( 'after_setup_theme', 'hausmeister_migrate_home_hero_stats_v1', 21 );
 
 /**
  * Theme setup.
