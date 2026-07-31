@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.6.0' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.6.1' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -106,6 +106,7 @@ require_once HAUSMEISTER_THEME_DIR . '/inc/service-pages.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/mega-menu.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/quote-form.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
+require_once HAUSMEISTER_THEME_DIR . '/inc/cookie-policy.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/setup-wizard.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/seo.php';
 
@@ -161,6 +162,49 @@ function hausmeister_migrate_home_hero_stats_v1() {
 	update_option( 'hausmeister_home_hero_stats_v1', '1' );
 }
 add_action( 'after_setup_theme', 'hausmeister_migrate_home_hero_stats_v1', 21 );
+
+/**
+ * One-time: ensure Cookie-Richtlinie page exists with editable default content.
+ */
+function hausmeister_migrate_cookie_policy_page_v1() {
+	if ( get_option( 'hausmeister_cookie_policy_page_v1' ) === '1' ) {
+		return;
+	}
+
+	$existing = get_page_by_path( 'cookie-richtlinie', OBJECT, 'page' );
+	$author   = get_current_user_id();
+	$author   = $author ? $author : 1;
+
+	if ( ! $existing ) {
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => 'Cookie-Richtlinie',
+				'post_name'    => 'cookie-richtlinie',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_content' => function_exists( 'hausmeister_get_default_cookie_policy_html' ) ? hausmeister_get_default_cookie_policy_html() : '',
+				'post_author'  => $author,
+			),
+			true
+		);
+		if ( ! is_wp_error( $page_id ) && $page_id ) {
+			update_post_meta( $page_id, '_wp_page_template', 'page-cookie-richtlinie.php' );
+		}
+	} else {
+		update_post_meta( $existing->ID, '_wp_page_template', 'page-cookie-richtlinie.php' );
+		if ( '' === trim( (string) $existing->post_content ) && function_exists( 'hausmeister_get_default_cookie_policy_html' ) ) {
+			wp_update_post(
+				array(
+					'ID'           => $existing->ID,
+					'post_content' => hausmeister_get_default_cookie_policy_html(),
+				)
+			);
+		}
+	}
+
+	update_option( 'hausmeister_cookie_policy_page_v1', '1' );
+}
+add_action( 'init', 'hausmeister_migrate_cookie_policy_page_v1', 20 );
 
 /**
  * Theme setup.

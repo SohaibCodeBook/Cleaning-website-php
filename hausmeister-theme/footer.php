@@ -15,6 +15,7 @@ $hausmeister_footer_about_page = get_page_by_path( 'ueber-uns', OBJECT, 'page' )
 $hausmeister_footer_contact_page = get_page_by_path( 'kontakt', OBJECT, 'page' );
 $hausmeister_footer_impressum_page = get_page_by_path( 'impressum', OBJECT, 'page' );
 $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 'page' );
+$hausmeister_footer_cookie_page = get_page_by_path( 'cookie-richtlinie', OBJECT, 'page' );
 ?>
 
 <footer class="site-footer">
@@ -112,6 +113,13 @@ $hausmeister_footer_datenschutz_page = get_page_by_path( 'datenschutz', OBJECT, 
 							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_datenschutz_page->ID ) ); ?>"><?php echo esc_html__( 'Datenschutz', 'hausmeister-theme' ); ?></a>
 						<?php else : ?>
 							<span class="footer-policy--disabled"><?php echo esc_html__( 'Datenschutz', 'hausmeister-theme' ); ?></span>
+						<?php endif; ?>
+					</li>
+					<li>
+						<?php if ( $hausmeister_footer_cookie_page ) : ?>
+							<a href="<?php echo esc_url( get_permalink( $hausmeister_footer_cookie_page->ID ) ); ?>"><?php echo esc_html__( 'Cookie-Richtlinie', 'hausmeister-theme' ); ?></a>
+						<?php else : ?>
+							<span class="footer-policy--disabled"><?php echo esc_html__( 'Cookie-Richtlinie', 'hausmeister-theme' ); ?></span>
 						<?php endif; ?>
 					</li>
 				</ul>

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string[]
  */
 function hausmeister_get_required_page_slugs() {
-	return array( 'startseite', 'ueber-uns', 'kontakt', 'impressum', 'datenschutz' );
+	return array( 'startseite', 'ueber-uns', 'kontakt', 'impressum', 'datenschutz', 'cookie-richtlinie' );
 }
 
 /**
@@ -159,6 +159,11 @@ function hausmeister_create_pages() {
 			'title'    => 'Datenschutz',
 			'template' => 'page-datenschutz.php',
 		),
+		'cookie-richtlinie' => array(
+			'title'    => 'Cookie-Richtlinie',
+			'template' => 'page-cookie-richtlinie.php',
+			'content'  => 'cookie_policy',
+		),
 	);
 
 	$author  = get_current_user_id();
@@ -178,13 +183,18 @@ function hausmeister_create_pages() {
 			continue;
 		}
 
+		$page_content = '';
+		if ( ! empty( $def['content'] ) && 'cookie_policy' === $def['content'] && function_exists( 'hausmeister_get_default_cookie_policy_html' ) ) {
+			$page_content = hausmeister_get_default_cookie_policy_html();
+		}
+
 		$page_id = wp_insert_post(
 			array(
 				'post_title'   => $def['title'],
 				'post_name'    => $slug,
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
-				'post_content' => '',
+				'post_content' => $page_content,
 				'post_author'  => $author,
 			),
 			true
