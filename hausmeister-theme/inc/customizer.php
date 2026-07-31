@@ -208,6 +208,7 @@ function hausmeister_get_defaults() {
 		'ba_12_after'  => hausmeister_theme_image( 'ba/gruen-after.jpg' ),
 
 		'ba_more_btn_text' => 'Mehr anzeigen',
+		'ba_less_btn_text' => 'Weniger anzeigen',
 
 		// Homepage — Work gallery.
 		'gallery_section_label' => 'Galerie',
@@ -1054,6 +1055,16 @@ function hausmeister_customize_register( $wp_customize ) {
 	) );
 	$wp_customize->add_control( 'hausmeister_ba_more_btn_text', array(
 		'label'   => __( 'Button „Mehr anzeigen“', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_before_after',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'hausmeister_ba_less_btn_text', array(
+		'default'           => $defaults['ba_less_btn_text'],
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_ba_less_btn_text', array(
+		'label'   => __( 'Button „Weniger anzeigen“', 'hausmeister-theme' ),
 		'section' => 'hausmeister_home_before_after',
 		'type'    => 'text',
 	) );

@@ -238,9 +238,12 @@ $default_quote = page_home( 'feature_1_quote' );
 			?>
 		</div>
 
-		<div class="ba-gallery__more">
+		<div class="ba-gallery__more" data-ba-more-wrap>
 			<button type="button" class="btn btn--secondary ba-gallery__more-btn" data-ba-more>
 				<?php echo esc_html( page_home( 'ba_more_btn_text' ) ); ?>
+			</button>
+			<button type="button" class="btn btn--secondary ba-gallery__more-btn" data-ba-less hidden>
+				<?php echo esc_html( page_home( 'ba_less_btn_text' ) ); ?>
 			</button>
 		</div>
 	</div>
