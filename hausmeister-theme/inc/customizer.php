@@ -214,6 +214,8 @@ function hausmeister_get_defaults() {
 		'gallery_section_label' => 'Galerie',
 		'gallery_heading'       => 'Galerie unserer Arbeiten',
 		'gallery_subheading'    => 'Einblicke in gepflegte Objekte und abgeschlossene Arbeiten aus dem Fichtelgebirge.',
+		'gallery_more_btn_text' => 'Mehr anzeigen',
+		'gallery_less_btn_text' => 'Weniger anzeigen',
 
 		// Homepage — Google Reviews.
 		'reviews_section_label'  => 'Google Bewertungen',
@@ -1099,6 +1101,26 @@ function hausmeister_customize_register( $wp_customize ) {
 		'label'       => __( 'Untertitel (optional, leer lassen zum Ausblenden)', 'hausmeister-theme' ),
 		'section'     => 'hausmeister_home_gallery',
 		'type'        => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'hausmeister_gallery_more_btn_text', array(
+		'default'           => $defaults['gallery_more_btn_text'],
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_gallery_more_btn_text', array(
+		'label'   => __( 'Button „Mehr anzeigen“', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_gallery',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'hausmeister_gallery_less_btn_text', array(
+		'default'           => $defaults['gallery_less_btn_text'],
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'hausmeister_gallery_less_btn_text', array(
+		'label'   => __( 'Button „Weniger anzeigen“', 'hausmeister-theme' ),
+		'section' => 'hausmeister_home_gallery',
+		'type'    => 'text',
 	) );
 
 	// --- Homepage Google Reviews ---

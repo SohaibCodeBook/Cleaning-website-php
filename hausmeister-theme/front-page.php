@@ -254,7 +254,7 @@ $work_gallery = hausmeister_get_work_gallery_images();
 if ( ! empty( $work_gallery ) ) :
 	$gallery_subheading = page_home( 'gallery_subheading' );
 	?>
-<section class="work-gallery" aria-label="<?php esc_attr_e( 'Galerie unserer Arbeiten', 'hausmeister-theme' ); ?>">
+<section class="work-gallery" data-work-gallery-section aria-label="<?php esc_attr_e( 'Galerie unserer Arbeiten', 'hausmeister-theme' ); ?>">
 	<div class="container-theme">
 		<div class="work-gallery__header">
 			<span class="section-label"><?php echo esc_html( page_home( 'gallery_section_label' ) ); ?></span>
@@ -292,6 +292,15 @@ if ( ! empty( $work_gallery ) ) :
 					</button>
 				</figure>
 			<?php endforeach; ?>
+		</div>
+
+		<div class="work-gallery__more" data-gallery-more-wrap hidden>
+			<button type="button" class="btn btn--secondary work-gallery__more-btn" data-gallery-more>
+				<?php echo esc_html( page_home( 'gallery_more_btn_text' ) ); ?>
+			</button>
+			<button type="button" class="btn btn--secondary work-gallery__more-btn" data-gallery-less hidden>
+				<?php echo esc_html( page_home( 'gallery_less_btn_text' ) ); ?>
+			</button>
 		</div>
 	</div>
 </section>
