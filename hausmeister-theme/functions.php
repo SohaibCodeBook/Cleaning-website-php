@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.5.7' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.6.0' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -190,22 +190,22 @@ add_action( 'after_setup_theme', 'hausmeister_theme_setup' );
  */
 function hausmeister_theme_enqueue_assets() {
 	wp_enqueue_style(
-		'hausmeister-google-fonts',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap',
+		'hausmeister-fonts',
+		HAUSMEISTER_THEME_URI . '/assets/css/fonts.css',
 		array(),
-		null
+		HAUSMEISTER_THEME_VERSION
 	);
 
 	wp_enqueue_style(
 		'bootstrap',
-		'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+		HAUSMEISTER_THEME_URI . '/assets/vendor/bootstrap/bootstrap.min.css',
 		array(),
 		'5.3.3'
 	);
 
 	wp_enqueue_style(
 		'font-awesome',
-		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+		HAUSMEISTER_THEME_URI . '/assets/vendor/fontawesome/css/all.min.css',
 		array(),
 		'6.5.1'
 	);
@@ -213,7 +213,7 @@ function hausmeister_theme_enqueue_assets() {
 	wp_enqueue_style(
 		'hausmeister-theme-style',
 		get_stylesheet_uri(),
-		array( 'bootstrap', 'font-awesome' ),
+		array( 'hausmeister-fonts', 'bootstrap', 'font-awesome' ),
 		HAUSMEISTER_THEME_VERSION
 	);
 
@@ -249,7 +249,7 @@ function hausmeister_theme_enqueue_assets() {
 
 	wp_enqueue_script(
 		'bootstrap',
-		'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+		HAUSMEISTER_THEME_URI . '/assets/vendor/bootstrap/bootstrap.bundle.min.js',
 		array(),
 		'5.3.3',
 		true

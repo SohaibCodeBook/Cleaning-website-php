@@ -97,23 +97,21 @@ get_header();
 			</section>
 
 			<section class="legal-page__section" aria-labelledby="ds-fonts">
-				<h2 id="ds-fonts"><?php esc_html_e( '7. Google Fonts', 'hausmeister-theme' ); ?></h2>
-				<p><?php esc_html_e( 'Diese Website verwendet Google Fonts zur einheitlichen Darstellung von Schriftarten.', 'hausmeister-theme' ); ?></p>
-				<p><?php esc_html_e( 'Beim Aufruf der Website kann eine Verbindung zu Servern von Google hergestellt werden. Dabei kann insbesondere Ihre IP-Adresse an Google übermittelt werden.', 'hausmeister-theme' ); ?></p>
-				<p><?php esc_html_e( 'Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.', 'hausmeister-theme' ); ?></p>
+				<h2 id="ds-fonts"><?php esc_html_e( '7. Schriftarten', 'hausmeister-theme' ); ?></h2>
+				<p><?php esc_html_e( 'Zur einheitlichen Darstellung von Schriftarten werden lokal auf unserem Webserver gespeicherte Schriftdateien (Inter und Plus Jakarta Sans) verwendet.', 'hausmeister-theme' ); ?></p>
+				<p><?php esc_html_e( 'Beim Laden der Website wird keine Verbindung zu Google Fonts oder anderen Schriftarten-CDNs hergestellt.', 'hausmeister-theme' ); ?></p>
 			</section>
 
 			<section class="legal-page__section" aria-labelledby="ds-fa">
-				<h2 id="ds-fa"><?php esc_html_e( '8. Font Awesome', 'hausmeister-theme' ); ?></h2>
-				<p><?php esc_html_e( 'Diese Website nutzt Font Awesome zur Darstellung von Symbolen.', 'hausmeister-theme' ); ?></p>
-				<p><?php esc_html_e( 'Beim Laden der Schriftarten oder Icons kann eine Verbindung zu den Servern des jeweiligen Anbieters hergestellt werden.', 'hausmeister-theme' ); ?></p>
-				<p><?php esc_html_e( 'Dabei können technische Informationen, insbesondere Ihre IP-Adresse, verarbeitet werden.', 'hausmeister-theme' ); ?></p>
+				<h2 id="ds-fa"><?php esc_html_e( '8. Icons (Font Awesome)', 'hausmeister-theme' ); ?></h2>
+				<p><?php esc_html_e( 'Zur Darstellung von Symbolen wird Font Awesome verwendet. Die erforderlichen Dateien werden lokal auf unserem Webserver gespeichert und von dort ausgeliefert.', 'hausmeister-theme' ); ?></p>
+				<p><?php esc_html_e( 'Beim Laden der Website wird keine Verbindung zu einem Font-Awesome-CDN hergestellt.', 'hausmeister-theme' ); ?></p>
 			</section>
 
 			<section class="legal-page__section" aria-labelledby="ds-bootstrap">
-				<h2 id="ds-bootstrap"><?php esc_html_e( '9. Bootstrap CDN', 'hausmeister-theme' ); ?></h2>
-				<p><?php esc_html_e( 'Zur technischen Darstellung der Website werden Dateien des Bootstrap-CDN eingebunden.', 'hausmeister-theme' ); ?></p>
-				<p><?php esc_html_e( 'Beim Laden dieser Dateien kann eine Verbindung zum CDN-Anbieter hergestellt werden. Dabei können technische Daten wie die IP-Adresse verarbeitet werden.', 'hausmeister-theme' ); ?></p>
+				<h2 id="ds-bootstrap"><?php esc_html_e( '9. Bootstrap', 'hausmeister-theme' ); ?></h2>
+				<p><?php esc_html_e( 'Zur technischen Darstellung der Website wird Bootstrap verwendet. Die CSS- und JavaScript-Dateien werden lokal auf unserem Webserver gespeichert und von dort ausgeliefert.', 'hausmeister-theme' ); ?></p>
+				<p><?php esc_html_e( 'Beim Laden der Website wird keine Verbindung zu einem Bootstrap-CDN hergestellt.', 'hausmeister-theme' ); ?></p>
 			</section>
 
 			<section class="legal-page__section" aria-labelledby="ds-cookies">
