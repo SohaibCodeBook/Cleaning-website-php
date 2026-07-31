@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.5.2' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.5.3' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -108,6 +108,27 @@ require_once HAUSMEISTER_THEME_DIR . '/inc/quote-form.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/logo.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/setup-wizard.php';
 require_once HAUSMEISTER_THEME_DIR . '/inc/seo.php';
+
+/**
+ * One-time: apply Sascha Becker photo + attribution on Warum-wir (home + Über uns).
+ * Clears older Customizer overrides that still pointed at why-us.jpg / Unser Team.
+ */
+function hausmeister_migrate_sascha_why_us() {
+	if ( get_option( 'hausmeister_sascha_why_v2' ) === '1' ) {
+		return;
+	}
+
+	$image  = hausmeister_theme_image( 'Sascha Becker.jpeg' );
+	$author = '— Sascha Becker';
+
+	set_theme_mod( 'hausmeister_why_image', $image );
+	set_theme_mod( 'hausmeister_about_why_image', $image );
+	set_theme_mod( 'hausmeister_why_quote_author', $author );
+	set_theme_mod( 'hausmeister_about_why_quote_author', $author );
+
+	update_option( 'hausmeister_sascha_why_v2', '1' );
+}
+add_action( 'after_setup_theme', 'hausmeister_migrate_sascha_why_us', 20 );
 
 /**
  * Theme setup.

@@ -98,15 +98,18 @@ get_header();
 							$why_image = hausmeister_get_image_url( 'about_why_image', 'Sascha Becker.jpeg' );
 							if ( $why_image ) :
 								?>
-								<img src="<?php echo esc_url( $why_image ); ?>" class="why-us__image" alt="" loading="lazy" />
+								<img
+									src="<?php echo esc_url( $why_image ); ?>"
+									class="why-us__image"
+									alt="<?php esc_attr_e( 'Sascha Becker', 'hausmeister-theme' ); ?>"
+									loading="lazy"
+								/>
 							<?php endif; ?>
 						</div>
 
 						<figure class="why-us__quote-card">
 							<p data-why-quote-text><?php echo esc_html( $initial_quote ); ?></p>
-							<?php if ( page_about( 'about_why_quote_author', '' ) ) : ?>
-								<cite><?php echo esc_html( page_about( 'about_why_quote_author' ) ); ?></cite>
-							<?php endif; ?>
+							<cite><?php echo esc_html( page_about( 'about_why_quote_author', '— Sascha Becker' ) ); ?></cite>
 						</figure>
 					</div>
 				</div>
