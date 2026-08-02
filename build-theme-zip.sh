@@ -12,9 +12,16 @@ if [ ! -d "$THEME_DIR" ]; then
 fi
 
 rm -f "$ZIP_FILE"
+# Staging photo folders are source material only; the theme renders from
+# assets/images/ba/ and assets/images/after images gallery/.
 zip -r "$ZIP_FILE" hausmeister-theme \
 	-x "*.DS_Store" \
-	-x "*/__MACOSX/*"
+	-x "*/.DS_Store" \
+	-x "*/__MACOSX/*" \
+	-x "hausmeister-theme/assets/images/before and after/*" \
+	-x "hausmeister-theme/assets/images/before and after images 2/*" \
+	-x "hausmeister-theme/assets/images/before and after optimized/*" \
+	-x "hausmeister-theme/assets/images/before and after images 2 optimized/*"
 
 echo "Created: $ZIP_FILE"
 ls -lh "$ZIP_FILE"

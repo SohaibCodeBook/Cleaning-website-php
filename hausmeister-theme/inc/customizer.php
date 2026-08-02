@@ -184,28 +184,28 @@ function hausmeister_get_defaults() {
 		'ba_5_before'       => hausmeister_theme_image( 'ba/winter-before.jpg' ),
 		'ba_5_after'        => hausmeister_theme_image( 'ba/winter-after.jpg' ),
 
-		// Extra BA placeholders (shown after "Mehr anzeigen").
-		'ba_6_title'  => '',
-		'ba_6_before' => hausmeister_theme_image( 'ba/treppenhaus-before.jpg' ),
-		'ba_6_after'  => hausmeister_theme_image( 'ba/treppenhaus-after.jpg' ),
-		'ba_7_title'  => '',
-		'ba_7_before' => hausmeister_theme_image( 'ba/gruen-before.jpg' ),
-		'ba_7_after'  => hausmeister_theme_image( 'ba/gruen-after.jpg' ),
-		'ba_8_title'  => '',
-		'ba_8_before' => hausmeister_theme_image( 'ba/fassade-before.jpg' ),
-		'ba_8_after'  => hausmeister_theme_image( 'ba/fassade-after.jpg' ),
-		'ba_9_title'  => '',
-		'ba_9_before' => hausmeister_theme_image( 'ba/glas-before.jpg' ),
-		'ba_9_after'  => hausmeister_theme_image( 'ba/glas-after.jpg' ),
+		// Extra BA slots — empty until the client uploads both images in Customizer.
+		'ba_6_title'   => '',
+		'ba_6_before'  => '',
+		'ba_6_after'   => '',
+		'ba_7_title'   => '',
+		'ba_7_before'  => '',
+		'ba_7_after'   => '',
+		'ba_8_title'   => '',
+		'ba_8_before'  => '',
+		'ba_8_after'   => '',
+		'ba_9_title'   => '',
+		'ba_9_before'  => '',
+		'ba_9_after'   => '',
 		'ba_10_title'  => '',
-		'ba_10_before' => hausmeister_theme_image( 'ba/winter-before.jpg' ),
-		'ba_10_after'  => hausmeister_theme_image( 'ba/winter-after.jpg' ),
+		'ba_10_before' => '',
+		'ba_10_after'  => '',
 		'ba_11_title'  => '',
-		'ba_11_before' => hausmeister_theme_image( 'ba/treppenhaus-before.jpg' ),
-		'ba_11_after'  => hausmeister_theme_image( 'ba/treppenhaus-after.jpg' ),
+		'ba_11_before' => '',
+		'ba_11_after'  => '',
 		'ba_12_title'  => '',
-		'ba_12_before' => hausmeister_theme_image( 'ba/gruen-before.jpg' ),
-		'ba_12_after'  => hausmeister_theme_image( 'ba/gruen-after.jpg' ),
+		'ba_12_before' => '',
+		'ba_12_after'  => '',
 
 		'ba_more_btn_text' => 'Mehr anzeigen',
 		'ba_less_btn_text' => 'Weniger anzeigen',
@@ -260,6 +260,36 @@ function hausmeister_get_defaults() {
 		'review_7_date'   => 'vor 5 Monaten',
 		'review_7_rating' => '5',
 		'review_7_text'   => 'Ich habe mich wegen einer Entrümpelung an Herrn Becker gewandt, obwohl ich selbst weiter entfernt wohne und nicht vor Ort sein konnte. Die gesamte Organisation lief absolut zuverlässig und unkompliziert.',
+
+		// Extra review slots — empty until filled in Customizer (hidden on the site).
+		'review_8_name'   => '',
+		'review_8_date'   => '',
+		'review_8_rating' => '5',
+		'review_8_text'   => '',
+		'review_9_name'   => '',
+		'review_9_date'   => '',
+		'review_9_rating' => '5',
+		'review_9_text'   => '',
+		'review_10_name'   => '',
+		'review_10_date'   => '',
+		'review_10_rating' => '5',
+		'review_10_text'   => '',
+		'review_11_name'   => '',
+		'review_11_date'   => '',
+		'review_11_rating' => '5',
+		'review_11_text'   => '',
+		'review_12_name'   => '',
+		'review_12_date'   => '',
+		'review_12_rating' => '5',
+		'review_12_text'   => '',
+		'review_13_name'   => '',
+		'review_13_date'   => '',
+		'review_13_rating' => '5',
+		'review_13_text'   => '',
+		'review_14_name'   => '',
+		'review_14_date'   => '',
+		'review_14_rating' => '5',
+		'review_14_text'   => '',
 
 		// Homepage — CTA.
 		'cta_heading'  => 'Bereit für ein unverbindliches Angebot?',
@@ -677,15 +707,49 @@ function hausmeister_render_google_stars( $rating, $size = 'md' ) {
 }
 
 /**
- * Check whether a review slot has content to display.
+ * Max number of Google review Customizer slots.
  *
- * @param int $index Review index (1–6).
+ * @return int
+ */
+function hausmeister_review_slot_count() {
+	return 14;
+}
+
+/**
+ * Check whether a review slot has content to display.
+ * Requires both name and text — empty placeholders stay hidden.
+ *
+ * @param int $index Review index (1–14).
  * @return bool
  */
 function hausmeister_review_is_visible( $index ) {
+	$index = (int) $index;
+	if ( $index < 1 || $index > hausmeister_review_slot_count() ) {
+		return false;
+	}
+
 	$name = page_home( "review_{$index}_name" );
 	$text = page_home( "review_{$index}_text" );
 	return $name !== '' && $text !== '';
+}
+
+/**
+ * Check whether a Before/After slot should render on the front end.
+ * Requires both Vorher and Nachher images (Customizer URL or attachment ID).
+ *
+ * @param int $index Slot index (1–12).
+ * @return bool
+ */
+function hausmeister_ba_is_visible( $index ) {
+	$index = (int) $index;
+	if ( $index < 1 || $index > 12 ) {
+		return false;
+	}
+
+	$before = hausmeister_get_image_url( "ba_{$index}_before" );
+	$after  = hausmeister_get_image_url( "ba_{$index}_after" );
+
+	return $before !== '' && $after !== '';
 }
 
 /**
@@ -974,8 +1038,9 @@ function hausmeister_customize_register( $wp_customize ) {
 
 	// --- Homepage Before & After ---
 	$wp_customize->add_section( 'hausmeister_home_before_after', array(
-		'title' => __( 'Startseite — Vorher & Nachher', 'hausmeister-theme' ),
-		'panel' => 'hausmeister_panel',
+		'title'       => __( 'Startseite — Vorher & Nachher', 'hausmeister-theme' ),
+		'description' => __( 'Projekte 1–5 erscheinen oben. Projekte 6–12 nur hinter „Mehr anzeigen“, und nur wenn Vorher- und Nachher-Bild gesetzt sind. Leere Plätze bleiben unsichtbar.', 'hausmeister-theme' ),
+		'panel'       => 'hausmeister_panel',
 	) );
 
 	foreach ( array(
@@ -1043,10 +1108,15 @@ function hausmeister_customize_register( $wp_customize ) {
 				'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
 				'sanitize_callback' => 'hausmeister_sanitize_image_setting',
 			) );
+			$control_label = ( $i <= 5 )
+				? sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $label )
+				: sprintf( __( 'Zusatzprojekt %1$d — %2$s (optional)', 'hausmeister-theme' ), $i, $label );
 			$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_' . $key, array(
-				/* translators: %1$d: item number, %2$s: before/after label */
-				'label'   => sprintf( __( 'Projekt %1$d — %2$s', 'hausmeister-theme' ), $i, $label ),
-				'section' => 'hausmeister_home_before_after',
+				'label'       => $control_label,
+				'description' => ( $i > 5 && 'before' === $field )
+					? __( 'Erst sichtbar, wenn Vorher- und Nachher-Bild gesetzt sind.', 'hausmeister-theme' )
+					: '',
+				'section'     => 'hausmeister_home_before_after',
 			) ) );
 		}
 	}
@@ -1125,8 +1195,9 @@ function hausmeister_customize_register( $wp_customize ) {
 
 	// --- Homepage Google Reviews ---
 	$wp_customize->add_section( 'hausmeister_home_reviews', array(
-		'title' => __( 'Startseite — Google Bewertungen', 'hausmeister-theme' ),
-		'panel' => 'hausmeister_panel',
+		'title'       => __( 'Startseite — Google Bewertungen', 'hausmeister-theme' ),
+		'description' => __( 'Bewertungen 1–7 sind vorausgefüllt. Plätze 8–14 erscheinen erst auf der Website, wenn Name und Bewertungstext gesetzt sind.', 'hausmeister-theme' ),
+		'panel'       => 'hausmeister_panel',
 	) );
 
 	foreach ( array(
@@ -1184,7 +1255,12 @@ function hausmeister_customize_register( $wp_customize ) {
 		) );
 	}
 
-	for ( $i = 1; $i <= 7; $i++ ) {
+	$review_slots = hausmeister_review_slot_count();
+	for ( $i = 1; $i <= $review_slots; $i++ ) {
+		$slot_label = ( $i <= 7 )
+			? sprintf( __( 'Bewertung %d', 'hausmeister-theme' ), $i )
+			: sprintf( __( 'Zusatzbewertung %d (optional)', 'hausmeister-theme' ), $i );
+
 		foreach ( array(
 			'name' => array( 'label' => __( 'Name', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
 			'date' => array( 'label' => __( 'Datum (z. B. vor 2 Monaten)', 'hausmeister-theme' ), 'type' => 'text', 'sanitize' => 'sanitize_text_field' ),
@@ -1196,10 +1272,12 @@ function hausmeister_customize_register( $wp_customize ) {
 				'sanitize_callback' => $meta['sanitize'],
 			) );
 			$wp_customize->add_control( 'hausmeister_' . $key, array(
-				/* translators: %1$d: review number, %2$s: field label */
-				'label'   => sprintf( __( 'Bewertung %1$d — %2$s', 'hausmeister-theme' ), $i, $meta['label'] ),
-				'section' => 'hausmeister_home_reviews',
-				'type'    => $meta['type'],
+				'label'       => $slot_label . ' — ' . $meta['label'],
+				'description' => ( $i > 7 && 'name' === $field )
+					? __( 'Erst sichtbar, wenn Name und Bewertungstext ausgefüllt sind.', 'hausmeister-theme' )
+					: '',
+				'section'     => 'hausmeister_home_reviews',
+				'type'        => $meta['type'],
 			) );
 		}
 
@@ -1209,8 +1287,7 @@ function hausmeister_customize_register( $wp_customize ) {
 			'sanitize_callback' => 'hausmeister_sanitize_star_rating',
 		) );
 		$wp_customize->add_control( 'hausmeister_' . $key, array(
-			/* translators: %d: review number */
-			'label'   => sprintf( __( 'Bewertung %d — Sterne (1–5)', 'hausmeister-theme' ), $i ),
+			'label'   => $slot_label . ' — ' . __( 'Sterne (1–5)', 'hausmeister-theme' ),
 			'section' => 'hausmeister_home_reviews',
 			'type'    => 'select',
 			'choices' => array(
@@ -1228,8 +1305,7 @@ function hausmeister_customize_register( $wp_customize ) {
 			'sanitize_callback' => 'hausmeister_sanitize_image_setting',
 		) );
 		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_' . $key, array(
-			/* translators: %d: review number */
-			'label'       => sprintf( __( 'Bewertung %d — Profilbild (optional)', 'hausmeister-theme' ), $i ),
+			'label'       => $slot_label . ' — ' . __( 'Profilbild (optional)', 'hausmeister-theme' ),
 			'section'     => 'hausmeister_home_reviews',
 			'description' => __( 'Ohne Bild wird ein Google-ähnlicher Buchstaben-Avatar angezeigt.', 'hausmeister-theme' ),
 		) ) );

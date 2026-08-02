@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 $i = isset( $args['review_index'] ) ? (int) $args['review_index'] : 0;
 
-if ( $i < 1 || $i > 7 || ! hausmeister_review_is_visible( $i ) ) {
+if ( $i < 1 || $i > hausmeister_review_slot_count() || ! hausmeister_review_is_visible( $i ) ) {
 	return;
 }
 

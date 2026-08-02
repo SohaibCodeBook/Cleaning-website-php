@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.6.1' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.6.4' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -459,3 +459,11 @@ function hausmeister_handle_contact_form() {
 }
 add_action( 'wp_ajax_hausmeister_contact', 'hausmeister_handle_contact_form' );
 add_action( 'wp_ajax_nopriv_hausmeister_contact', 'hausmeister_handle_contact_form' );
+
+/**
+ * Force the Complianz cookie banner even when no warning is required.
+ */
+add_filter( 'cmplz_site_needs_cookiewarning', 'cmplz_force_banner' );
+function cmplz_force_banner( $required ) {
+	return true;
+}

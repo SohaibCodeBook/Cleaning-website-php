@@ -223,6 +223,7 @@ $default_quote = page_home( 'feature_1_quote' );
 
 		<div class="ba-grid" data-ba-grid>
 			<?php
+			$ba_extra_count = 0;
 			for ( $i = 1; $i <= 5; $i++ ) {
 				get_template_part(
 					'template-parts/ba-comparison',
@@ -233,6 +234,10 @@ $default_quote = page_home( 'feature_1_quote' );
 				);
 			}
 			for ( $i = 6; $i <= 12; $i++ ) {
+				if ( ! hausmeister_ba_is_visible( $i ) ) {
+					continue;
+				}
+				$ba_extra_count++;
 				get_template_part(
 					'template-parts/ba-comparison',
 					'card',
@@ -245,6 +250,7 @@ $default_quote = page_home( 'feature_1_quote' );
 			?>
 		</div>
 
+		<?php if ( $ba_extra_count > 0 ) : ?>
 		<div class="ba-gallery__more" data-ba-more-wrap>
 			<button type="button" class="btn btn--secondary ba-gallery__more-btn" data-ba-more>
 				<?php echo esc_html( page_home( 'ba_more_btn_text' ) ); ?>
@@ -253,6 +259,7 @@ $default_quote = page_home( 'feature_1_quote' );
 				<?php echo esc_html( page_home( 'ba_less_btn_text' ) ); ?>
 			</button>
 		</div>
+		<?php endif; ?>
 	</div>
 </section>
 
@@ -316,7 +323,8 @@ if ( ! empty( $work_gallery ) ) :
 <?php
 $reviews_google_url = page_home( 'reviews_google_url' );
 $reviews_visible    = 0;
-for ( $r = 1; $r <= 7; $r++ ) {
+$review_slots       = hausmeister_review_slot_count();
+for ( $r = 1; $r <= $review_slots; $r++ ) {
 	if ( hausmeister_review_is_visible( $r ) ) {
 		$reviews_visible++;
 	}
@@ -377,7 +385,7 @@ for ( $r = 1; $r <= 7; $r++ ) {
 				<div class="google-reviews__reviews">
 					<div class="google-reviews__track" data-reviews-track tabindex="0">
 						<?php
-						for ( $i = 1; $i <= 7; $i++ ) {
+						for ( $i = 1; $i <= $review_slots; $i++ ) {
 							get_template_part(
 								'template-parts/google-review',
 								'card',
