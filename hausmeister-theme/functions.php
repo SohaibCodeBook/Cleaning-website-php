@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HAUSMEISTER_THEME_VERSION', '1.6.4' );
+define( 'HAUSMEISTER_THEME_VERSION', '1.6.5' );
 define( 'HAUSMEISTER_THEME_DIR', get_template_directory() );
 define( 'HAUSMEISTER_THEME_URI', get_template_directory_uri() );
 
@@ -23,9 +23,16 @@ function hausmeister_theme_image( $relative_path ) {
 }
 
 /**
- * Relative path of the homepage work gallery folder under assets/images/.
+ * Max number of work-gallery Customizer image slots.
  *
- * Drop new JPG/PNG/WebP files into this folder — they appear automatically.
+ * @return int
+ */
+function hausmeister_gallery_slot_count() {
+	return 20;
+}
+
+/**
+ * Relative path of the bundled work-gallery seed folder under assets/images/.
  *
  * @return string
  */
@@ -34,41 +41,86 @@ function hausmeister_work_gallery_dir_relative() {
 }
 
 /**
- * Collect work gallery images from the theme folder, with span hints for the grid.
+ * Bundled gallery seed filenames (stable order for defaults).
  *
- * @return array<int, array{url:string, path:string, width:int, height:int, span:string, alt:string}>
+ * @return string[]
+ */
+function hausmeister_work_gallery_seed_files() {
+	return array(
+		'WhatsApp Image 2026-07-30 at 3.13.51 PM.jpeg',
+		'WhatsApp Image 2026-07-30 at 3.13.51 PM (1).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.13.51 PM (2).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.13.51 PM (3).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.36 PM.jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.36 PM (1).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.36 PM (2).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.36 PM (3).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.37 PM.jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.37 PM (1).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.37 PM (2).jpeg',
+		'WhatsApp Image 2026-07-30 at 3.47.37 PM (3).jpeg',
+	);
+}
+
+/**
+ * Collect work gallery images from Customizer slots (empty slots stay hidden).
+ * Layout spans stay the same as before (wide / tall / square / featured).
+ *
+ * @return array<int, array{url:string, width:int, height:int, span:string, alt:string}>
  */
 function hausmeister_get_work_gallery_images() {
-	$relative = hausmeister_work_gallery_dir_relative();
-	$dir      = HAUSMEISTER_THEME_DIR . '/assets/images/' . $relative;
+	$slots  = hausmeister_gallery_slot_count();
+	$filled = array();
 
-	if ( ! is_dir( $dir ) ) {
-		return array();
-	}
+	for ( $i = 1; $i <= $slots; $i++ ) {
+		$value = page_home( "gallery_{$i}_image" );
+		$url   = '';
+		$w     = 0;
+		$h     = 0;
 
-	$files = array();
-	foreach ( scandir( $dir ) as $file ) {
-		if ( '.' === $file || '..' === $file ) {
+		if ( is_numeric( $value ) ) {
+			$meta = wp_get_attachment_image_src( (int) $value, 'full' );
+			if ( $meta ) {
+				$url = $meta[0];
+				$w   = (int) $meta[1];
+				$h   = (int) $meta[2];
+			}
+		} elseif ( is_string( $value ) && $value !== '' ) {
+			$url      = $value;
+			$theme_uri = HAUSMEISTER_THEME_URI . '/assets/images/';
+			if ( 0 === strpos( $url, $theme_uri ) ) {
+				$rel  = rawurldecode( substr( $url, strlen( $theme_uri ) ) );
+				$path = HAUSMEISTER_THEME_DIR . '/assets/images/' . $rel;
+				if ( is_file( $path ) ) {
+					$size = @getimagesize( $path );
+					if ( $size ) {
+						$w = (int) $size[0];
+						$h = (int) $size[1];
+					}
+				}
+			}
+		}
+
+		if ( $url === '' ) {
 			continue;
 		}
-		$ext = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
-		if ( ! in_array( $ext, array( 'jpg', 'jpeg', 'png', 'webp', 'gif' ), true ) ) {
-			continue;
-		}
-		$files[] = $file;
+
+		$filled[] = array(
+			'url'    => $url,
+			'width'  => $w,
+			'height' => $h,
+			'alt'    => sprintf(
+				/* translators: %d: gallery image number */
+				__( 'Arbeitsbeispiel %d', 'hausmeister-theme' ),
+				count( $filled ) + 1
+			),
+		);
 	}
 
-	natsort( $files );
-	$files = array_values( $files );
-
+	$count  = count( $filled );
 	$images = array();
-	$index  = 0;
-	foreach ( $files as $file ) {
-		$path = $dir . '/' . $file;
-		$size = @getimagesize( $path );
-		$w    = $size ? (int) $size[0] : 0;
-		$h    = $size ? (int) $size[1] : 0;
-		$ratio = $h > 0 ? ( $w / $h ) : 1;
+	foreach ( $filled as $index => $item ) {
+		$ratio = $item['height'] > 0 ? ( $item['width'] / $item['height'] ) : 1;
 
 		if ( $ratio >= 1.35 ) {
 			$span = 'wide';
@@ -78,24 +130,12 @@ function hausmeister_get_work_gallery_images() {
 			$span = 'square';
 		}
 
-		// Every 5th image gets a larger featured cell when enough photos exist.
-		if ( 0 === ( $index % 5 ) && $index > 0 && count( $files ) >= 6 ) {
+		if ( 0 === ( $index % 5 ) && $index > 0 && $count >= 6 ) {
 			$span = 'featured';
 		}
 
-		$images[] = array(
-			'url'    => hausmeister_theme_image( $relative . '/' . $file ),
-			'path'   => $path,
-			'width'  => $w,
-			'height' => $h,
-			'span'   => $span,
-			'alt'    => sprintf(
-				/* translators: %d: gallery image number */
-				__( 'Arbeitsbeispiel %d', 'hausmeister-theme' ),
-				$index + 1
-			),
-		);
-		$index++;
+		$item['span'] = $span;
+		$images[]     = $item;
 	}
 
 	return $images;

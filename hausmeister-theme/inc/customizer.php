@@ -373,6 +373,19 @@ function hausmeister_get_defaults() {
 		'contact_form_submit_text' => 'Anfrage senden',
 	);
 
+	// Work gallery image slots: seed first images from theme folder, leave extras empty.
+	$seed_dir   = hausmeister_work_gallery_dir_relative();
+	$seed_files = hausmeister_work_gallery_seed_files();
+	$slot_count = hausmeister_gallery_slot_count();
+	for ( $i = 1; $i <= $slot_count; $i++ ) {
+		$key = 'gallery_' . $i . '_image';
+		if ( isset( $seed_files[ $i - 1 ] ) ) {
+			$defaults[ $key ] = hausmeister_theme_image( $seed_dir . '/' . $seed_files[ $i - 1 ] );
+		} else {
+			$defaults[ $key ] = '';
+		}
+	}
+
 	return array_merge( $defaults, hausmeister_get_service_page_defaults() );
 }
 
@@ -1144,7 +1157,7 @@ function hausmeister_customize_register( $wp_customize ) {
 	// --- Homepage Work Gallery ---
 	$wp_customize->add_section( 'hausmeister_home_gallery', array(
 		'title'       => __( 'Startseite — Galerie', 'hausmeister-theme' ),
-		'description' => __( 'Bilder kommen aus dem Ordner assets/images/after images gallery/. Neue Dateien erscheinen automatisch.', 'hausmeister-theme' ),
+		'description' => __( 'Bilder 1–12 sind vorausgefüllt. Plätze 13–20 erscheinen erst auf der Website, wenn ein Bild gesetzt ist. Layout und Lightbox bleiben gleich.', 'hausmeister-theme' ),
 		'panel'       => 'hausmeister_panel',
 	) );
 
@@ -1192,6 +1205,28 @@ function hausmeister_customize_register( $wp_customize ) {
 		'section' => 'hausmeister_home_gallery',
 		'type'    => 'text',
 	) );
+
+	$gallery_slots = hausmeister_gallery_slot_count();
+	$seed_count    = count( hausmeister_work_gallery_seed_files() );
+	for ( $i = 1; $i <= $gallery_slots; $i++ ) {
+		$key = 'gallery_' . $i . '_image';
+		$wp_customize->add_setting( 'hausmeister_' . $key, array(
+			'default'           => isset( $defaults[ $key ] ) ? $defaults[ $key ] : '',
+			'sanitize_callback' => 'hausmeister_sanitize_image_setting',
+		) );
+
+		$label = ( $i <= $seed_count )
+			? sprintf( __( 'Galerie-Bild %d', 'hausmeister-theme' ), $i )
+			: sprintf( __( 'Zusatzbild %d (optional)', 'hausmeister-theme' ), $i );
+
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hausmeister_' . $key, array(
+			'label'       => $label,
+			'description' => ( $i > $seed_count )
+				? __( 'Erst sichtbar, wenn ein Bild gesetzt ist.', 'hausmeister-theme' )
+				: __( 'Bild ersetzen oder entfernen (entfernte Plätze erscheinen nicht).', 'hausmeister-theme' ),
+			'section'     => 'hausmeister_home_gallery',
+		) ) );
+	}
 
 	// --- Homepage Google Reviews ---
 	$wp_customize->add_section( 'hausmeister_home_reviews', array(
